@@ -10,9 +10,7 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
   >
 
-  <title>
-    Recepción de Mercadería
-  </title>
+  <title>Recepción de Mercadería</title>
 
   <meta
     name="theme-color"
@@ -24,6 +22,7 @@
     href="manifest.webmanifest"
   >
 
+
   <style>
 
     * {
@@ -34,21 +33,16 @@
     :root {
 
       --azul-oscuro: #0b4d7d;
-
       --azul: #086bc1;
-
       --azul-suave: #eef7fd;
 
       --verde: #078b45;
-
       --verde-suave: #e5f6eb;
 
       --fondo: #f3f6f9;
-
       --borde: #d9e4ec;
 
       --texto: #162633;
-
       --texto-suave: #71808c;
 
     }
@@ -58,11 +52,9 @@
     body {
 
       margin: 0;
-
       padding: 0;
 
       width: 100%;
-
       height: 100%;
 
       overflow: hidden;
@@ -102,26 +94,21 @@
     }
 
 
+
     /* =====================================================
        CABECERA
     ===================================================== */
 
     .topbar {
 
-      height:
-        58px;
+      height: 54px;
 
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
       padding:
-        0 16px;
+        0 14px;
 
       background:
         linear-gradient(
@@ -138,40 +125,27 @@
 
     .topbar-left {
 
-      display:
-        flex;
+      display: flex;
+      align-items: center;
 
-      align-items:
-        center;
+      gap: 9px;
 
-      gap:
-        10px;
-
-      min-width:
-        0;
+      min-width: 0;
 
     }
 
 
     .logo-box {
 
-      width:
-        36px;
+      width: 32px;
+      height: 32px;
 
-      height:
-        36px;
+      flex: 0 0 auto;
 
-      flex:
-        0 0 auto;
+      display: grid;
+      place-items: center;
 
-      display:
-        grid;
-
-      place-items:
-        center;
-
-      border-radius:
-        7px;
+      border-radius: 7px;
 
       background:
         rgba(
@@ -181,30 +155,24 @@
           .12
         );
 
-      font-size:
-        21px;
+      font-size: 18px;
 
     }
 
 
     .titulo-principal {
 
-      font-size:
-        18px;
+      font-size: 16px;
+      font-weight: 800;
 
-      font-weight:
-        800;
-
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
     }
 
 
     .empresa-header {
 
-      padding-left:
-        11px;
+      padding-left: 9px;
 
       border-left:
         1px solid
@@ -215,25 +183,19 @@
           .35
         );
 
-      font-size:
-        14px;
+      font-size: 12px;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
     }
 
 
     .header-derecha {
 
-      display:
-        flex;
+      display: flex;
+      align-items: center;
 
-      align-items:
-        center;
-
-      gap:
-        6px;
+      gap: 6px;
 
     }
 
@@ -241,10 +203,9 @@
     .usuario-header {
 
       padding:
-        6px 9px;
+        5px 8px;
 
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       background:
         rgba(
@@ -254,25 +215,18 @@
           .10
         );
 
-      font-size:
-        10px;
+      font-size: 9px;
 
     }
 
 
     .btn-clave {
 
-      width:
-        31px;
+      width: 30px;
+      height: 30px;
 
-      height:
-        31px;
-
-      border:
-        0;
-
-      border-radius:
-        6px;
+      border: 0;
+      border-radius: 6px;
 
       background:
         rgba(
@@ -282,132 +236,117 @@
           .12
         );
 
-      color:
-        white;
+      color: white;
 
-      font-size:
-        15px;
+      font-size: 14px;
 
     }
 
 
+
     /* =====================================================
-       ESTRUCTURA
+       ESTRUCTURA GENERAL
     ===================================================== */
 
     .app {
 
       height:
         calc(
-          100dvh - 58px
+          100dvh - 54px
         );
 
       padding:
-        7px;
+        5px 5px
+        calc(
+          12px +
+          env(
+            safe-area-inset-bottom,
+            0px
+          )
+        );
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
-        41% 59%;
+        40% 60%;
 
-      gap:
-        7px;
+      gap: 5px;
+
+      overflow: hidden;
 
     }
 
 
     .col-izquierda {
 
-      min-width:
-        0;
+      min-width: 0;
+      min-height: 0;
 
-      min-height:
-        0;
-
-      display:
-        grid;
+      display: grid;
 
       grid-template-rows:
         minmax(
           0,
           1fr
         )
-        132px;
+        118px;
 
-      gap:
-        7px;
+      gap: 5px;
 
     }
 
 
     .col-derecha {
 
-      min-width:
-        0;
+      min-width: 0;
+      min-height: 0;
 
-      min-height:
-        0;
-
-      display:
-        grid;
+      display: grid;
 
       grid-template-rows:
-        74px
+        60px
         minmax(
-          0,
+          100px,
           1fr
         )
-        128px
-        138px
-        44px;
+        126px
+        112px
+        42px;
 
-      gap:
-        7px;
+      gap: 5px;
 
     }
 
 
     .panel {
 
-      min-width:
-        0;
+      min-width: 0;
+      min-height: 0;
 
-      min-height:
-        0;
+      overflow: hidden;
 
-      overflow:
-        hidden;
-
-      background:
-        white;
+      background: white;
 
       border:
         1px solid
         var(--borde);
 
-      border-radius:
-        9px;
+      border-radius: 7px;
 
     }
 
 
     .panel-header {
 
-      height:
-        37px;
+      height: 32px;
 
       padding:
-        5px 9px;
+        4px 7px;
 
-      display:
-        flex;
+      display: flex;
+      align-items: center;
 
-      align-items:
-        center;
-
-      gap:
-        7px;
+      gap: 7px;
 
       background:
         linear-gradient(
@@ -425,35 +364,23 @@
 
     .numero {
 
-      width:
-        25px;
+      width: 22px;
+      height: 22px;
 
-      height:
-        25px;
+      flex: 0 0 auto;
 
-      flex:
-        0 0 auto;
+      display: grid;
+      place-items: center;
 
-      display:
-        grid;
-
-      place-items:
-        center;
-
-      border-radius:
-        50%;
+      border-radius: 50%;
 
       background:
         var(--azul);
 
-      color:
-        white;
+      color: white;
 
-      font-size:
-        13px;
-
-      font-weight:
-        800;
+      font-size: 11px;
+      font-weight: 800;
 
     }
 
@@ -463,27 +390,23 @@
       color:
         var(--azul-oscuro);
 
-      font-size:
-        13px;
-
-      font-weight:
-        800;
+      font-size: 11px;
+      font-weight: 800;
 
     }
 
 
     .panel-sub {
 
-      margin-top:
-        1px;
+      margin-top: 1px;
 
       color:
         var(--texto-suave);
 
-      font-size:
-        8px;
+      font-size: 7px;
 
     }
+
 
 
     /* =====================================================
@@ -493,30 +416,23 @@
     input,
     select {
 
-      width:
-        100%;
-
-      height:
-        29px;
+      width: 100%;
+      height: 27px;
 
       padding:
-        4px 7px;
+        4px 6px;
 
       border:
         1px solid
         #cbd7e0;
 
-      border-radius:
-        5px;
+      border-radius: 5px;
 
-      background:
-        white;
+      background: white;
 
-      font-size:
-        10px;
+      font-size: 9px;
 
-      outline:
-        none;
+      outline: none;
 
     }
 
@@ -541,40 +457,34 @@
 
     .campo label {
 
-      display:
-        block;
+      display: block;
 
-      margin-bottom:
-        2px;
+      margin-bottom: 2px;
 
       color:
         #536471;
 
-      font-size:
-        8px;
-
-      font-weight:
-        700;
+      font-size: 7px;
+      font-weight: 700;
 
     }
 
 
+
     /* =====================================================
-       1 · OC
+       1 · OC AUTORIZADAS
     ===================================================== */
 
     .lista-body {
 
       height:
         calc(
-          100% - 37px
+          100% - 32px
         );
 
-      padding:
-        6px;
+      padding: 5px;
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-rows:
         auto
@@ -583,22 +493,19 @@
           1fr
         );
 
-      gap:
-        5px;
+      gap: 4px;
 
     }
 
 
     .filtros {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 1fr;
 
-      gap:
-        5px;
+      gap: 4px;
 
     }
 
@@ -613,46 +520,36 @@
 
     .tabla-scroll {
 
-      min-height:
-        0;
+      min-height: 0;
 
-      overflow:
-        auto;
+      overflow: auto;
 
       border:
         1px solid
         #e1e8ee;
 
-      border-radius:
-        5px;
+      border-radius: 5px;
 
     }
 
 
     .tabla {
 
-      width:
-        100%;
+      width: 100%;
 
-      border-collapse:
-        collapse;
+      border-collapse: collapse;
 
-      font-size:
-        9px;
+      font-size: 8px;
 
     }
 
 
     .tabla thead {
 
-      position:
-        sticky;
+      position: sticky;
+      top: 0;
 
-      top:
-        0;
-
-      z-index:
-        3;
+      z-index: 3;
 
     }
 
@@ -660,7 +557,7 @@
     .tabla th {
 
       padding:
-        6px 4px;
+        5px 3px;
 
       background:
         #e8f2fa;
@@ -672,14 +569,11 @@
         1px solid
         #cedde8;
 
-      text-align:
-        left;
+      text-align: left;
 
-      font-size:
-        8px;
+      font-size: 7px;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
     }
 
@@ -687,19 +581,21 @@
     .tabla td {
 
       padding:
-        6px 4px;
+        5px 3px;
 
       border-bottom:
         1px solid
         #edf2f5;
 
-      vertical-align:
-        middle;
+      vertical-align: middle;
+
+      font-size: 8px;
 
     }
 
 
-    .tabla tbody tr.oc-activa {
+    .tabla tbody
+    tr.oc-activa {
 
       background:
         #e8f5ff;
@@ -709,14 +605,12 @@
 
     .badge {
 
-      display:
-        inline-block;
+      display: inline-block;
 
       padding:
-        3px 5px;
+        3px 4px;
 
-      border-radius:
-        4px;
+      border-radius: 4px;
 
       background:
         #ddf5e6;
@@ -724,160 +618,133 @@
       color:
         #14703c;
 
-      font-size:
-        7px;
+      font-size: 6px;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
     }
 
 
     .btn-recepcionar {
 
-      min-height:
-        28px;
+      min-height: 26px;
 
       padding:
-        5px 7px;
+        4px 6px;
 
-      border:
-        0;
-
-      border-radius:
-        5px;
+      border: 0;
+      border-radius: 5px;
 
       background:
         var(--azul);
 
-      color:
-        white;
+      color: white;
 
-      font-size:
-        8px;
-
-      font-weight:
-        800;
+      font-size: 7px;
+      font-weight: 800;
 
     }
 
 
+
     /* =====================================================
-       2 · CONTACTO
+       2 · CONTACTO PROVEEDOR
     ===================================================== */
 
     .contacto-body {
 
       height:
         calc(
-          100% - 37px
+          100% - 32px
         );
 
       padding:
         7px 9px;
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1.15fr 1fr;
 
+      grid-template-rows:
+        1fr 1fr;
+
       gap:
-        5px 10px;
+        5px 12px;
+
+      align-items: center;
 
     }
 
 
     .contacto-item {
 
-      min-width:
-        0;
-
-    }
-
-
-    .contacto-item.proveedor {
-
-      grid-column:
-        1 / -1;
+      min-width: 0;
 
     }
 
 
     .contacto-label {
 
-      display:
-        block;
+      display: block;
 
-      margin-bottom:
-        2px;
+      margin-bottom: 2px;
 
       color:
         #74828e;
 
-      font-size:
-        8px;
+      font-size: 7px;
 
     }
 
 
     .contacto-value {
 
-      display:
-        block;
+      display: block;
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
-      font-size:
-        10px;
+      color:
+        #263b4a;
 
-      font-weight:
-        800;
+      font-size: 9px;
+      font-weight: 800;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
-      text-overflow:
-        ellipsis;
+      text-overflow: ellipsis;
 
     }
 
 
+
     /* =====================================================
-       3 · TIPO
+       3 · TIPO DE RECEPCIÓN
     ===================================================== */
 
     #panelTipo {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
-        auto 1fr;
+        145px 1fr;
 
-      align-items:
-        center;
+      align-items: center;
 
     }
 
 
     .tipo-titulo {
 
-      height:
-        100%;
+      height: 100%;
 
       padding:
-        6px 9px;
+        4px 7px;
 
-      display:
-        flex;
+      display: flex;
+      align-items: center;
 
-      align-items:
-        center;
-
-      gap:
-        7px;
+      gap: 7px;
 
       border-right:
         1px solid
@@ -896,71 +763,53 @@
     .tipo-controles {
 
       padding:
-        6px 8px;
+        4px 6px;
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr
         1fr
-        1.2fr;
+        1.15fr;
 
-      gap:
-        6px;
+      gap: 4px;
 
-      align-items:
-        center;
+      align-items: center;
 
     }
 
 
     .tipo-card {
 
-      height:
-        36px;
+      height: 30px;
 
-      display:
-        flex;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      gap:
-        5px;
+      gap: 4px;
 
       border:
         1px solid
         #cbd7e0;
 
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       color:
         #17496f;
 
-      font-size:
-        10px;
+      font-size: 8px;
+      font-weight: 800;
 
-      font-weight:
-        800;
-
-      cursor:
-        pointer;
+      cursor: pointer;
 
     }
 
 
     .tipo-card input {
 
-      width:
-        15px;
-
-      height:
-        15px;
+      width: 14px;
+      height: 14px;
 
     }
 
@@ -983,30 +832,22 @@
 
     .seleccionar-todos {
 
-      height:
-        36px;
+      height: 30px;
 
-      display:
-        flex;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      gap:
-        5px;
+      gap: 4px;
 
       padding:
-        0 5px;
+        0 4px;
 
       border:
         1px solid
         #d8e1e7;
 
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       background:
         #fafcfd;
@@ -1014,24 +855,20 @@
       color:
         #465862;
 
-      font-size:
-        9px;
+      font-size: 8px;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
     }
 
 
     .seleccionar-todos input {
 
-      width:
-        15px;
-
-      height:
-        15px;
+      width: 14px;
+      height: 14px;
 
     }
+
 
 
     /* =====================================================
@@ -1040,44 +877,35 @@
 
     #panelProductos {
 
-      display:
-        flex;
+      display: flex;
+      flex-direction: column;
 
-      flex-direction:
-        column;
-
-      min-height:
-        0;
+      min-height: 0;
 
     }
 
 
     #productosContenido {
 
-      flex:
-        1;
+      flex: 1;
 
-      min-height:
-        0;
+      min-height: 0;
 
     }
 
 
     .productos-scroll {
 
-      height:
-        100%;
+      height: 100%;
 
-      overflow:
-        auto;
+      overflow: auto;
 
     }
 
 
     .productos-table {
 
-      min-width:
-        810px;
+      min-width: 760px;
 
     }
 
@@ -1085,36 +913,27 @@
     .productos-table
     input[type="number"] {
 
-      width:
-        78px;
+      width: 72px;
+      height: 25px;
 
-      height:
-        27px;
+      text-align: right;
 
-      text-align:
-        right;
-
-      font-size:
-        9px;
+      font-size: 8px;
 
     }
 
 
     .check-producto {
 
-      width:
-        15px;
-
-      height:
-        15px;
+      width: 14px;
+      height: 14px;
 
     }
 
 
     .precio-ref {
 
-      font-weight:
-        700;
+      font-weight: 700;
 
     }
 
@@ -1124,60 +943,62 @@
       color:
         #087944;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
     }
 
 
+
     /* =====================================================
-       5 · FACTURA
+       5 · DATOS DE FACTURA
     ===================================================== */
 
     .factura-body {
 
       height:
         calc(
-          100% - 37px
+          100% - 32px
         );
 
       padding:
-        6px 8px;
+        5px 7px;
+
+      display: grid;
+
+      grid-template-rows:
+        auto auto;
+
+      gap: 5px;
 
     }
 
 
     .montos {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 1fr 1fr;
 
-      gap:
-        5px;
+      gap: 5px;
 
-      margin-bottom:
-        5px;
+      min-height: 0;
 
     }
 
 
     .monto-box {
 
-      min-width:
-        0;
+      min-width: 0;
 
       padding:
-        5px 6px;
+        4px 6px;
 
       border:
         1px solid
         #dbe4eb;
 
-      border-radius:
-        5px;
+      border-radius: 5px;
 
       background:
         #fafcfd;
@@ -1187,66 +1008,65 @@
 
     .monto-box small {
 
-      display:
-        block;
+      display: block;
 
-      margin-bottom:
-        2px;
+      margin-bottom: 1px;
 
       color:
         #71808c;
 
-      font-size:
-        7px;
+      font-size: 6px;
+
+      white-space: nowrap;
 
     }
 
 
     .monto-box strong {
 
+      display: block;
+
       color:
         #183f62;
 
-      font-size:
-        11px;
+      font-size: 10px;
+
+      line-height: 22px;
 
     }
 
 
     .monto-box input {
 
-      height:
-        25px;
+      height: 23px;
 
-      font-size:
-        10px;
+      font-size: 8px;
 
     }
 
 
     .datos-factura {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 1fr 1fr;
 
-      gap:
-        5px;
+      gap: 5px;
+
+      align-items: end;
 
     }
 
 
     .datos-factura input {
 
-      height:
-        27px;
+      height: 25px;
 
-      font-size:
-        9px;
+      font-size: 8px;
 
     }
+
 
 
     /* =====================================================
@@ -1257,28 +1077,27 @@
 
       height:
         calc(
-          100% - 37px
+          100% - 32px
         );
 
       padding:
-        6px 8px;
+        4px 6px;
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
-        42% 58%;
+        40% 60%;
 
-      gap:
-        7px;
+      gap: 6px;
 
     }
 
 
     .factura-doc {
 
-      padding-right:
-        7px;
+      min-width: 0;
+
+      padding-right: 6px;
 
       border-right:
         1px solid
@@ -1289,31 +1108,24 @@
 
     .doc-title {
 
-      margin-bottom:
-        4px;
+      margin-bottom: 3px;
 
-      font-size:
-        8px;
-
-      font-weight:
-        800;
+      font-size: 7px;
+      font-weight: 800;
 
     }
 
 
     .acciones-doc {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 1fr;
 
-      gap:
-        4px;
+      gap: 4px;
 
-      margin-bottom:
-        4px;
+      margin-bottom: 3px;
 
     }
 
@@ -1321,31 +1133,24 @@
     .btn-foto,
     .btn-archivo {
 
-      min-height:
-        28px;
+      min-height: 24px;
 
-      border-radius:
-        5px;
+      border-radius: 5px;
 
-      font-size:
-        8px;
-
-      font-weight:
-        800;
+      font-size: 7px;
+      font-weight: 800;
 
     }
 
 
     .btn-foto {
 
-      border:
-        0;
+      border: 0;
 
       background:
         #0788d5;
 
-      color:
-        white;
+      color: white;
 
     }
 
@@ -1367,38 +1172,30 @@
 
     .input-oculto {
 
-      display:
-        none;
+      display: none;
 
     }
 
 
     .archivo-estado {
 
-      min-height:
-        30px;
+      min-height: 24px;
 
       padding:
-        5px;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      gap:
         4px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 4px;
 
       border:
         1px solid
         #dce5ec;
 
-      border-radius:
-        5px;
+      border-radius: 5px;
 
       background:
         #f9fbfc;
@@ -1406,8 +1203,7 @@
       color:
         #60717d;
 
-      font-size:
-        8px;
+      font-size: 7px;
 
     }
 
@@ -1417,28 +1213,20 @@
       color:
         #14713d;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
     }
 
 
     .btn-quitar {
 
-      width:
-        22px;
+      width: 20px;
+      height: 20px;
 
-      height:
-        22px;
+      flex: 0 0 auto;
 
-      flex:
-        0 0 auto;
-
-      border:
-        0;
-
-      border-radius:
-        4px;
+      border: 0;
+      border-radius: 4px;
 
       background:
         #fee8e8;
@@ -1446,57 +1234,46 @@
       color:
         #9c2828;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
     }
 
 
     .docs-extra {
 
-      min-height:
-        0;
+      min-width: 0;
+      min-height: 0;
 
-      display:
-        flex;
-
-      flex-direction:
-        column;
+      display: flex;
+      flex-direction: column;
 
     }
 
 
     #listaDocumentos {
 
-      flex:
-        1;
+      flex: 1;
 
-      min-height:
-        0;
+      min-height: 0;
 
-      overflow-y:
-        auto;
+      overflow-y: auto;
 
-      margin-bottom:
-        4px;
+      margin-bottom: 3px;
 
     }
 
 
     .doc-row {
 
-      margin-bottom:
-        4px;
+      margin-bottom: 3px;
 
-      padding:
-        4px;
+      padding: 3px;
 
       border:
         1px solid
         #dfe7ed;
 
-      border-radius:
-        5px;
+      border-radius: 5px;
 
       background:
         #fafcfd;
@@ -1506,93 +1283,73 @@
 
     .doc-superior {
 
-      margin-bottom:
-        3px;
+      margin-bottom: 3px;
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
-        110px 1fr 23px;
+        105px 1fr 22px;
 
-      gap:
-        3px;
+      gap: 3px;
 
-      align-items:
-        center;
+      align-items: center;
 
     }
 
 
     .doc-superior select {
 
-      height:
-        24px;
+      height: 22px;
 
-      font-size:
-        7px;
+      font-size: 7px;
 
     }
 
 
     .doc-estado {
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
       color:
         #60707c;
 
-      font-size:
-        7px;
+      font-size: 7px;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
-      text-overflow:
-        ellipsis;
+      text-overflow: ellipsis;
 
     }
 
 
     .doc-acciones {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 1fr;
 
-      gap:
-        3px;
+      gap: 3px;
 
     }
 
 
     .doc-acciones button {
 
-      min-height:
-        24px;
+      min-height: 22px;
 
-      font-size:
-        7px;
+      font-size: 7px;
 
     }
 
 
     .btn-eliminar {
 
-      width:
-        23px;
+      width: 22px;
+      height: 22px;
 
-      height:
-        23px;
-
-      border:
-        0;
-
-      border-radius:
-        4px;
+      border: 0;
+      border-radius: 4px;
 
       background:
         #fee8e8;
@@ -1600,23 +1357,20 @@
       color:
         #a12828;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
     }
 
 
     .btn-agregar {
 
-      height:
-        26px;
+      height: 23px;
 
       border:
         1px solid
         #83bce5;
 
-      border-radius:
-        5px;
+      border-radius: 5px;
 
       background:
         #eef8ff;
@@ -1624,13 +1378,11 @@
       color:
         #075d9e;
 
-      font-size:
-        8px;
-
-      font-weight:
-        800;
+      font-size: 7px;
+      font-weight: 800;
 
     }
+
 
 
     /* =====================================================
@@ -1639,25 +1391,32 @@
 
     .footer {
 
-      display:
-        grid;
+      min-height: 42px;
+
+      display: grid;
 
       grid-template-columns:
         90px 1fr;
 
-      gap:
-        6px;
+      gap: 5px;
+
+      padding:
+        2px 0 4px;
+
+      background:
+        var(--fondo);
+
+      position: relative;
+
+      z-index: 20;
 
     }
 
 
     .btn-cancelar {
 
-      border:
-        0;
-
-      border-radius:
-        7px;
+      border: 0;
+      border-radius: 7px;
 
       background:
         #e5eaee;
@@ -1665,22 +1424,16 @@
       color:
         #465763;
 
-      font-size:
-        9px;
-
-      font-weight:
-        800;
+      font-size: 8px;
+      font-weight: 800;
 
     }
 
 
     .btn-confirmar {
 
-      border:
-        0;
-
-      border-radius:
-        7px;
+      border: 0;
+      border-radius: 7px;
 
       background:
         linear-gradient(
@@ -1689,27 +1442,23 @@
           #078b45
         );
 
-      color:
-        white;
+      color: white;
 
-      font-size:
-        13px;
-
-      font-weight:
-        900;
+      font-size: 11px;
+      font-weight: 900;
 
     }
 
 
     .btn-confirmar:disabled {
 
-      opacity:
-        .50;
+      opacity: .50;
 
       cursor:
         not-allowed;
 
     }
+
 
 
     /* =====================================================
@@ -1718,33 +1467,27 @@
 
     .empty {
 
-      height:
-        100%;
+      height: 100%;
 
-      display:
-        grid;
-
-      place-items:
-        center;
+      display: grid;
+      place-items: center;
 
       color:
         #788794;
 
-      font-size:
-        10px;
+      font-size: 9px;
 
     }
 
 
     .disabled-area {
 
-      opacity:
-        .48;
+      opacity: .48;
 
-      pointer-events:
-        none;
+      pointer-events: none;
 
     }
+
 
 
     /* =====================================================
@@ -1753,26 +1496,18 @@
 
     #mensaje {
 
-      position:
-        fixed;
+      position: fixed;
 
-      z-index:
-        9999;
+      z-index: 9999;
 
-      top:
-        63px;
-
-      left:
-        50%;
+      top: 58px;
+      left: 50%;
 
       transform:
         translateX(-50%);
 
-      min-width:
-        320px;
-
-      max-width:
-        80%;
+      min-width: 300px;
+      max-width: 80%;
 
     }
 
@@ -1780,10 +1515,9 @@
     .mensaje {
 
       padding:
-        9px 12px;
+        8px 11px;
 
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       box-shadow:
         0 5px 15px
@@ -1794,11 +1528,8 @@
           .16
         );
 
-      font-size:
-        10px;
-
-      font-weight:
-        700;
+      font-size: 9px;
+      font-weight: 700;
 
     }
 
@@ -1825,66 +1556,17 @@
     }
 
 
+
     /* =====================================================
-       TABLET
+       TABLET PEQUEÑA
     ===================================================== */
 
     @media screen and
-    (max-width: 1400px),
-    screen and
-    (pointer: coarse) {
+    (max-height: 650px) {
 
       .topbar {
 
-        height:
-          52px;
-
-        padding:
-          0 11px;
-
-      }
-
-
-      .logo-box {
-
-        width:
-          30px;
-
-        height:
-          30px;
-
-        font-size:
-          17px;
-
-      }
-
-
-      .titulo-principal {
-
-        font-size:
-          15px;
-
-      }
-
-
-      .empresa-header {
-
-        padding-left:
-          8px;
-
-        font-size:
-          11px;
-
-      }
-
-
-      .usuario-header {
-
-        padding:
-          5px 7px;
-
-        font-size:
-          8px;
+        height: 48px;
 
       }
 
@@ -1893,17 +1575,17 @@
 
         height:
           calc(
-            100dvh - 52px
+            100dvh - 48px
           );
 
-        padding:
-          5px;
-
-        grid-template-columns:
-          40% 60%;
-
-        gap:
-          5px;
+        padding-bottom:
+          calc(
+            10px +
+            env(
+              safe-area-inset-bottom,
+              0px
+            )
+          );
 
       }
 
@@ -1915,10 +1597,7 @@
             0,
             1fr
           )
-          112px;
-
-        gap:
-          5px;
+          104px;
 
       }
 
@@ -1926,121 +1605,21 @@
       .col-derecha {
 
         grid-template-rows:
-          64px
+          54px
           minmax(
-            110px,
+            90px,
             1fr
           )
           112px
-          122px
+          100px
           40px;
-
-        gap:
-          5px;
-
-      }
-
-
-      .panel {
-
-        border-radius:
-          7px;
 
       }
 
 
       .panel-header {
 
-        height:
-          32px;
-
-        padding:
-          4px 7px;
-
-      }
-
-
-      .numero {
-
-        width:
-          22px;
-
-        height:
-          22px;
-
-        font-size:
-          11px;
-
-      }
-
-
-      .panel-title {
-
-        font-size:
-          11px;
-
-      }
-
-
-      .panel-sub {
-
-        font-size:
-          7px;
-
-      }
-
-
-      input,
-      select {
-
-        height:
-          27px;
-
-        font-size:
-          9px;
-
-      }
-
-
-      .lista-body {
-
-        height:
-          calc(
-            100% - 32px
-          );
-
-        padding:
-          5px;
-
-      }
-
-
-      .tabla {
-
-        font-size:
-          8px;
-
-      }
-
-
-      .tabla th {
-
-        padding:
-          5px 3px;
-
-        font-size:
-          7px;
-
-      }
-
-
-      .tabla td {
-
-        padding:
-          5px 3px;
-
-        font-size:
-          8px;
+        height: 29px;
 
       }
 
@@ -2049,7 +1628,7 @@
 
         height:
           calc(
-            100% - 32px
+            100% - 29px
           );
 
         padding:
@@ -2058,89 +1637,11 @@
       }
 
 
-      .contacto-label {
-
-        font-size:
-          7px;
-
-      }
-
-
-      .contacto-value {
-
-        font-size:
-          9px;
-
-      }
-
-
-      #panelTipo {
-
-        grid-template-columns:
-          145px 1fr;
-
-      }
-
-
-      .tipo-titulo {
-
-        padding:
-          4px 7px;
-
-      }
-
-
-      .tipo-controles {
-
-        padding:
-          4px 6px;
-
-        gap:
-          4px;
-
-      }
-
-
-      .tipo-card,
-      .seleccionar-todos {
-
-        height:
-          32px;
-
-        font-size:
-          8px;
-
-      }
-
-
-      .productos-table {
-
-        min-width:
-          760px;
-
-      }
-
-
-      .productos-table
-      input[type="number"] {
-
-        width:
-          72px;
-
-        height:
-          25px;
-
-        font-size:
-          8px;
-
-      }
-
-
       .factura-body {
 
         height:
           calc(
-            100% - 32px
+            100% - 29px
           );
 
         padding:
@@ -2153,27 +1654,8 @@
 
         height:
           calc(
-            100% - 32px
+            100% - 29px
           );
-
-        padding:
-          4px 6px;
-
-      }
-
-
-      .btn-confirmar {
-
-        font-size:
-          11px;
-
-      }
-
-
-      #mensaje {
-
-        top:
-          57px;
 
       }
 
@@ -2182,6 +1664,7 @@
   </style>
 
 </head>
+
 
 
 <body>
@@ -2226,14 +1709,16 @@
 </header>
 
 
+
 <div id="mensaje"></div>
+
 
 
 <main class="app">
 
 
   <!-- =====================================================
-       IZQUIERDA
+       COLUMNA IZQUIERDA
   ====================================================== -->
 
   <div class="col-izquierda">
@@ -2265,7 +1750,6 @@
 
 
       <div class="lista-body">
-
 
         <div class="filtros">
 
@@ -2311,15 +1795,10 @@
               <tr>
 
                 <th>OC</th>
-
                 <th>Proveedor</th>
-
                 <th>Fecha</th>
-
                 <th>Prod.</th>
-
                 <th>Estado</th>
-
                 <th></th>
 
               </tr>
@@ -2348,6 +1827,7 @@
     </section>
 
 
+
     <!-- 2 -->
 
     <section class="panel">
@@ -2370,7 +1850,7 @@
         class="contacto-body"
       >
 
-        <div class="contacto-item proveedor">
+        <div class="contacto-item">
 
           <span class="contacto-label">
             Proveedor
@@ -2399,7 +1879,7 @@
         <div class="contacto-item">
 
           <span class="contacto-label">
-            Teléfono
+            Correo
           </span>
 
           <span class="contacto-value">
@@ -2409,10 +1889,10 @@
         </div>
 
 
-        <div class="contacto-item proveedor">
+        <div class="contacto-item">
 
           <span class="contacto-label">
-            Correo
+            Teléfono
           </span>
 
           <span class="contacto-value">
@@ -2428,8 +1908,9 @@
   </div>
 
 
+
   <!-- =====================================================
-       DERECHA
+       COLUMNA DERECHA
   ====================================================== -->
 
   <div class="col-derecha">
@@ -2456,7 +1937,6 @@
 
 
       <div class="tipo-controles">
-
 
         <label class="tipo-card">
 
@@ -2503,6 +1983,7 @@
     </section>
 
 
+
     <!-- 4 -->
 
     <section
@@ -2539,6 +2020,7 @@
       </div>
 
     </section>
+
 
 
     <!-- 5 -->
@@ -2661,6 +2143,7 @@
     </section>
 
 
+
     <!-- 6 -->
 
     <section
@@ -2692,7 +2175,6 @@
 
 
           <div class="acciones-doc">
-
 
             <button
               type="button"
@@ -2757,6 +2239,7 @@
             Documentos adicionales · opcional
           </div>
 
+
           <div id="listaDocumentos"></div>
 
 
@@ -2775,10 +2258,10 @@
     </section>
 
 
+
     <!-- FOOTER -->
 
     <footer class="footer">
-
 
       <button
         class="btn-cancelar"
@@ -2804,15 +2287,13 @@
 </main>
 
 
-<!--
-  IFRAME OCULTO PARA RESPUESTA POST
--->
 
 <iframe
   id="apiPostFrame"
   name="apiPostFrame"
   style="display:none"
 ></iframe>
+
 
 
 <script>
@@ -2834,17 +2315,23 @@ const STORAGE_API_KEY =
    VARIABLES
 ========================================================= */
 
-let ocDisponibles = [];
+let ocDisponibles =
+  [];
 
-let ocActual = null;
+let ocActual =
+  null;
 
-let montoEditadoManual = false;
+let montoEditadoManual =
+  false;
 
-let contadorDocumentos = 0;
+let contadorDocumentos =
+  0;
 
-let facturaSeleccionada = null;
+let facturaSeleccionada =
+  null;
 
-let postPendiente = null;
+let postPendiente =
+  null;
 
 
 
@@ -2853,7 +2340,9 @@ let postPendiente = null;
 ========================================================= */
 
 document.addEventListener(
+
   'DOMContentLoaded',
+
   async () => {
 
     registrarServiceWorker();
@@ -2861,6 +2350,7 @@ document.addEventListener(
     await iniciarAplicacion();
 
   }
+
 );
 
 
@@ -2904,7 +2394,9 @@ function registrarServiceWorker() {
   ) {
 
     window.addEventListener(
+
       'load',
+
       () => {
 
         navigator
@@ -2913,6 +2405,7 @@ function registrarServiceWorker() {
             'service-worker.js'
           )
           .catch(
+
             error => {
 
               console.error(
@@ -2921,9 +2414,11 @@ function registrarServiceWorker() {
               );
 
             }
+
           );
 
       }
+
     );
 
   }
@@ -3019,8 +2514,11 @@ function cambiarClaveApi() {
 
 
   mostrarMensaje(
+
     'Clave actualizada.',
+
     'ok'
+
   );
 
 
@@ -3031,7 +2529,7 @@ function cambiarClaveApi() {
 
 
 /* =========================================================
-   API GET · JSONP
+   API GET
 ========================================================= */
 
 function apiGet(
@@ -3039,12 +2537,19 @@ function apiGet(
 ) {
 
   return new Promise(
-    (resolve, reject) => {
+    (
+      resolve,
+      reject
+    ) => {
 
       const callback =
+
         '__gfCallback_' +
+
         Date.now() +
+
         '_' +
+
         Math.floor(
           Math.random() *
           100000
@@ -3053,18 +2558,23 @@ function apiGet(
 
       const timeout =
         setTimeout(
+
           () => {
 
             limpiar();
 
             reject(
+
               new Error(
                 'No hubo respuesta del servidor.'
               )
+
             );
 
           },
+
           30000
+
         );
 
 
@@ -3073,6 +2583,7 @@ function apiGet(
         clearTimeout(
           timeout
         );
+
 
         const script =
           document.getElementById(
@@ -3097,7 +2608,8 @@ function apiGet(
 
           window[
             callback
-          ] = undefined;
+          ] =
+            undefined;
 
         }
 
@@ -3111,9 +2623,14 @@ function apiGet(
 
           limpiar();
 
+
           if (
+
             !respuesta ||
-            respuesta.ok !== true
+
+            respuesta.ok !==
+            true
+
           ) {
 
             reject(
@@ -3154,21 +2671,25 @@ function apiGet(
         '?api=recepcion' +
 
         '&accion=' +
+
         encodeURIComponent(
           accion
         ) +
 
         '&key=' +
+
         encodeURIComponent(
           clave
         ) +
 
         '&callback=' +
+
         encodeURIComponent(
           callback
         ) +
 
         '&_=' +
+
         Date.now();
 
 
@@ -3192,9 +2713,11 @@ function apiGet(
           limpiar();
 
           reject(
+
             new Error(
               'No fue posible conectar con el servidor.'
             )
+
           );
 
         };
@@ -3205,6 +2728,7 @@ function apiGet(
       );
 
     }
+
   );
 
 }
@@ -3334,8 +2858,10 @@ function cargarFiltros() {
       empresas
 
         .map(
+
           x =>
             `<option value="${esc(x)}">${esc(x)}</option>`
+
         )
 
         .join('');
@@ -3352,8 +2878,10 @@ function cargarFiltros() {
       proveedores
 
         .map(
+
           x =>
             `<option value="${esc(x)}">${esc(x)}</option>`
+
         )
 
         .join('');
@@ -3396,12 +2924,16 @@ function renderLista() {
 
   const filtradas =
     ocDisponibles.filter(
+
       oc => {
 
         if (
+
           empresa &&
+
           oc.empresa !==
           empresa
+
         ) {
 
           return false;
@@ -3410,9 +2942,12 @@ function renderLista() {
 
 
         if (
+
           proveedor &&
+
           oc.proveedor !==
           proveedor
+
         ) {
 
           return false;
@@ -3429,12 +2964,14 @@ function renderLista() {
               []
             )
 
-            .map(
-              p =>
-                `${p.codigo} ${p.producto}`
-            )
+              .map(
 
-            .join(' ');
+                p =>
+                  `${p.codigo} ${p.producto}`
+
+              )
+
+              .join(' ');
 
 
           const cadena = [
@@ -3449,9 +2986,9 @@ function renderLista() {
 
           ]
 
-          .join(' ')
+            .join(' ')
 
-          .toLowerCase();
+            .toLowerCase();
 
 
           if (
@@ -3470,6 +3007,7 @@ function renderLista() {
         return true;
 
       }
+
     );
 
 
@@ -3505,9 +3043,11 @@ function renderLista() {
     filtradas
 
       .map(
+
         oc => `
 
           <tr
+
             class="${
               ocActual &&
               ocActual.oc ===
@@ -3517,6 +3057,7 @@ function renderLista() {
 
                 : ''
             }"
+
           >
 
             <td>
@@ -3571,6 +3112,7 @@ function renderLista() {
           </tr>
 
         `
+
       )
 
       .join('');
@@ -3589,9 +3131,11 @@ function abrirOC(
 
   ocActual =
     ocDisponibles.find(
+
       x =>
         x.oc ===
         numeroOC
+
     );
 
 
@@ -3674,7 +3218,7 @@ function renderContactoProveedor() {
     .innerHTML = `
 
 
-      <div class="contacto-item proveedor">
+      <div class="contacto-item">
 
         <span class="contacto-label">
           Proveedor
@@ -3706,24 +3250,24 @@ function renderContactoProveedor() {
       <div class="contacto-item">
 
         <span class="contacto-label">
-          Teléfono
-        </span>
-
-        <span class="contacto-value">
-          ${esc(telefono)}
-        </span>
-
-      </div>
-
-
-      <div class="contacto-item proveedor">
-
-        <span class="contacto-label">
           Correo
         </span>
 
         <span class="contacto-value">
           ${esc(correo)}
+        </span>
+
+      </div>
+
+
+      <div class="contacto-item">
+
+        <span class="contacto-label">
+          Teléfono
+        </span>
+
+        <span class="contacto-value">
+          ${esc(telefono)}
         </span>
 
       </div>
@@ -3759,21 +3303,13 @@ function renderProductos() {
         <tr>
 
           <th></th>
-
           <th>Código</th>
-
           <th>Producto</th>
-
           <th>Und</th>
-
           <th>Cant. OC</th>
-
           <th>Cant. recibir</th>
-
           <th>Precio autorizado</th>
-
           <th>Precio factura</th>
-
           <th>Total</th>
 
         </tr>
@@ -3788,6 +3324,7 @@ function renderProductos() {
           ocActual.productos
 
             .map(
+
               (p, i) => `
 
                 <tr>
@@ -3885,6 +3422,7 @@ function renderProductos() {
                 </tr>
 
               `
+
             )
 
             .join('')
@@ -3923,6 +3461,7 @@ function seleccionarTodos() {
 
 
   ocActual.productos.forEach(
+
     (p, i) => {
 
       document
@@ -3939,6 +3478,7 @@ function seleccionarTodos() {
       );
 
     }
+
   );
 
 
@@ -3988,6 +3528,7 @@ function cambiarSeleccionProducto(
     precio.disabled =
       true;
 
+
     document
       .getElementById(
         'total_' + i
@@ -4014,6 +3555,7 @@ function cambiarSeleccionProducto(
         ocActual
           .productos[i]
           .cantidadAutorizada;
+
 
       cantidad.disabled =
         true;
@@ -4042,6 +3584,7 @@ function cambiarSeleccionProducto(
 
       cantidad.value =
         '';
+
 
       cantidad.disabled =
         true;
@@ -4097,6 +3640,7 @@ function cambiarEstado() {
 
 
   ocActual.productos.forEach(
+
     (p, i) => {
 
       const seleccionado =
@@ -4128,6 +3672,7 @@ function cambiarEstado() {
         cantidad.value =
           p.cantidadAutorizada;
 
+
         cantidad.disabled =
           true;
 
@@ -4155,6 +3700,7 @@ function cambiarEstado() {
       }
 
     }
+
   );
 
 
@@ -4186,6 +3732,7 @@ function recalcularMontos() {
 
 
   ocActual.productos.forEach(
+
     (p, i) => {
 
       const seleccionado =
@@ -4286,6 +3833,7 @@ function recalcularMontos() {
           );
 
     }
+
   );
 
 
@@ -4501,7 +4049,8 @@ function agregarDocumento() {
 
 
   fila.id =
-    'docRow_' + id;
+    'docRow_' +
+    id;
 
 
   fila.innerHTML = `
@@ -4630,13 +4179,15 @@ function seleccionarDocumento(
 
   const camara =
     document.getElementById(
-      'docCamara_' + id
+      'docCamara_' +
+      id
     );
 
 
   const archivo =
     document.getElementById(
-      'docArchivo_' + id
+      'docArchivo_' +
+      id
     );
 
 
@@ -4687,7 +4238,8 @@ function seleccionarDocumento(
 
   const estado =
     document.getElementById(
-      'docEstado_' + id
+      'docEstado_' +
+      id
     );
 
 
@@ -4726,7 +4278,8 @@ function eliminarDocumento(
 
   document
     .getElementById(
-      'docRow_' + id
+      'docRow_' +
+      id
     )
     ?.remove();
 
@@ -4753,6 +4306,7 @@ function habilitarFormulario() {
   ]
 
   .forEach(
+
     id => {
 
       document
@@ -4765,6 +4319,7 @@ function habilitarFormulario() {
         );
 
     }
+
   );
 
 
@@ -4780,7 +4335,7 @@ function habilitarFormulario() {
 
 
 /* =========================================================
-   LIMPIAR DATOS FACTURA
+   LIMPIAR FACTURA
 ========================================================= */
 
 function limpiarDatosFactura() {
@@ -4802,6 +4357,7 @@ function limpiarDatosFactura() {
   ]
 
   .forEach(
+
     id => {
 
       const el =
@@ -4818,6 +4374,7 @@ function limpiarDatosFactura() {
       }
 
     }
+
   );
 
 
@@ -4857,12 +4414,14 @@ function limpiarDatosFactura() {
       'input[name="estado"]'
     )
     .forEach(
+
       x => {
 
         x.checked =
           false;
 
       }
+
     );
 
 
@@ -4896,7 +4455,7 @@ function limpiarSeleccion() {
     )
     .innerHTML = `
 
-      <div class="contacto-item proveedor">
+      <div class="contacto-item">
 
         <span class="contacto-label">
           Proveedor
@@ -4925,7 +4484,7 @@ function limpiarSeleccion() {
       <div class="contacto-item">
 
         <span class="contacto-label">
-          Teléfono
+          Correo
         </span>
 
         <span class="contacto-value">
@@ -4935,10 +4494,10 @@ function limpiarSeleccion() {
       </div>
 
 
-      <div class="contacto-item proveedor">
+      <div class="contacto-item">
 
         <span class="contacto-label">
-          Correo
+          Teléfono
         </span>
 
         <span class="contacto-value">
@@ -4977,6 +4536,7 @@ function limpiarSeleccion() {
   ]
 
   .forEach(
+
     id => {
 
       document
@@ -4989,6 +4549,7 @@ function limpiarSeleccion() {
         );
 
     }
+
   );
 
 
@@ -5004,7 +4565,7 @@ function limpiarSeleccion() {
 
 
 /* =========================================================
-   POST API
+   GUARDAR API
 ========================================================= */
 
 function guardarRecepcionApi(
@@ -5012,16 +4573,22 @@ function guardarRecepcionApi(
 ) {
 
   return new Promise(
-    (resolve, reject) => {
+
+    (
+      resolve,
+      reject
+    ) => {
 
       if (
         postPendiente
       ) {
 
         reject(
+
           new Error(
             'Ya existe una recepción en proceso.'
           )
+
         );
 
         return;
@@ -5031,19 +4598,25 @@ function guardarRecepcionApi(
 
       const timeout =
         setTimeout(
+
           () => {
 
             postPendiente =
               null;
 
+
             reject(
+
               new Error(
                 'El servidor demoró demasiado en responder.'
               )
+
             );
 
           },
+
           120000
+
         );
 
 
@@ -5104,7 +4677,13 @@ function guardarRecepcionApi(
           datos
         )
         .forEach(
-          ([nombre, valor]) => {
+
+          (
+            [
+              nombre,
+              valor
+            ]
+          ) => {
 
             const campo =
               document.createElement(
@@ -5125,6 +4704,7 @@ function guardarRecepcionApi(
             );
 
           }
+
         );
 
 
@@ -5137,15 +4717,19 @@ function guardarRecepcionApi(
 
 
       setTimeout(
+
         () => {
 
           form.remove();
 
         },
+
         1000
+
       );
 
     }
+
   );
 
 }
@@ -5153,11 +4737,13 @@ function guardarRecepcionApi(
 
 
 /* =========================================================
-   RESPUESTA DEL IFRAME
+   RESPUESTA IFRAME
 ========================================================= */
 
 window.addEventListener(
+
   'message',
+
   event => {
 
     if (
@@ -5174,9 +4760,12 @@ window.addEventListener(
 
 
     if (
+
       !respuesta ||
+
       typeof respuesta !==
       'object'
+
     ) {
 
       return;
@@ -5233,6 +4822,7 @@ window.addEventListener(
     }
 
   }
+
 );
 
 
@@ -5281,12 +4871,14 @@ async function confirmarRecepcion() {
 
 
   ocActual.productos.forEach(
+
     (p, i) => {
 
       const seleccionado =
         document
           .getElementById(
-            'sel_' + i
+            'sel_' +
+            i
           )
           .checked;
 
@@ -5305,7 +4897,8 @@ async function confirmarRecepcion() {
 
           document
             .getElementById(
-              'cantidad_' + i
+              'cantidad_' +
+              i
             )
             .value
 
@@ -5317,7 +4910,8 @@ async function confirmarRecepcion() {
 
           document
             .getElementById(
-              'precio_' + i
+              'precio_' +
+              i
             )
             .value
 
@@ -5347,6 +4941,7 @@ async function confirmarRecepcion() {
       });
 
     }
+
   );
 
 
@@ -5544,7 +5139,8 @@ async function confirmarRecepcion() {
     const camara =
       document
         .getElementById(
-          'docCamara_' + id
+          'docCamara_' +
+          id
         )
         .files[0];
 
@@ -5552,7 +5148,8 @@ async function confirmarRecepcion() {
     const archivo =
       document
         .getElementById(
-          'docArchivo_' + id
+          'docArchivo_' +
+          id
         )
         .files[0];
 
@@ -5583,7 +5180,8 @@ async function confirmarRecepcion() {
 
         document
           .getElementById(
-            'docTipo_' + id
+            'docTipo_' +
+            id
           )
           .value,
 
@@ -5710,6 +5308,7 @@ function archivoABase64(
 ) {
 
   return new Promise(
+
     (
       resolve,
       reject
@@ -5750,6 +5349,7 @@ function archivoABase64(
       );
 
     }
+
   );
 
 }
@@ -5783,13 +5383,16 @@ function mostrarMensaje(
 
 
   setTimeout(
+
     () => {
 
       contenedor.innerHTML =
         '';
 
     },
+
     5000
+
   );
 
 }
@@ -5848,11 +5451,16 @@ function formatNumero(
     0
   )
   .toLocaleString(
+
     'es-CL',
+
     {
+
       maximumFractionDigits:
         3
+
     }
+
   );
 
 }
@@ -5868,11 +5476,16 @@ function formatDinero(
     0
   )
   .toLocaleString(
+
     'es-CL',
+
     {
+
       maximumFractionDigits:
         2
+
     }
+
   );
 
 }
