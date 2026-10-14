@@ -1236,7 +1236,7 @@ function cambiarClaveApi() {
   cargarOC();
 }
 
-function apiGet(accion) {
+function apiGet(accion, extras={}) {
 return new Promise(
 (resolve,reject) => {
 
@@ -1314,6 +1314,17 @@ return new Promise(
   const clave =
   obtenerClaveApi();
 
+  const extrasQuery =
+  Object.entries(extras || {})
+  .filter(([,valor]) => valor !== undefined && valor !== null)
+  .map(([nombre,valor]) =>
+    '&' +
+    encodeURIComponent(nombre) +
+    '=' +
+    encodeURIComponent(String(valor))
+  )
+  .join('');
+
   const url =
   API_URL +
   '?api=recepcion' +
@@ -1323,6 +1334,7 @@ return new Promise(
   encodeURIComponent(clave) +
   '&callback=' +
   encodeURIComponent(callback) +
+  extrasQuery +
   '&_=' +
   Date.now();
 
@@ -2886,6 +2898,70 @@ true;
 limpiarDatosFactura();
 }
 
+function esperar(ms) {
+return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function verificarGuardadoTrasPost(payload) {
+const ids =
+(payload.productos || [])
+.map(p => String(p.idLinea || '').trim())
+.filter(Boolean);
+
+if (!payload.oc || !payload.numeroFactura || !ids.length) {
+return;
+}
+
+for (let intento = 0; intento < 30; intento++) {
+if (!postPendiente) {
+return;
+}
+
+await esperar(2000);
+
+if (!postPendiente) {
+return;
+}
+
+try {
+const respuesta =
+await apiGet(
+  'verificar_guardado',
+  {
+    oc: payload.oc,
+    numeroFactura: payload.numeroFactura,
+    ids: JSON.stringify(ids)
+  }
+);
+
+if (
+  respuesta &&
+  respuesta.data &&
+  respuesta.data.guardada === true
+) {
+  clearTimeout(postPendiente.timeout);
+
+  const pendiente = postPendiente;
+  postPendiente = null;
+
+  pendiente.resolve({
+    ok: true,
+    accion: 'guardar',
+    data: {
+      mensaje: 'Recepción registrada correctamente.',
+      idRecepcion: respuesta.data.idRecepcion || '',
+      verificadaEnMaestro: true
+    }
+  });
+
+  return;
+}
+} catch (error) {
+  // La respuesta POST todavía puede llegar por postMessage.
+}
+}
+}
+
 function guardarRecepcionApi(
 payload
 ) {
@@ -2977,6 +3053,8 @@ form
 );
 
 form.submit();
+
+verificarGuardadoTrasPost(payload);
 
 setTimeout(
 () => form.remove(),
