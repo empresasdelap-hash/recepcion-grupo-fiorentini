@@ -68,8 +68,8 @@
       height: 54px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 14px;
+      padding: 0 10px;
+      gap: 8px;
       background: linear-gradient(90deg, #0c4c7c, #063c64);
       color: white;
     }
@@ -79,6 +79,7 @@
       align-items: center;
       gap: 9px;
       min-width: 0;
+      flex: 0 1 auto;
     }
 
     .logo-box {
@@ -105,10 +106,19 @@
       white-space: nowrap;
     }
 
+    .acciones-recepcion-header {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
     .header-derecha {
       display: flex;
       align-items: center;
       gap: 6px;
+      flex: 0 0 auto;
     }
 
     .usuario-header {
@@ -116,6 +126,7 @@
       border-radius: 6px;
       background: rgba(255,255,255,.10);
       font-size: 9px;
+      white-space: nowrap;
     }
 
     .btn-header {
@@ -127,6 +138,37 @@
       color: white;
       font-size: 8px;
       font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn-header-cancelar {
+      min-height: 32px;
+      padding: 0 11px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 6px;
+      background: rgba(255,255,255,.14);
+      color: white;
+      font-size: 8px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn-header-confirmar {
+      min-height: 32px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 6px;
+      background: linear-gradient(90deg,#0aa85a,#078b45);
+      color: white;
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+      box-shadow: 0 2px 5px rgba(0,0,0,.18);
+    }
+
+    .btn-header-confirmar:disabled {
+      opacity: .42;
+      cursor: not-allowed;
     }
 
     .btn-clave {
@@ -145,7 +187,7 @@
 
     .app {
       height: calc(100dvh - 54px);
-      padding: 5px 5px calc(10px + env(safe-area-inset-bottom, 0px));
+      padding: 5px 5px calc(6px + env(safe-area-inset-bottom, 0px));
       display: grid;
       grid-template-columns: 40% 60%;
       gap: 5px;
@@ -165,10 +207,9 @@
       min-height: 0;
       display: grid;
       grid-template-rows:
-        minmax(170px, 1fr)
+        minmax(190px, 1fr)
         168px
-        150px
-        42px;
+        150px;
       gap: 5px;
     }
 
@@ -683,44 +724,6 @@
       font-weight: 800;
     }
 
-    /* =====================================================
-       FOOTER
-    ===================================================== */
-
-    .footer {
-      min-height: 42px;
-      display: grid;
-      grid-template-columns: 90px 1fr;
-      gap: 5px;
-      padding: 2px 0 4px;
-      background: var(--fondo);
-      position: relative;
-      z-index: 20;
-    }
-
-    .btn-cancelar {
-      border: 0;
-      border-radius: 7px;
-      background: #e5eaee;
-      color: #465763;
-      font-size: 8px;
-      font-weight: 800;
-    }
-
-    .btn-confirmar {
-      border: 0;
-      border-radius: 7px;
-      background: linear-gradient(90deg,#0a9b51,#078b45);
-      color: white;
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .btn-confirmar:disabled {
-      opacity: .50;
-      cursor: not-allowed;
-    }
-
     .empty {
       height: 100%;
       display: grid;
@@ -782,10 +785,9 @@
 
       .col-derecha {
         grid-template-rows:
-          minmax(145px,1fr)
+          minmax(165px,1fr)
           158px
-          138px
-          40px;
+          138px;
       }
 
       .panel-header {
@@ -799,6 +801,24 @@
       .tipo-card,
       .seleccionar-todos {
         height: 32px;
+      }
+
+      .titulo-principal {
+        font-size: 14px;
+      }
+
+      .empresa-header {
+        font-size: 10px;
+      }
+
+      .btn-header-confirmar {
+        padding: 0 10px;
+        font-size: 8px;
+      }
+
+      .btn-header-cancelar {
+        padding: 0 8px;
+        font-size: 7px;
       }
 
     }
@@ -826,6 +846,30 @@
     </div>
 
   </div>
+
+
+  <div class="acciones-recepcion-header">
+
+    <button
+      class="btn-header-cancelar"
+      type="button"
+      onclick="limpiarSeleccion()"
+    >
+      CANCELAR
+    </button>
+
+    <button
+      id="btnConfirmar"
+      class="btn-header-confirmar"
+      type="button"
+      onclick="confirmarRecepcion()"
+      disabled
+    >
+      ✓ CONFIRMAR RECEPCIÓN
+    </button>
+
+  </div>
+
 
   <div class="header-derecha">
 
@@ -860,13 +904,7 @@
 
 <main class="app">
 
-  <!-- =========================
-       COLUMNA IZQUIERDA
-  ========================== -->
-
   <div class="col-izquierda">
-
-    <!-- 1 · OC AUTORIZADAS -->
 
     <section class="panel">
 
@@ -952,8 +990,6 @@
     </section>
 
 
-    <!-- 3 · TIPO DE RECEPCIÓN -->
-
     <section
       id="panelTipo"
       class="panel disabled-area"
@@ -1018,13 +1054,7 @@
   </div>
 
 
-  <!-- =========================
-       COLUMNA DERECHA
-  ========================== -->
-
   <div class="col-derecha">
-
-    <!-- 4 · PRODUCTOS -->
 
     <section
       id="panelProductos"
@@ -1060,8 +1090,6 @@
 
     </section>
 
-
-    <!-- 5 · DATOS DE FACTURA -->
 
     <section
       id="panelFactura"
@@ -1220,8 +1248,6 @@
     </section>
 
 
-    <!-- 6 · DOCUMENTOS -->
-
     <section
       id="panelDocumentos"
       class="panel disabled-area"
@@ -1240,8 +1266,6 @@
       </div>
 
       <div class="documentos-body">
-
-        <!-- FACTURA -->
 
         <div class="factura-doc">
 
@@ -1304,8 +1328,6 @@
         </div>
 
 
-        <!-- DOCUMENTOS ADICIONALES -->
-
         <div class="docs-extra">
 
           <div class="doc-title">
@@ -1328,29 +1350,6 @@
 
     </section>
 
-
-    <!-- FOOTER -->
-
-    <footer class="footer">
-
-      <button
-        class="btn-cancelar"
-        onclick="limpiarSeleccion()"
-      >
-        CANCELAR
-      </button>
-
-      <button
-        id="btnConfirmar"
-        class="btn-confirmar"
-        onclick="confirmarRecepcion()"
-        disabled
-      >
-        ✓ CONFIRMAR RECEPCIÓN
-      </button>
-
-    </footer>
-
   </div>
 
 </main>
@@ -1365,20 +1364,12 @@
 
 <script>
 
-/* =========================================================
-   CONFIGURACIÓN API
-========================================================= */
-
 const API_URL =
   'https://script.google.com/macros/s/AKfycbw9R6d_OSSX4QIL-RM9P76Y4fk38Dvn0U3Qb5J2rBjHus2fcmR6v2C-cij_0JYF_5q1KQ/exec';
 
 const STORAGE_API_KEY =
   'GF_RECEPCION_API_KEY';
 
-
-/* =========================================================
-   VARIABLES
-========================================================= */
 
 let ocDisponibles = [];
 let ocActual = null;
@@ -1388,10 +1379,6 @@ let facturaSeleccionada = null;
 let postPendiente = null;
 let ultimaActualizacionAutomatica = 0;
 
-
-/* =========================================================
-   INICIO
-========================================================= */
 
 document.addEventListener(
   'DOMContentLoaded',
@@ -1404,10 +1391,6 @@ document.addEventListener(
   }
 );
 
-
-/* =========================================================
-   ACTUALIZACIÓN AUTOMÁTICA
-========================================================= */
 
 document.addEventListener(
   'visibilitychange',
@@ -1500,10 +1483,6 @@ async function actualizarAplicacion(
 }
 
 
-/* =========================================================
-   INICIAR
-========================================================= */
-
 async function iniciarAplicacion() {
 
   const clave =
@@ -1524,10 +1503,6 @@ async function iniciarAplicacion() {
 
 }
 
-
-/* =========================================================
-   SERVICE WORKER
-========================================================= */
 
 function registrarServiceWorker() {
 
@@ -1563,10 +1538,6 @@ function registrarServiceWorker() {
 
 }
 
-
-/* =========================================================
-   CLAVE
-========================================================= */
 
 function obtenerClaveApi(
   solicitar = true
@@ -1640,10 +1611,6 @@ function cambiarClaveApi() {
 
 }
 
-
-/* =========================================================
-   API GET
-========================================================= */
 
 function apiGet(
   accion
@@ -1804,10 +1771,6 @@ function apiGet(
 }
 
 
-/* =========================================================
-   CARGAR OC
-========================================================= */
-
 async function cargarOC() {
 
   const tbody =
@@ -1884,10 +1847,6 @@ async function cargarOC() {
 
 }
 
-
-/* =========================================================
-   FILTROS
-========================================================= */
 
 function cargarFiltros() {
 
@@ -1979,10 +1938,6 @@ function cargarFiltros() {
 
 }
 
-
-/* =========================================================
-   LISTA OC
-========================================================= */
 
 function renderLista() {
 
@@ -2161,10 +2116,6 @@ function renderLista() {
 }
 
 
-/* =========================================================
-   ABRIR OC
-========================================================= */
-
 function abrirOC(
   numeroOC
 ) {
@@ -2201,10 +2152,6 @@ function abrirOC(
 
 }
 
-
-/* =========================================================
-   PRODUCTOS
-========================================================= */
 
 function renderProductos() {
 
@@ -2347,10 +2294,6 @@ function renderProductos() {
 }
 
 
-/* =========================================================
-   SELECCIONAR TODOS
-========================================================= */
-
 function seleccionarTodos() {
 
   if (!ocActual) {
@@ -2386,10 +2329,6 @@ function seleccionarTodos() {
 
 }
 
-
-/* =========================================================
-   SELECCIÓN PRODUCTO
-========================================================= */
 
 function cambiarSeleccionProducto(
   i,
@@ -2491,10 +2430,6 @@ function cambiarSeleccionProducto(
 }
 
 
-/* =========================================================
-   TIPO RECEPCIÓN
-========================================================= */
-
 function estadoSeleccionado() {
 
   return (
@@ -2575,10 +2510,6 @@ function cambiarEstado() {
 
 }
 
-
-/* =========================================================
-   MONTOS
-========================================================= */
 
 function recalcularMontos() {
 
@@ -2714,10 +2645,6 @@ function recalcularMontos() {
 
 }
 
-
-/* =========================================================
-   DIFERENCIA FACTURA
-========================================================= */
 
 function obtenerMontoCalculadoActual() {
 
@@ -2870,10 +2797,6 @@ function revisarDiferenciaMonto() {
 }
 
 
-/* =========================================================
-   FACTURA
-========================================================= */
-
 function seleccionarFactura(
   origen
 ) {
@@ -2993,10 +2916,6 @@ function quitarFactura() {
 
 }
 
-
-/* =========================================================
-   DOCUMENTOS ADICIONALES
-========================================================= */
 
 function agregarDocumento() {
 
@@ -3218,10 +3137,6 @@ function eliminarDocumento(
 }
 
 
-/* =========================================================
-   HABILITAR FORMULARIO
-========================================================= */
-
 function habilitarFormulario() {
 
   [
@@ -3254,10 +3169,6 @@ function habilitarFormulario() {
 
 }
 
-
-/* =========================================================
-   LIMPIAR DATOS
-========================================================= */
 
 function limpiarDatosFactura() {
 
@@ -3349,10 +3260,6 @@ function limpiarDatosFactura() {
 }
 
 
-/* =========================================================
-   CANCELAR
-========================================================= */
-
 function limpiarSeleccion() {
 
   ocActual =
@@ -3404,10 +3311,6 @@ function limpiarSeleccion() {
 
 }
 
-
-/* =========================================================
-   GUARDAR API
-========================================================= */
 
 function guardarRecepcionApi(
   payload
@@ -3548,10 +3451,6 @@ function guardarRecepcionApi(
 }
 
 
-/* =========================================================
-   RESPUESTA IFRAME
-========================================================= */
-
 window.addEventListener(
   'message',
   event => {
@@ -3619,10 +3518,6 @@ window.addEventListener(
   }
 );
 
-
-/* =========================================================
-   CONFIRMAR RECEPCIÓN
-========================================================= */
 
 async function confirmarRecepcion() {
 
@@ -4076,10 +3971,6 @@ async function confirmarRecepcion() {
 }
 
 
-/* =========================================================
-   ARCHIVO BASE64
-========================================================= */
-
 function archivoABase64(
   file
 ) {
@@ -4125,10 +4016,6 @@ function archivoABase64(
 
 }
 
-
-/* =========================================================
-   MENSAJES
-========================================================= */
 
 function mostrarMensaje(
   texto,
@@ -4190,10 +4077,6 @@ function limpiarMensaje() {
 
 }
 
-
-/* =========================================================
-   FORMATOS
-========================================================= */
 
 function formatNumero(
   valor
