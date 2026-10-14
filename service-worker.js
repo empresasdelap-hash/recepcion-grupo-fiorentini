@@ -1,4 +1,4 @@
-const CACHE_NAME = 'recepcion-fiorentini-v3';
+const CACHE_NAME = 'recepcion-fiorentini-v4';
 
 const APP_FILES = [
   './',
@@ -40,60 +40,120 @@ self.addEventListener('activate', event => {
 
 
 /* =========================================
+   ACTUALIZAR CACHE EN SEGUNDO PLANO
+========================================= */
+
+async function actualizarCache(request) {
+  try {
+    const response = await fetch(request, {
+      cache: 'no-cache'
+    });
+
+    if (response && response.ok) {
+      const cache = await caches.open(CACHE_NAME);
+
+      await cache.put(
+        request,
+        response.clone()
+      );
+    }
+
+  } catch (error) {
+    // No bloquea la apertura de la aplicación
+  }
+}
+
+
+/* =========================================
    FETCH
-   - La app abre desde caché inmediatamente
-   - Luego actualiza el caché en segundo plano
 ========================================= */
 
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
+
+  if (event.request.method !== 'GET') {
+    return;
+  }
 
   const request = event.request;
 
-  event.respondWith(
-    caches.match(request)
-      .then(cachedResponse => {
 
-        const networkFetch = fetch(request)
-          .then(networkResponse => {
+  /* -----------------------------------------
+     NAVEGACIÓN PRINCIPAL
+     ABRE INDEX.HTML DIRECTAMENTE DESDE CACHE
+  ----------------------------------------- */
 
-            if (
-              networkResponse &&
-              networkResponse.ok
-            ) {
-              const copy = networkResponse.clone();
+  if (request.mode === 'navigate') {
+
+    event.respondWith(
+      caches.match('./index.html')
+        .then(cached => {
+
+          if (cached) {
+
+            event.waitUntil(
+              actualizarCache('./index.html')
+            );
+
+            return cached;
+          }
+
+
+          return fetch(request)
+            .then(response => {
+
+              const copia = response.clone();
 
               caches.open(CACHE_NAME)
                 .then(cache => {
-                  cache.put(request, copy);
+                  cache.put('./index.html', copia);
                 });
-            }
 
-            return networkResponse;
-          })
-          .catch(() => null);
+              return response;
+            });
+
+        })
+    );
+
+    return;
+  }
 
 
-        // Si existe caché, abre inmediatamente
-        if (cachedResponse) {
+  /* -----------------------------------------
+     ARCHIVOS INTERNOS
+  ----------------------------------------- */
 
-          // Actualiza en segundo plano
-          event.waitUntil(networkFetch);
+  event.respondWith(
+    caches.match(request)
+      .then(cached => {
 
-          return cachedResponse;
+        if (cached) {
+
+          event.waitUntil(
+            actualizarCache(request)
+          );
+
+          return cached;
         }
 
 
-        // Si no existe caché, usa red
-        return networkFetch.then(response => {
+        return fetch(request)
+          .then(response => {
 
-          if (response) {
+            if (response && response.ok) {
+
+              const copia = response.clone();
+
+              caches.open(CACHE_NAME)
+                .then(cache => {
+                  cache.put(request, copia);
+                });
+
+            }
+
             return response;
-          }
-
-          return caches.match('./index.html');
-        });
+          });
 
       })
   );
+
 });
