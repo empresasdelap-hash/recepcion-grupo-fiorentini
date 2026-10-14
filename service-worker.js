@@ -1,4 +1,4 @@
-const CACHE_NAME = 'recepcion-fiorentini-v1';
+const CACHE_NAME = 'recepcion-fiorentini-v5';
 
 const ARCHIVOS = [
   './',
@@ -7,6 +7,7 @@ const ARCHIVOS = [
 ];
 
 self.addEventListener('install', event => {
+
   self.skipWaiting();
 
   event.waitUntil(
@@ -16,9 +17,11 @@ self.addEventListener('install', event => {
         cache.addAll(ARCHIVOS)
       )
   );
+
 });
 
 self.addEventListener('activate', event => {
+
   event.waitUntil(
     caches
       .keys()
@@ -39,12 +42,22 @@ self.addEventListener('activate', event => {
         self.clients.claim()
       )
   );
+
 });
 
 self.addEventListener('fetch', event => {
 
-  event.respondWith(
-    fetch(event.request)
+  if (
+    event.request.mode === 'navigate'
+  ) {
+
+    event.respondWith(
+      fetch(
+        './index.html',
+        {
+          cache: 'no-store'
+        }
+      )
       .then(response => {
 
         const copia =
@@ -54,7 +67,7 @@ self.addEventListener('fetch', event => {
           .open(CACHE_NAME)
           .then(cache =>
             cache.put(
-              event.request,
+              './index.html',
               copia
             )
           );
@@ -64,9 +77,44 @@ self.addEventListener('fetch', event => {
       })
       .catch(() =>
         caches.match(
-          event.request
+          './index.html'
         )
       )
+    );
+
+    return;
+
+  }
+
+  event.respondWith(
+    fetch(
+      event.request,
+      {
+        cache: 'no-store'
+      }
+    )
+    .then(response => {
+
+      const copia =
+        response.clone();
+
+      caches
+        .open(CACHE_NAME)
+        .then(cache =>
+          cache.put(
+            event.request,
+            copia
+          )
+        );
+
+      return response;
+
+    })
+    .catch(() =>
+      caches.match(
+        event.request
+      )
+    )
   );
 
 });
