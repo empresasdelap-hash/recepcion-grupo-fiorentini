@@ -744,9 +744,6 @@ textarea {
 .btn-usar {
   background: #078b45;
 }
-/* =====================================================
-   OTROS
-===================================================== */
 .empty {
   height: 100%;
   display: grid;
@@ -782,9 +779,6 @@ textarea {
   background: #fee5e5;
   color: #9c2424;
 }
-/* =====================================================
-   TABLET HORIZONTAL
-===================================================== */
 @media screen and (max-height:650px) {
   .topbar {
     height: 48px;
@@ -830,92 +824,44 @@ textarea {
 <body>
 <header class="topbar">
   <div class="topbar-left">
-    <div class="logo-box">
-      📦
-    </div>
-    <div class="titulo-principal">
-      50 · RECEPCIÓN DE MERCADERÍA
-    </div>
-    <div class="empresa-header">
-      Grupo Fiorentini
-    </div>
+    <div class="logo-box">📦</div>
+    <div class="titulo-principal">50 · RECEPCIÓN DE MERCADERÍA</div>
+    <div class="empresa-header">Grupo Fiorentini</div>
   </div>
   <div class="acciones-recepcion-header">
-    <button
-      class="btn-header-cancelar"
-      type="button"
-      onclick="limpiarSeleccion()"
-    >
-      CANCELAR
-    </button>
-    <button
-      id="btnConfirmar"
-      class="btn-header-confirmar"
-      type="button"
-      onclick="confirmarRecepcion()"
-      disabled
-    >
+    <button class="btn-header-cancelar" type="button" onclick="limpiarSeleccion()">CANCELAR</button>
+    <button id="btnConfirmar" class="btn-header-confirmar" type="button" onclick="confirmarRecepcion()" disabled>
       ✓ CONFIRMAR RECEPCIÓN
     </button>
   </div>
   <div class="header-derecha">
-    <div class="usuario-header">
-      👤 Recepción
-    </div>
-    <button
-      class="btn-header"
-      type="button"
-      onclick="actualizarAplicacion(true)"
-    >
-      🔄 ACTUALIZAR
-    </button>
-    <button
-      class="btn-clave"
-      type="button"
-      onclick="cambiarClaveApi()"
-    >
-      🔑
-    </button>
+    <div class="usuario-header">👤 Recepción</div>
+    <button class="btn-header" type="button" onclick="actualizarAplicacion(true)">🔄 ACTUALIZAR</button>
+    <button class="btn-clave" type="button" onclick="cambiarClaveApi()">🔑</button>
   </div>
 </header>
+
 <div id="mensaje"></div>
+
 <main class="app">
 <div class="col-izquierda">
 <section class="panel">
   <div class="panel-header">
     <div class="numero">1</div>
     <div>
-      <div class="panel-title">
-        OC AUTORIZADAS
-      </div>
-      <div class="panel-sub">
-        Seleccione la orden de compra recibida
-      </div>
+      <div class="panel-title">OC AUTORIZADAS</div>
+      <div class="panel-sub">Seleccione la orden de compra recibida</div>
     </div>
   </div>
   <div class="lista-body">
     <div class="filtros">
-      <select
-        id="filtroEmpresa"
-        onchange="renderLista()"
-      >
-        <option value="">
-          TODAS LAS EMPRESAS
-        </option>
+      <select id="filtroEmpresa" onchange="renderLista()">
+        <option value="">TODAS LAS EMPRESAS</option>
       </select>
-      <select
-        id="filtroProveedor"
-        onchange="renderLista()"
-      >
-        <option value="">
-          TODOS LOS PROVEEDORES
-        </option>
+      <select id="filtroProveedor" onchange="renderLista()">
+        <option value="">TODOS LOS PROVEEDORES</option>
       </select>
-      <input
-        id="buscador"
-        placeholder="Buscar OC, proveedor o producto..."
-        oninput="renderLista()"
-      >
+      <input id="buscador" placeholder="Buscar OC, proveedor o producto..." oninput="renderLista()">
     </div>
     <div class="tabla-scroll">
       <table class="tabla">
@@ -929,177 +875,98 @@ textarea {
           </tr>
         </thead>
         <tbody id="tablaOC">
-          <tr>
-            <td colspan="5">
-              Cargando...
-            </td>
-          </tr>
+          <tr><td colspan="5">Cargando...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </section>
-<section
-  id="panelTipo"
-  class="panel disabled-area"
->
+
+<section id="panelTipo" class="panel disabled-area">
   <div class="tipo-titulo">
-    <div class="numero">
-      3
-    </div>
-    <div class="panel-title">
-      TIPO DE RECEPCIÓN
-    </div>
+    <div class="numero">3</div>
+    <div class="panel-title">TIPO DE RECEPCIÓN</div>
   </div>
   <div class="tipo-controles">
     <label class="tipo-card">
-      <input
-        type="radio"
-        name="estado"
-        value="COMPLETA"
-        onchange="cambiarEstado()"
-      >
+      <input type="radio" name="estado" value="COMPLETA" onchange="cambiarEstado()">
       COMPLETA
     </label>
     <label class="tipo-card">
-      <input
-        type="radio"
-        name="estado"
-        value="PARCIAL"
-        onchange="cambiarEstado()"
-      >
+      <input type="radio" name="estado" value="PARCIAL" onchange="cambiarEstado()">
       PARCIAL
     </label>
     <label class="seleccionar-todos">
-      <input
-        id="seleccionarTodo"
-        type="checkbox"
-        onchange="seleccionarTodos()"
-      >
+      <input id="seleccionarTodo" type="checkbox" onchange="seleccionarTodos()">
       Seleccionar todos
     </label>
   </div>
 </section>
 </div>
+
 <div class="col-derecha">
-<section
-  id="panelProductos"
-  class="panel disabled-area"
->
+<section id="panelProductos" class="panel disabled-area">
   <div class="panel-header">
-    <div class="numero">
-      4
-    </div>
+    <div class="numero">4</div>
     <div>
-      <div class="panel-title">
-        PRODUCTOS
-      </div>
-      <div class="panel-sub">
-        Seleccione los productos de esta factura
-      </div>
+      <div class="panel-title">PRODUCTOS</div>
+      <div class="panel-sub">Seleccione los productos de esta factura</div>
     </div>
   </div>
-  <div
-    id="productosContenido"
-    class="empty"
-  >
-    Seleccione una OC.
-  </div>
+  <div id="productosContenido" class="empty">Seleccione una OC.</div>
 </section>
-<section
-  id="panelFactura"
-  class="panel disabled-area"
->
+
+<section id="panelFactura" class="panel disabled-area">
   <div class="panel-header">
-    <div class="numero">
-      5
-    </div>
-    <div class="panel-title">
-      DATOS DE LA FACTURA
-    </div>
+    <div class="numero">5</div>
+    <div class="panel-title">DATOS DE LA FACTURA</div>
   </div>
   <div class="factura-body">
     <div class="montos">
       <div class="monto-box">
-        <small>
-          Monto autorizado
-        </small>
-        <strong id="montoAutorizado">
-          $0
-        </strong>
+        <small>Monto autorizado</small>
+        <strong id="montoAutorizado">$0</strong>
       </div>
       <div class="monto-box">
-        <small>
-          Monto calculado
-        </small>
-        <strong id="montoCalculado">
-          $0
-        </strong>
+        <small>Monto calculado</small>
+        <strong id="montoCalculado">$0</strong>
       </div>
       <div class="monto-box">
-        <small>
-          Monto factura
-        </small>
+        <small>Monto factura</small>
         <input
           id="montoFactura"
           type="number"
           step="0.01"
-          oninput="
-            montoEditadoManual=true;
-            revisarDiferenciaMonto();
-          "
+          oninput="montoEditadoManual=true; revisarDiferenciaMonto();"
         >
       </div>
       <div class="monto-box">
-        <small>
-          Monto factura corresponde a
-        </small>
-        <select
-          id="tipoMontoFactura"
-          onchange="revisarDiferenciaMonto()"
-        >
-          <option value="">
-            SELECCIONAR
-          </option>
-          <option value="NETO">
-            NETO
-          </option>
-          <option value="BRUTO">
-            BRUTO
-          </option>
+        <small>Monto factura corresponde a</small>
+        <select id="tipoMontoFactura" onchange="revisarDiferenciaMonto()">
+          <option value="">SELECCIONAR</option>
+          <option value="NETO">NETO</option>
+          <option value="BRUTO">BRUTO</option>
         </select>
       </div>
     </div>
+
     <div class="datos-factura">
       <div class="campo">
-        <label>
-          N° factura
-        </label>
+        <label>N° factura</label>
         <input id="numeroFactura">
       </div>
       <div class="campo">
-        <label>
-          Fecha factura
-        </label>
-        <input
-          id="fechaFactura"
-          type="date"
-        >
+        <label>Fecha factura</label>
+        <input id="fechaFactura" type="date">
       </div>
       <div class="campo">
-        <label>
-          Fecha vencimiento
-        </label>
-        <input
-          id="fechaVencimiento"
-          type="date"
-        >
+        <label>Fecha vencimiento</label>
+        <input id="fechaVencimiento" type="date">
       </div>
     </div>
+
     <div class="campo">
-      <label>
-        Motivo diferencia monto factura
-      </label>
+      <label>Motivo diferencia monto factura</label>
       <textarea
         id="motivoDiferenciaMonto"
         class="sin-diferencia"
@@ -1109,39 +976,23 @@ textarea {
     </div>
   </div>
 </section>
-<section
-  id="panelDocumentos"
-  class="panel disabled-area"
->
+
+<section id="panelDocumentos" class="panel disabled-area">
   <div class="panel-header">
-    <div class="numero">
-      6
-    </div>
-    <div class="panel-title">
-      DOCUMENTOS
-    </div>
+    <div class="numero">6</div>
+    <div class="panel-title">DOCUMENTOS</div>
   </div>
   <div class="documentos-body">
     <div class="factura-doc">
-      <div class="doc-title">
-        Factura · obligatoria
-      </div>
+      <div class="doc-title">Factura · obligatoria</div>
       <div class="acciones-doc">
-        <button
-          type="button"
-          class="btn-foto"
-          onclick="abrirCamara('FACTURA')"
-        >
+        <button type="button" class="btn-foto" onclick="abrirCamara('FACTURA')">
           📷 TOMAR FOTO
         </button>
         <button
           type="button"
           class="btn-archivo"
-          onclick="
-            document
-              .getElementById('facturaArchivo')
-              .click()
-          "
+          onclick="document.getElementById('facturaArchivo').click()"
         >
           📎 SUBIR ARCHIVO
         </button>
@@ -1153,23 +1004,15 @@ textarea {
         accept="image/*,application/pdf"
         onchange="seleccionarFacturaArchivo()"
       >
-      <div
-        id="estadoFactura"
-        class="archivo-estado"
-      >
+      <div id="estadoFactura" class="archivo-estado">
         Ninguna factura seleccionada
       </div>
     </div>
+
     <div class="docs-extra">
       <div class="docs-extra-header">
-        <div class="docs-extra-title">
-          Documentos adicionales · opcional
-        </div>
-        <button
-          type="button"
-          class="btn-agregar"
-          onclick="agregarDocumento()"
-        >
+        <div class="docs-extra-title">Documentos adicionales · opcional</div>
+        <button type="button" class="btn-agregar" onclick="agregarDocumento()">
           + AGREGAR DOCUMENTO
         </button>
       </div>
@@ -1179,73 +1022,33 @@ textarea {
 </section>
 </div>
 </main>
-<div
-  id="camaraFullscreen"
-  class="camara-fullscreen"
->
+
+<div id="camaraFullscreen" class="camara-fullscreen">
   <div class="camara-barra">
-    <button
-      type="button"
-      class="camara-cerrar"
-      onclick="cerrarCamara()"
-    >
-      ✕ CANCELAR
-    </button>
-    <div class="camara-titulo">
-      TOMAR FOTO
-    </div>
+    <button type="button" class="camara-cerrar" onclick="cerrarCamara()">✕ CANCELAR</button>
+    <div class="camara-titulo">TOMAR FOTO</div>
     <div style="width:100px"></div>
   </div>
   <div class="camara-contenedor">
-    <video
-      id="videoCamara"
-      autoplay
-      playsinline
-    ></video>
-    <canvas
-      id="canvasCamara"
-      style="display:none"
-    ></canvas>
-    <img
-      id="previewCamara"
-      alt=""
-      style="display:none"
-    >
+    <video id="videoCamara" autoplay playsinline></video>
+    <canvas id="canvasCamara" style="display:none"></canvas>
+    <img id="previewCamara" alt="" style="display:none">
   </div>
   <div class="camara-acciones">
-    <button
-      id="btnCapturarFoto"
-      type="button"
-      class="btn-capturar"
-      onclick="capturarFoto()"
-    >
+    <button id="btnCapturarFoto" type="button" class="btn-capturar" onclick="capturarFoto()">
       📷 TOMAR FOTO
     </button>
-    <button
-      id="btnRepetirFoto"
-      type="button"
-      class="btn-repetir"
-      style="display:none"
-      onclick="repetirFoto()"
-    >
+    <button id="btnRepetirFoto" type="button" class="btn-repetir" style="display:none" onclick="repetirFoto()">
       REPETIR
     </button>
-    <button
-      id="btnUsarFoto"
-      type="button"
-      class="btn-usar"
-      style="display:none"
-      onclick="usarFoto()"
-    >
+    <button id="btnUsarFoto" type="button" class="btn-usar" style="display:none" onclick="usarFoto()">
       ✓ USAR FOTO
     </button>
   </div>
 </div>
-<iframe
-  id="apiPostFrame"
-  name="apiPostFrame"
-  style="display:none"
-></iframe>
+
+<iframe id="apiPostFrame" name="apiPostFrame" style="display:none"></iframe>
+
 <script>
 const API_URL =
 'https://script.google.com/macros/s/AKfycbw9R6d_OSSX4QIL-RM9P76Y4fk38Dvn0U3Qb5J2rBjHus2fcmR6v2C-cij_0JYF_5q1KQ/exec';
@@ -1260,11 +1063,9 @@ let contadorDocumentos = 0;
 let facturaSeleccionada = null;
 let postPendiente = null;
 let ultimaActualizacionAutomatica = 0;
-
 let streamCamara = null;
 let destinoCamara = null;
 let fotoCapturada = null;
-
 const fotosDocumentos = {};
 
 document.addEventListener(
@@ -1283,15 +1084,12 @@ async () => {
     obtenerClaveApi(false)
   ) {
     const ahora = Date.now();
-
     if (
       ahora -
       ultimaActualizacionAutomatica >
       2000
     ) {
-      ultimaActualizacionAutomatica =
-      ahora;
-
+      ultimaActualizacionAutomatica = ahora;
       await actualizarAplicacion(false);
     }
   }
@@ -1305,17 +1103,14 @@ async () => {
     return;
   }
 
-  const ahora =
-  Date.now();
+  const ahora = Date.now();
 
   if (
     ahora -
     ultimaActualizacionAutomatica >
     2000
   ) {
-    ultimaActualizacionAutomatica =
-    ahora;
-
+    ultimaActualizacionAutomatica = ahora;
     await actualizarAplicacion(false);
   }
 }
@@ -1333,28 +1128,22 @@ mostrarAviso=true
         'ok'
       );
     }
-
   } catch (error) {
-
     if (mostrarAviso) {
       mostrarError(error);
     }
-
   }
 }
 
 async function iniciarAplicacion() {
-
   const clave =
   obtenerClaveApi();
 
   if (!clave) {
-
     mostrarMensaje(
       'Debe ingresar la clave de Recepción.',
       'error'
     );
-
     return;
   }
 
@@ -1362,13 +1151,11 @@ async function iniciarAplicacion() {
 }
 
 async function registrarServiceWorker() {
-
   if (!('serviceWorker' in navigator)) {
     return;
   }
 
   try {
-
     const registro =
     await navigator.serviceWorker.register(
       './service-worker.js',
@@ -1378,21 +1165,17 @@ async function registrarServiceWorker() {
     );
 
     registro.update();
-
   } catch (error) {
-
     console.error(
       'Service Worker:',
       error
     );
-
   }
 }
 
 function obtenerClaveApi(
 solicitar=true
 ) {
-
   let clave =
   localStorage.getItem(
     STORAGE_API_KEY
@@ -1431,7 +1214,6 @@ solicitar=true
 }
 
 function cambiarClaveApi() {
-
   const nuevaClave =
   window.prompt(
     'Ingrese la nueva clave de Recepción:'
@@ -1455,7 +1237,6 @@ function cambiarClaveApi() {
 }
 
 function apiGet(accion) {
-
 return new Promise(
 (resolve,reject) => {
 
@@ -1470,7 +1251,6 @@ return new Promise(
   const timeout =
   setTimeout(
   () => {
-
     limpiar();
 
     reject(
@@ -1478,13 +1258,11 @@ return new Promise(
         'No hubo respuesta del servidor.'
       )
     );
-
   },
   30000
   );
 
   function limpiar() {
-
     clearTimeout(timeout);
 
     const script =
@@ -1497,18 +1275,14 @@ return new Promise(
     }
 
     try {
-
       delete window[
         callback
       ];
-
     } catch(e) {
-
       window[
         callback
       ] =
       undefined;
-
     }
   }
 
@@ -1516,14 +1290,12 @@ return new Promise(
     callback
   ] =
   respuesta => {
-
     limpiar();
 
     if (
       !respuesta ||
       respuesta.ok !== true
     ) {
-
       reject(
         new Error(
           respuesta &&
@@ -1567,7 +1339,6 @@ return new Promise(
 
   script.onerror =
   () => {
-
     limpiar();
 
     reject(
@@ -1575,20 +1346,16 @@ return new Promise(
         'No fue posible conectar con el servidor.'
       )
     );
-
   };
 
   document.body.appendChild(
     script
   );
-
 }
 );
-
 }
 
 async function cargarOC() {
-
   const tbody =
   document.getElementById(
     'tablaOC'
@@ -1598,7 +1365,6 @@ async function cargarOC() {
   '<tr><td colspan="5">Cargando...</td></tr>';
 
   try {
-
     const respuesta =
     await apiGet(
       'listar'
@@ -1609,11 +1375,9 @@ async function cargarOC() {
     [];
 
     cargarFiltros();
-
     renderLista();
 
     if (ocActual) {
-
       const actualizada =
       ocDisponibles.find(
         x =>
@@ -1622,23 +1386,16 @@ async function cargarOC() {
       );
 
       if (actualizada) {
-
         ocActual =
         actualizada;
 
         renderProductos();
-
         recalcularMontos();
-
       } else {
-
         limpiarSeleccion();
-
       }
     }
-
   } catch(error) {
-
     tbody.innerHTML =
     '<tr><td colspan="5">No fue posible cargar las OC.</td></tr>';
 
@@ -1649,7 +1406,6 @@ async function cargarOC() {
 }
 
 function cargarFiltros() {
-
 const filtroEmpresa =
 document.getElementById(
 'filtroEmpresa'
@@ -1705,7 +1461,6 @@ if (
     empresaActual
   )
 ) {
-
   filtroEmpresa.value =
   empresaActual;
 }
@@ -1715,14 +1470,12 @@ if (
     proveedorActual
   )
 ) {
-
   filtroProveedor.value =
   proveedorActual;
 }
 }
 
 function renderLista() {
-
 const texto =
 document
 .getElementById(
@@ -1749,7 +1502,6 @@ document
 const filtradas =
 ocDisponibles.filter(
 oc => {
-
   if (
     empresa &&
     oc.empresa !== empresa
@@ -1765,7 +1517,6 @@ oc => {
   }
 
   if (texto) {
-
     const productos =
     (
       oc.productos ||
@@ -1805,10 +1556,8 @@ document.getElementById(
 );
 
 if (!filtradas.length) {
-
 tbody.innerHTML =
 '<tr><td colspan="5">No hay OC habilitadas.</td></tr>';
-
 return;
 }
 
@@ -1816,7 +1565,6 @@ tbody.innerHTML =
 filtradas
 .map(
 oc => `
-
 <tr
 class="${
   ocActual &&
@@ -1825,46 +1573,35 @@ class="${
   : ''
 }"
 >
-
 <td>
 <strong>
 ${esc(oc.oc)}
 </strong>
 </td>
-
 <td>
 ${esc(oc.proveedor)}
 </td>
-
 <td>
 ${esc(oc.fechaOC || '')}
 </td>
-
 <td>
 ${oc.cantidadProductos}
 </td>
-
 <td>
-
 <button
 class="btn-recepcionar"
 onclick='abrirOC(${JSON.stringify(oc.oc)})'
 >
 RECEPCIONAR
 </button>
-
 </td>
-
 </tr>
-
 `
 )
 .join('');
-
 }
 
 function abrirOC(numeroOC) {
-
 ocActual =
 ocDisponibles.find(
 x =>
@@ -1892,19 +1629,13 @@ key => delete fotosDocumentos[key]
 );
 
 renderLista();
-
 renderProductos();
-
 habilitarFormulario();
-
 limpiarDatosFactura();
-
 recalcularMontos();
-
 }
 
 function renderProductos() {
-
 if (!ocActual) {
 return;
 }
@@ -1918,11 +1649,8 @@ contenedor.className =
 'productos-scroll';
 
 contenedor.innerHTML = `
-
 <table class="tabla productos-table">
-
 <thead>
-
 <tr>
 <th></th>
 <th>Código</th>
@@ -1934,11 +1662,8 @@ contenedor.innerHTML = `
 <th>Precio factura</th>
 <th>Total</th>
 </tr>
-
 </thead>
-
 <tbody>
-
 ${
 (
 ocActual.productos ||
@@ -1946,42 +1671,32 @@ ocActual.productos ||
 )
 .map(
 (p,i) => `
-
 <tr>
-
 <td>
-
 <input
 id="sel_${i}"
 class="check-producto"
 type="checkbox"
 onchange="cambiarSeleccionProducto(${i})"
 >
-
 </td>
-
 <td>
 ${esc(p.codigo)}
 </td>
-
 <td>
 <strong>
 ${esc(p.producto)}
 </strong>
 </td>
-
 <td>
 ${esc(p.unidad)}
 </td>
-
 <td>
 ${formatNumero(
 p.cantidadAutorizada
 )}
 </td>
-
 <td>
-
 <input
 id="cantidad_${i}"
 type="number"
@@ -1989,20 +1704,14 @@ step="0.001"
 disabled
 oninput="recalcularMontos()"
 >
-
 </td>
-
 <td class="precio-ref">
-
 $
 ${formatDinero(
 p.precioAutorizado
 )}
-
 </td>
-
 <td>
-
 <input
 id="precio_${i}"
 type="number"
@@ -2012,33 +1721,24 @@ value="${p.precioAutorizado}"
 disabled
 oninput="recalcularMontos()"
 >
-
 </td>
-
 <td
 id="total_${i}"
 class="total-real"
 >
 $0
 </td>
-
 </tr>
-
 `
 )
 .join('')
 }
-
 </tbody>
-
 </table>
-
 `;
-
 }
 
 function seleccionarTodos() {
-
 if (!ocActual) {
 return;
 }
@@ -2053,7 +1753,6 @@ document
 ocActual.productos
 .forEach(
 (p,i) => {
-
 document
 .getElementById(
 'sel_'+i
@@ -2065,19 +1764,16 @@ cambiarSeleccionProducto(
 i,
 false
 );
-
 }
 );
 
 recalcularMontos();
-
 }
 
 function cambiarSeleccionProducto(
 i,
 recalcular=true
 ) {
-
 const seleccionado =
 document
 .getElementById(
@@ -2096,7 +1792,6 @@ document.getElementById(
 );
 
 if (!seleccionado) {
-
 cantidad.value =
 '';
 
@@ -2112,9 +1807,7 @@ document
 )
 .textContent =
 '$0';
-
 } else {
-
 precio.disabled =
 false;
 
@@ -2124,7 +1817,6 @@ estadoSeleccionado();
 if (
 estado === 'COMPLETA'
 ) {
-
 cantidad.value =
 ocActual
 .productos[i]
@@ -2132,43 +1824,33 @@ ocActual
 
 cantidad.disabled =
 true;
-
 } else if (
 estado === 'PARCIAL'
 ) {
-
 if (!cantidad.value) {
-
 cantidad.value =
 ocActual
 .productos[i]
 .cantidadAutorizada;
-
 }
 
 cantidad.disabled =
 false;
-
 } else {
-
 cantidad.value =
 '';
 
 cantidad.disabled =
 true;
-
 }
-
 }
 
 if (recalcular) {
 recalcularMontos();
 }
-
 }
 
 function estadoSeleccionado() {
-
 return (
 document.querySelector(
 'input[name="estado"]:checked'
@@ -2176,11 +1858,9 @@ document.querySelector(
 ||
 ''
 );
-
 }
 
 function cambiarEstado() {
-
 if (!ocActual) {
 return;
 }
@@ -2191,7 +1871,6 @@ estadoSeleccionado();
 ocActual.productos
 .forEach(
 (p,i) => {
-
 const seleccionado =
 document
 .getElementById(
@@ -2211,40 +1890,31 @@ document.getElementById(
 if (
 estado === 'COMPLETA'
 ) {
-
 cantidad.value =
 p.cantidadAutorizada;
 
 cantidad.disabled =
 true;
-
 }
 
 if (
 estado === 'PARCIAL'
 ) {
-
 if (!cantidad.value) {
-
 cantidad.value =
 p.cantidadAutorizada;
-
 }
 
 cantidad.disabled =
 false;
-
 }
-
 }
 );
 
 recalcularMontos();
-
 }
 
 function recalcularMontos() {
-
 if (!ocActual) {
 return;
 }
@@ -2258,7 +1928,6 @@ let calculado =
 ocActual.productos
 .forEach(
 (p,i) => {
-
 const seleccionado =
 document
 .getElementById(
@@ -2267,7 +1936,6 @@ document
 ?.checked;
 
 if (!seleccionado) {
-
 const total =
 document.getElementById(
 'total_'+i
@@ -2278,7 +1946,6 @@ total.textContent='$0';
 }
 
 return;
-
 }
 
 autorizado +=
@@ -2328,7 +1995,6 @@ document
 formatDinero(
 totalReal
 );
-
 }
 );
 
@@ -2353,7 +2019,6 @@ calculado
 );
 
 if (!montoEditadoManual) {
-
 document
 .getElementById(
 'montoFactura'
@@ -2362,15 +2027,12 @@ document
 redondearMonto(
 calculado
 );
-
 }
 
 revisarDiferenciaMonto();
-
 }
 
 function obtenerMontoCalculadoActual() {
-
 if (!ocActual) {
 return 0;
 }
@@ -2381,7 +2043,6 @@ let total =
 ocActual.productos
 .forEach(
 (p,i) => {
-
 const seleccionado =
 document
 .getElementById(
@@ -2418,18 +2079,15 @@ document
 total +=
 cantidad *
 precio;
-
 }
 );
 
 return redondearMonto(
 total
 );
-
 }
 
 function revisarDiferenciaMonto() {
-
 const campo =
 document.getElementById(
 'motivoDiferenciaMonto'
@@ -2438,15 +2096,6 @@ document.getElementById(
 if (!campo) {
 return;
 }
-
-const tipo =
-document
-.getElementById(
-'tipoMontoFactura'
-)
-?.value
-||
-'';
 
 const montoFactura =
 Number(
@@ -2457,37 +2106,33 @@ document
 ?.value
 );
 
-const calculadoNeto =
-obtenerMontoCalculadoActual();
+let montoAutorizado = 0;
 
-let esperado =
-calculadoNeto;
-
-if (
-tipo === 'BRUTO'
-) {
-
-esperado =
+if (ocActual) {
+montoAutorizado =
 redondearMonto(
-calculadoNeto *
-1.19
+(ocActual.productos || [])
+.reduce(
+(total,p) =>
+total +
+Number(p.cantidadAutorizada || 0) *
+Number(p.precioAutorizado || 0),
+0
+)
 );
-
 }
 
 const diferencia =
-tipo &&
 Number.isFinite(
 montoFactura
 )
 &&
 Math.abs(
 montoFactura -
-esperado
+montoAutorizado
 ) > 0.01;
 
 if (diferencia) {
-
 campo.disabled =
 false;
 
@@ -2497,9 +2142,7 @@ campo.classList.remove(
 
 campo.placeholder =
 'Explique la diferencia del monto de la factura';
-
 } else {
-
 campo.disabled =
 true;
 
@@ -2512,15 +2155,12 @@ campo.classList.add(
 
 campo.placeholder =
 'Sin diferencia de monto';
-
 }
-
 }
 
 async function abrirCamara(
 destino
 ) {
-
 destinoCamara =
 destino;
 
@@ -2573,55 +2213,41 @@ modal.style.display =
 'flex';
 
 try {
-
 streamCamara =
 await navigator.mediaDevices
 .getUserMedia({
-
 video: {
-
 facingMode: {
 ideal:'environment'
 },
-
 width: {
 ideal:1920
 },
-
 height: {
 ideal:1440
 },
-
 aspectRatio: {
 ideal:4/3
 }
-
 },
-
 audio:false
-
 });
 
 video.srcObject =
 streamCamara;
 
 await video.play();
-
 } catch(error) {
-
 cerrarCamara();
 
 mostrarMensaje(
 'No fue posible abrir la cámara. Revise el permiso de cámara.',
 'error'
 );
-
 }
-
 }
 
 function capturarFoto() {
-
 const video =
 document.getElementById(
 'videoCamara'
@@ -2662,23 +2288,19 @@ if (
 ancho / alto >
 proporcion
 ) {
-
 sw =
 alto *
 proporcion;
 
 sx =
 (ancho-sw)/2;
-
 } else {
-
 sh =
 ancho /
 proporcion;
 
 sy =
 (alto-sh)/2;
-
 }
 
 canvas.width =
@@ -2721,7 +2343,6 @@ video.style.display =
 
 canvas.toBlob(
 blob => {
-
 if (!blob) {
 return;
 }
@@ -2734,7 +2355,6 @@ new File(
 type:'image/jpeg'
 }
 );
-
 },
 'image/jpeg',
 0.90
@@ -2760,11 +2380,9 @@ document
 )
 .style.display =
 'inline-block';
-
 }
 
 function repetirFoto() {
-
 fotoCapturada =
 null;
 
@@ -2804,13 +2422,10 @@ document
 )
 .style.display =
 'none';
-
 }
 
 function usarFoto() {
-
 if (!fotoCapturada) {
-
 mostrarMensaje(
 'Espere un momento y vuelva a presionar USAR FOTO.',
 'error'
@@ -2823,12 +2438,10 @@ if (
 destinoCamara ===
 'FACTURA'
 ) {
-
 facturaSeleccionada =
 fotoCapturada;
 
 renderEstadoFactura();
-
 }
 
 if (
@@ -2838,7 +2451,6 @@ destinoCamara
 'DOC_'
 )
 ) {
-
 const id =
 destinoCamara.replace(
 'DOC_',
@@ -2863,24 +2475,19 @@ renderEstadoDocumento(
 id,
 fotoCapturada
 );
-
 }
 
 cerrarCamara();
-
 }
 
 function cerrarCamara() {
-
 if (streamCamara) {
-
 streamCamara
 .getTracks()
 .forEach(
 track =>
 track.stop()
 );
-
 }
 
 streamCamara =
@@ -2907,11 +2514,9 @@ null;
 
 destinoCamara =
 null;
-
 }
 
 function seleccionarFacturaArchivo() {
-
 const archivo =
 document
 .getElementById(
@@ -2924,18 +2529,15 @@ archivo ||
 null;
 
 renderEstadoFactura();
-
 }
 
 function renderEstadoFactura() {
-
 const box =
 document.getElementById(
 'estadoFactura'
 );
 
 if (!facturaSeleccionada) {
-
 box.innerHTML =
 'Ninguna factura seleccionada';
 
@@ -2943,13 +2545,11 @@ return;
 }
 
 box.innerHTML = `
-
 <span class="archivo-ok">
 ✓ ${esc(
 facturaSeleccionada.name
 )}
 </span>
-
 <button
 type="button"
 class="btn-quitar"
@@ -2957,13 +2557,10 @@ onclick="quitarFactura()"
 >
 ×
 </button>
-
 `;
-
 }
 
 function quitarFactura() {
-
 facturaSeleccionada =
 null;
 
@@ -2977,11 +2574,9 @@ archivo.value='';
 }
 
 renderEstadoFactura();
-
 }
 
 function agregarDocumento() {
-
 contadorDocumentos++;
 
 const id =
@@ -2999,31 +2594,23 @@ fila.id =
 'docRow_'+id;
 
 fila.innerHTML = `
-
 <div class="doc-superior">
-
 <select id="docTipo_${id}">
-
 <option value="GUIA DE DESPACHO">
 GUÍA DESPACHO
 </option>
-
 <option value="ENCOMIENDA">
 ENCOMIENDA
 </option>
-
 <option value="CHEQUE">
 CHEQUE
 </option>
-
 <option value="VOUCHER DE PAGO">
 VOUCHER
 </option>
-
 <option value="OTRO">
 OTRO
 </option>
-
 </select>
 
 <button
@@ -3060,7 +2647,6 @@ onclick="eliminarDocumento(${id})"
 >
 ×
 </button>
-
 </div>
 
 <input
@@ -3070,7 +2656,6 @@ type="file"
 accept="image/*,application/pdf"
 onchange="seleccionarDocumentoArchivo(${id})"
 >
-
 `;
 
 document
@@ -3080,13 +2665,11 @@ document
 .appendChild(
 fila
 );
-
 }
 
 function seleccionarDocumentoArchivo(
 id
 ) {
-
 const input =
 document.getElementById(
 'docArchivo_'+id
@@ -3104,14 +2687,12 @@ renderEstadoDocumento(
 id,
 archivo
 );
-
 }
 
 function renderEstadoDocumento(
 id,
 archivo
 ) {
-
 const estado =
 document.getElementById(
 'docEstado_'+id
@@ -3122,7 +2703,6 @@ return;
 }
 
 if (!archivo) {
-
 estado.textContent =
 'Sin archivo';
 
@@ -3143,13 +2723,11 @@ estado.style.color =
 
 estado.style.fontWeight =
 '800';
-
 }
 
 function eliminarDocumento(
 id
 ) {
-
 delete fotosDocumentos[
 id
 ];
@@ -3159,11 +2737,9 @@ document
 'docRow_'+id
 )
 ?.remove();
-
 }
 
 function habilitarFormulario() {
-
 [
 'panelTipo',
 'panelProductos',
@@ -3172,7 +2748,6 @@ function habilitarFormulario() {
 ]
 .forEach(
 id => {
-
 document
 .getElementById(
 id
@@ -3181,7 +2756,6 @@ id
 .remove(
 'disabled-area'
 );
-
 }
 );
 
@@ -3191,11 +2765,9 @@ document
 )
 .disabled =
 false;
-
 }
 
 function limpiarDatosFactura() {
-
 montoEditadoManual =
 false;
 
@@ -3209,7 +2781,6 @@ false;
 ]
 .forEach(
 id => {
-
 const el =
 document.getElementById(
 id
@@ -3218,7 +2789,6 @@ id
 if (el) {
 el.value='';
 }
-
 }
 );
 
@@ -3268,11 +2838,9 @@ document
 false;
 
 revisarDiferenciaMonto();
-
 }
 
 function limpiarSeleccion() {
-
 ocActual =
 null;
 
@@ -3297,7 +2865,6 @@ productos.innerHTML =
 ]
 .forEach(
 id => {
-
 document
 .getElementById(
 id
@@ -3306,7 +2873,6 @@ id
 .add(
 'disabled-area'
 );
-
 }
 );
 
@@ -3318,18 +2884,14 @@ document
 true;
 
 limpiarDatosFactura();
-
 }
 
 function guardarRecepcionApi(
 payload
 ) {
-
 return new Promise(
 (resolve,reject) => {
-
 if (postPendiente) {
-
 reject(
 new Error(
 'Ya existe una recepción en proceso.'
@@ -3342,7 +2904,6 @@ return;
 const timeout =
 setTimeout(
 () => {
-
 postPendiente =
 null;
 
@@ -3351,7 +2912,6 @@ new Error(
 'El servidor demoró demasiado en responder.'
 )
 );
-
 },
 120000
 );
@@ -3380,19 +2940,14 @@ form.style.display =
 'none';
 
 const datos = {
-
 api:'recepcion',
-
 accion:'guardar',
-
 key:
 obtenerClaveApi(),
-
 payload:
 JSON.stringify(
 payload
 )
-
 };
 
 Object.entries(
@@ -3400,7 +2955,6 @@ datos
 )
 .forEach(
 ([nombre,valor]) => {
-
 const campo =
 document.createElement(
 'textarea'
@@ -3415,7 +2969,6 @@ valor;
 form.appendChild(
 campo
 );
-
 }
 );
 
@@ -3429,16 +2982,13 @@ setTimeout(
 () => form.remove(),
 1000
 );
-
 }
 );
-
 }
 
 window.addEventListener(
 'message',
 event => {
-
 if (!postPendiente) {
 return;
 }
@@ -3474,48 +3024,38 @@ null;
 if (
 respuesta.ok === true
 ) {
-
 pendiente.resolve(
 respuesta
 );
-
 } else {
-
 pendiente.reject(
 new Error(
 respuesta.error ||
 'No fue posible guardar la recepción.'
 )
 );
-
 }
-
 }
 );
 
 async function confirmarRecepcion() {
-
 limpiarMensaje();
 
 if (!ocActual) {
-
 return mostrarMensaje(
 'Seleccione una OC.',
 'error'
 );
-
 }
 
 const estado =
 estadoSeleccionado();
 
 if (!estado) {
-
 return mostrarMensaje(
 'Seleccione COMPLETA o PARCIAL.',
 'error'
 );
-
 }
 
 const productos =
@@ -3524,7 +3064,6 @@ const productos =
 ocActual.productos
 .forEach(
 (p,i) => {
-
 const seleccionado =
 document
 .getElementById(
@@ -3555,43 +3094,32 @@ document
 );
 
 productos.push({
-
 idLinea:
 p.idLinea,
-
 producto:
 p.producto,
-
 cantidadRecepcionada:
 estado ===
 'COMPLETA'
-
 ? p.cantidadAutorizada
-
 : cantidad,
-
 precioFactura:
 precio
-
 });
-
 }
 );
 
 if (!productos.length) {
-
 return mostrarMensaje(
 'Seleccione al menos un producto.',
 'error'
 );
-
 }
 
 for (
 const p
 of productos
 ) {
-
 if (
 !Number.isFinite(
 p.cantidadRecepcionada
@@ -3599,12 +3127,10 @@ p.cantidadRecepcionada
 ||
 p.cantidadRecepcionada <= 0
 ) {
-
 return mostrarMensaje(
 'Revise las cantidades recepcionadas.',
 'error'
 );
-
 }
 
 if (
@@ -3614,14 +3140,11 @@ p.precioFactura
 ||
 p.precioFactura < 0
 ) {
-
 return mostrarMensaje(
 'Revise los precios.',
 'error'
 );
-
 }
-
 }
 
 const montoFactura =
@@ -3676,21 +3199,17 @@ if (
 !fechaVencimiento ||
 !tipoMontoFactura
 ) {
-
 return mostrarMensaje(
 'Complete los datos de la factura y seleccione NETO o BRUTO.',
 'error'
 );
-
 }
 
 if (!facturaSeleccionada) {
-
 return mostrarMensaje(
 'Debe tomar una foto o adjuntar la factura.',
 'error'
 );
-
 }
 
 if (
@@ -3700,32 +3219,28 @@ montoFactura
 ||
 montoFactura < 0
 ) {
-
 return mostrarMensaje(
 'Revise el monto de factura.',
 'error'
 );
-
 }
 
-const montoEsperadoNeto =
-obtenerMontoCalculadoActual();
-
-const montoEsperado =
-tipoMontoFactura ===
-'BRUTO'
-
-? redondearMonto(
-montoEsperadoNeto *
-1.19
+const montoAutorizado =
+redondearMonto(
+(ocActual.productos || [])
+.reduce(
+(total,p) =>
+total +
+Number(p.cantidadAutorizada || 0) *
+Number(p.precioAutorizado || 0),
+0
 )
-
-: montoEsperadoNeto;
+);
 
 const existeDiferencia =
 Math.abs(
 montoFactura -
-montoEsperado
+montoAutorizado
 ) >
 0.01;
 
@@ -3733,12 +3248,10 @@ if (
 existeDiferencia &&
 !motivoDiferenciaMonto
 ) {
-
 return mostrarMensaje(
 'Explique el motivo de la diferencia del monto de la factura.',
 'error'
 );
-
 }
 
 const documentos =
@@ -3753,7 +3266,6 @@ for (
 const fila
 of filasDocs
 ) {
-
 const id =
 fila.id.replace(
 'docRow_',
@@ -3777,71 +3289,53 @@ fotoInterna ||
 archivoSubido;
 
 if (!file) {
-
 return mostrarMensaje(
 'Hay un documento adicional sin archivo.',
 'error'
 );
-
 }
 
 documentos.push({
-
 tipo:
 document
 .getElementById(
 'docTipo_'+id
 )
 .value,
-
 archivo:
 await archivoABase64(
 file
 )
-
 });
-
 }
 
 const payload = {
-
 oc:
 ocActual.oc,
-
 estadoRecepcion:
 estado,
-
 productos:
 productos,
-
 montoFactura:
 montoFactura,
-
 tipoMontoFactura:
 tipoMontoFactura,
-
 motivoDiferenciaMonto:
 existeDiferencia
 ? motivoDiferenciaMonto
 : '',
-
 numeroFactura:
 numeroFactura,
-
 fechaFactura:
 fechaFactura,
-
 fechaVencimiento:
 fechaVencimiento,
-
 factura:
 await archivoABase64(
 facturaSeleccionada
 ),
-
 documentosAdicionales:
 documentos
-
 };
 
 const btn =
@@ -3856,7 +3350,6 @@ btn.textContent =
 'GUARDANDO...';
 
 try {
-
 const respuesta =
 await guardarRecepcionApi(
 payload
@@ -3878,9 +3371,7 @@ btn.textContent =
 limpiarSeleccion();
 
 await cargarOC();
-
 } catch(error) {
-
 btn.disabled =
 false;
 
@@ -3890,39 +3381,29 @@ btn.textContent =
 mostrarError(
 error
 );
-
 }
-
 }
 
 function archivoABase64(
 file
 ) {
-
 return new Promise(
 (resolve,reject) => {
-
 const reader =
 new FileReader();
 
 reader.onload =
 () => {
-
 resolve({
-
 name:
 file.name,
-
 mimeType:
 file.type,
-
 data:
 reader
 .result
 .split(',')[1]
-
 });
-
 };
 
 reader.onerror =
@@ -3931,70 +3412,57 @@ reject;
 reader.readAsDataURL(
 file
 );
-
 }
 );
-
 }
 
 function mostrarMensaje(
 texto,
 tipo
 ) {
-
 const contenedor =
 document.getElementById(
 'mensaje'
 );
 
 contenedor.innerHTML = `
-
 <div class="mensaje ${tipo}">
 ${esc(texto)}
 </div>
-
 `;
 
 setTimeout(
 () => {
-
 contenedor.innerHTML =
 '';
-
 },
 5000
 );
-
 }
 
 function mostrarError(
 error
 ) {
-
 mostrarMensaje(
 error?.message ||
 String(error) ||
 'Ocurrió un error.',
 'error'
 );
-
 }
 
 function limpiarMensaje() {
-
 document
 .getElementById(
 'mensaje'
 )
 .innerHTML =
 '';
-
 }
 
 function formatNumero(
 valor
 ) {
-
 return Number(
 valor ||
 0
@@ -4005,13 +3473,11 @@ valor ||
 maximumFractionDigits:3
 }
 );
-
 }
 
 function formatDinero(
 valor
 ) {
-
 return Number(
 valor ||
 0
@@ -4022,13 +3488,11 @@ valor ||
 maximumFractionDigits:2
 }
 );
-
 }
 
 function redondearMonto(
 valor
 ) {
-
 return Math.round(
 Number(
 valor ||
@@ -4038,13 +3502,11 @@ valor ||
 100
 )
 /100;
-
 }
 
 function esc(
 valor
 ) {
-
 return String(
 valor ??
 ''
@@ -4069,9 +3531,7 @@ valor ??
 /'/g,
 '&#039;'
 );
-
 }
-
 </script>
 </body>
 </html>
