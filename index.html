@@ -55,7 +55,6 @@ button {
   cursor: pointer;
 }
 
-
 /* =====================================================
    CABECERA
 ===================================================== */
@@ -66,7 +65,7 @@ button {
   align-items: center;
   padding: 0 10px;
   gap: 8px;
-  background: linear-gradient(90deg, #0c4c7c, #063c64);
+  background: linear-gradient(90deg,#0c4c7c,#063c64);
   color: white;
 }
 
@@ -75,15 +74,14 @@ button {
   align-items: center;
   gap: 9px;
   min-width: 0;
-  flex: 0 1 auto;
 }
 
 .logo-box {
   width: 32px;
   height: 32px;
-  flex: 0 0 auto;
   display: grid;
   place-items: center;
+  flex: 0 0 auto;
   border-radius: 7px;
   background: rgba(255,255,255,.12);
   font-size: 18px;
@@ -107,14 +105,12 @@ button {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex: 0 0 auto;
 }
 
 .header-derecha {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex: 0 0 auto;
 }
 
 .usuario-header {
@@ -134,7 +130,6 @@ button {
   color: white;
   font-size: 8px;
   font-weight: 800;
-  white-space: nowrap;
 }
 
 .btn-header-cancelar {
@@ -146,7 +141,6 @@ button {
   color: white;
   font-size: 8px;
   font-weight: 800;
-  white-space: nowrap;
 }
 
 .btn-header-confirmar {
@@ -158,7 +152,6 @@ button {
   color: white;
   font-size: 9px;
   font-weight: 900;
-  white-space: nowrap;
 }
 
 .btn-header-confirmar:disabled {
@@ -176,9 +169,8 @@ button {
   font-size: 14px;
 }
 
-
 /* =====================================================
-   ESTRUCTURA
+   ESTRUCTURA GENERAL
 ===================================================== */
 
 .app {
@@ -253,7 +245,6 @@ button {
   font-size: 7px;
 }
 
-
 /* =====================================================
    CAMPOS
 ===================================================== */
@@ -289,9 +280,8 @@ textarea {
   font-weight: 700;
 }
 
-
 /* =====================================================
-   OC AUTORIZADAS
+   1 · OC AUTORIZADAS
 ===================================================== */
 
 .lista-body {
@@ -373,9 +363,8 @@ textarea {
   font-weight: 800;
 }
 
-
 /* =====================================================
-   TIPO RECEPCIÓN
+   3 · TIPO DE RECEPCIÓN
 ===================================================== */
 
 #panelTipo {
@@ -435,7 +424,6 @@ textarea {
   background: #fafcfd;
   color: #465862;
   font-size: 8px;
-  white-space: nowrap;
 }
 
 .seleccionar-todos input {
@@ -443,15 +431,13 @@ textarea {
   height: 14px;
 }
 
-
 /* =====================================================
-   PRODUCTOS
+   4 · PRODUCTOS
 ===================================================== */
 
 #panelProductos {
   display: flex;
   flex-direction: column;
-  min-height: 0;
 }
 
 #productosContenido {
@@ -488,9 +474,8 @@ textarea {
   font-weight: 800;
 }
 
-
 /* =====================================================
-   FACTURA
+   5 · FACTURA
 ===================================================== */
 
 .factura-body {
@@ -519,7 +504,6 @@ textarea {
   display: block;
   color: #71808c;
   font-size: 6px;
-  white-space: nowrap;
 }
 
 .monto-box strong {
@@ -549,30 +533,30 @@ textarea {
   color: #86939d;
 }
 
-
 /* =====================================================
-   DOCUMENTOS
+   6 · DOCUMENTOS
 ===================================================== */
 
 .documentos-body {
   height: calc(100% - 32px);
   min-height: 0;
-  padding: 5px 6px;
   display: grid;
-  grid-template-columns: 38% 62%;
-  gap: 6px;
+  grid-template-columns: 40% 60%;
   overflow: hidden;
 }
+
+/* FACTURA */
 
 .factura-doc {
   min-width: 0;
   min-height: 0;
-  padding-right: 6px;
-  border-right: 1px solid #e2e8ed;
+  padding: 7px;
+  border-right: 1px solid #dbe4eb;
 }
 
 .doc-title {
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  color: #374b59;
   font-size: 7px;
   font-weight: 800;
 }
@@ -580,13 +564,13 @@ textarea {
 .acciones-doc {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  margin-bottom: 4px;
+  gap: 5px;
+  margin-bottom: 5px;
 }
 
 .btn-foto,
 .btn-archivo {
-  height: 27px;
+  height: 29px;
   border-radius: 5px;
   font-size: 7px;
   font-weight: 800;
@@ -610,8 +594,8 @@ textarea {
 }
 
 .archivo-estado {
-  min-height: 26px;
-  padding: 4px;
+  min-height: 28px;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -637,27 +621,50 @@ textarea {
   color: #9c2828;
 }
 
-
-/* =====================================================
-   DOCUMENTOS ADICIONALES
-===================================================== */
+/* DOCUMENTOS ADICIONALES */
 
 .docs-extra {
   min-width: 0;
   min-height: 0;
-  height: 100%;
+  padding: 7px;
   display: grid;
-  grid-template-rows:
-    auto
-    minmax(0,1fr)
-    30px;
-  gap: 4px;
+  grid-template-rows: 30px minmax(0,1fr);
+  gap: 5px;
+}
+
+.docs-extra-header {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.docs-extra-title {
+  color: #374b59;
+  font-size: 7px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.btn-agregar {
+  width: auto;
+  min-width: 128px;
+  height: 27px;
+  padding: 0 10px;
+  flex: 0 0 auto;
+  border: 1px solid #3996d6;
+  border-radius: 5px;
+  background: #eef8ff;
+  color: #075d9e;
+  font-size: 7px;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 #listaDocumentos {
   min-height: 0;
   overflow-y: auto;
-  margin: 0;
 }
 
 .doc-row {
@@ -671,10 +678,10 @@ textarea {
 .doc-superior {
   display: grid;
   grid-template-columns:
-    105px
-    92px
-    92px
-    minmax(70px,1fr)
+    100px
+    90px
+    90px
+    minmax(60px,1fr)
     24px;
   gap: 4px;
   align-items: center;
@@ -689,7 +696,7 @@ textarea {
 .doc-superior .btn-archivo {
   width: 100%;
   height: 27px;
-  padding: 0 4px;
+  padding: 0 3px;
 }
 
 .doc-estado {
@@ -711,20 +718,6 @@ textarea {
   font-weight: 800;
 }
 
-.btn-agregar {
-  width: 100%;
-  height: 30px;
-  min-height: 30px;
-  border: 1px solid #83bce5;
-  border-radius: 5px;
-  background: #eef8ff;
-  color: #075d9e;
-  font-size: 8px;
-  font-weight: 800;
-  display: block;
-}
-
-
 /* =====================================================
    CÁMARA FULLSCREEN
 ===================================================== */
@@ -740,11 +733,11 @@ textarea {
 
 .camara-barra {
   height: 54px;
-  flex: 0 0 auto;
   padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex: 0 0 auto;
   background: #07131d;
   color: white;
 }
@@ -817,7 +810,6 @@ textarea {
   background: #078b45;
 }
 
-
 /* =====================================================
    OTROS
 ===================================================== */
@@ -863,9 +855,8 @@ textarea {
   color: #9c2424;
 }
 
-
 /* =====================================================
-   TABLET HORIZONTAL DE MENOR ALTURA
+   TABLET HORIZONTAL
 ===================================================== */
 
 @media screen and (max-height:650px) {
@@ -907,15 +898,24 @@ textarea {
     height: calc(100% - 29px);
   }
 
+  .factura-doc,
+  .docs-extra {
+    padding: 5px;
+  }
+
+  .docs-extra {
+    grid-template-rows:
+      27px
+      minmax(0,1fr);
+  }
+
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <header class="topbar">
 
@@ -934,7 +934,6 @@ textarea {
     </div>
 
   </div>
-
 
   <div class="acciones-recepcion-header">
 
@@ -957,7 +956,6 @@ textarea {
     </button>
 
   </div>
-
 
   <div class="header-derecha">
 
@@ -985,107 +983,94 @@ textarea {
 
 </header>
 
-
 <div id="mensaje"></div>
-
 
 <main class="app">
 
+<!-- =====================================================
+     COLUMNA IZQUIERDA
+===================================================== -->
 
 <div class="col-izquierda">
 
-
 <section class="panel">
 
-<div class="panel-header">
+  <div class="panel-header">
 
-  <div class="numero">
-    1
-  </div>
+    <div class="numero">1</div>
 
-  <div>
+    <div>
+      <div class="panel-title">
+        OC AUTORIZADAS
+      </div>
 
-    <div class="panel-title">
-      OC AUTORIZADAS
+      <div class="panel-sub">
+        Seleccione la orden de compra recibida
+      </div>
     </div>
 
-    <div class="panel-sub">
-      Seleccione la orden de compra recibida
+  </div>
+
+  <div class="lista-body">
+
+    <div class="filtros">
+
+      <select
+        id="filtroEmpresa"
+        onchange="renderLista()"
+      >
+        <option value="">
+          TODAS LAS EMPRESAS
+        </option>
+      </select>
+
+      <select
+        id="filtroProveedor"
+        onchange="renderLista()"
+      >
+        <option value="">
+          TODOS LOS PROVEEDORES
+        </option>
+      </select>
+
+      <input
+        id="buscador"
+        placeholder="Buscar OC, proveedor o producto..."
+        oninput="renderLista()"
+      >
+
+    </div>
+
+    <div class="tabla-scroll">
+
+      <table class="tabla">
+
+        <thead>
+          <tr>
+            <th>OC</th>
+            <th>Proveedor</th>
+            <th>Fecha</th>
+            <th>Prod.</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody id="tablaOC">
+          <tr>
+            <td colspan="6">
+              Cargando...
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
     </div>
 
   </div>
-
-</div>
-
-
-<div class="lista-body">
-
-<div class="filtros">
-
-<select
-  id="filtroEmpresa"
-  onchange="renderLista()"
->
-<option value="">
-TODAS LAS EMPRESAS
-</option>
-</select>
-
-
-<select
-  id="filtroProveedor"
-  onchange="renderLista()"
->
-<option value="">
-TODOS LOS PROVEEDORES
-</option>
-</select>
-
-
-<input
-  id="buscador"
-  placeholder="Buscar OC, proveedor o producto..."
-  oninput="renderLista()"
->
-
-</div>
-
-
-<div class="tabla-scroll">
-
-<table class="tabla">
-
-<thead>
-
-<tr>
-<th>OC</th>
-<th>Proveedor</th>
-<th>Fecha</th>
-<th>Prod.</th>
-<th>Estado</th>
-<th></th>
-</tr>
-
-</thead>
-
-<tbody id="tablaOC">
-
-<tr>
-<td colspan="6">
-Cargando...
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
 
 </section>
-
 
 
 <section
@@ -1093,462 +1078,466 @@ Cargando...
   class="panel disabled-area"
 >
 
-<div class="tipo-titulo">
+  <div class="tipo-titulo">
 
-<div class="numero">
-3
-</div>
+    <div class="numero">
+      3
+    </div>
 
-<div class="panel-title">
-TIPO DE RECEPCIÓN
-</div>
+    <div class="panel-title">
+      TIPO DE RECEPCIÓN
+    </div>
 
-</div>
+  </div>
 
+  <div class="tipo-controles">
 
-<div class="tipo-controles">
+    <label class="tipo-card">
 
-<label class="tipo-card">
+      <input
+        type="radio"
+        name="estado"
+        value="COMPLETA"
+        onchange="cambiarEstado()"
+      >
 
-<input
-  type="radio"
-  name="estado"
-  value="COMPLETA"
-  onchange="cambiarEstado()"
->
+      COMPLETA
 
-COMPLETA
+    </label>
 
-</label>
+    <label class="tipo-card">
 
+      <input
+        type="radio"
+        name="estado"
+        value="PARCIAL"
+        onchange="cambiarEstado()"
+      >
 
-<label class="tipo-card">
+      PARCIAL
 
-<input
-  type="radio"
-  name="estado"
-  value="PARCIAL"
-  onchange="cambiarEstado()"
->
+    </label>
 
-PARCIAL
+    <label class="seleccionar-todos">
 
-</label>
+      <input
+        id="seleccionarTodo"
+        type="checkbox"
+        onchange="seleccionarTodos()"
+      >
 
+      Seleccionar todos
 
-<label class="seleccionar-todos">
+    </label>
 
-<input
-  id="seleccionarTodo"
-  type="checkbox"
-  onchange="seleccionarTodos()"
->
-
-Seleccionar todos
-
-</label>
-
-</div>
+  </div>
 
 </section>
 
 </div>
 
 
+<!-- =====================================================
+     COLUMNA DERECHA
+===================================================== -->
 
 <div class="col-derecha">
 
+
+<!-- PRODUCTOS -->
 
 <section
   id="panelProductos"
   class="panel disabled-area"
 >
 
-<div class="panel-header">
+  <div class="panel-header">
 
-<div class="numero">
-4
-</div>
+    <div class="numero">
+      4
+    </div>
 
-<div>
+    <div>
 
-<div class="panel-title">
-PRODUCTOS
-</div>
+      <div class="panel-title">
+        PRODUCTOS
+      </div>
 
-<div class="panel-sub">
-Seleccione los productos de esta factura
-</div>
+      <div class="panel-sub">
+        Seleccione los productos de esta factura
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
-
-<div
-  id="productosContenido"
-  class="empty"
->
-Seleccione una OC.
-</div>
+  <div
+    id="productosContenido"
+    class="empty"
+  >
+    Seleccione una OC.
+  </div>
 
 </section>
 
 
+<!-- FACTURA -->
 
 <section
   id="panelFactura"
   class="panel disabled-area"
 >
 
-<div class="panel-header">
+  <div class="panel-header">
 
-<div class="numero">
-5
-</div>
+    <div class="numero">
+      5
+    </div>
 
-<div class="panel-title">
-DATOS DE LA FACTURA
-</div>
+    <div class="panel-title">
+      DATOS DE LA FACTURA
+    </div>
 
-</div>
+  </div>
 
+  <div class="factura-body">
 
-<div class="factura-body">
+    <div class="montos">
 
-<div class="montos">
+      <div class="monto-box">
 
+        <small>
+          Monto autorizado
+        </small>
 
-<div class="monto-box">
+        <strong id="montoAutorizado">
+          $0
+        </strong>
 
-<small>
-Monto autorizado
-</small>
+      </div>
 
-<strong id="montoAutorizado">
-$0
-</strong>
+      <div class="monto-box">
 
-</div>
+        <small>
+          Monto calculado
+        </small>
 
+        <strong id="montoCalculado">
+          $0
+        </strong>
 
-<div class="monto-box">
+      </div>
 
-<small>
-Monto calculado
-</small>
+      <div class="monto-box">
 
-<strong id="montoCalculado">
-$0
-</strong>
+        <small>
+          Monto factura
+        </small>
 
-</div>
+        <input
+          id="montoFactura"
+          type="number"
+          step="0.01"
+          oninput="
+            montoEditadoManual=true;
+            revisarDiferenciaMonto();
+          "
+        >
 
+      </div>
 
-<div class="monto-box">
+      <div class="monto-box">
 
-<small>
-Monto factura
-</small>
+        <small>
+          Monto factura corresponde a
+        </small>
 
-<input
-  id="montoFactura"
-  type="number"
-  step="0.01"
-  oninput="
-    montoEditadoManual=true;
-    revisarDiferenciaMonto();
-  "
->
+        <select
+          id="tipoMontoFactura"
+          onchange="revisarDiferenciaMonto()"
+        >
 
-</div>
+          <option value="">
+            SELECCIONAR
+          </option>
 
+          <option value="NETO">
+            NETO
+          </option>
 
-<div class="monto-box">
+          <option value="BRUTO">
+            BRUTO
+          </option>
 
-<small>
-Monto factura corresponde a
-</small>
+        </select>
 
-<select
-  id="tipoMontoFactura"
-  onchange="revisarDiferenciaMonto()"
->
+      </div>
 
-<option value="">
-SELECCIONAR
-</option>
-
-<option value="NETO">
-NETO
-</option>
-
-<option value="BRUTO">
-BRUTO
-</option>
-
-</select>
-
-</div>
-
-</div>
+    </div>
 
 
+    <div class="datos-factura">
 
-<div class="datos-factura">
+      <div class="campo">
 
-<div class="campo">
+        <label>
+          N° factura
+        </label>
 
-<label>
-N° factura
-</label>
+        <input id="numeroFactura">
 
-<input id="numeroFactura">
+      </div>
 
-</div>
+      <div class="campo">
 
+        <label>
+          Fecha factura
+        </label>
 
-<div class="campo">
+        <input
+          id="fechaFactura"
+          type="date"
+        >
 
-<label>
-Fecha factura
-</label>
+      </div>
 
-<input
-  id="fechaFactura"
-  type="date"
->
+      <div class="campo">
 
-</div>
+        <label>
+          Fecha vencimiento
+        </label>
 
+        <input
+          id="fechaVencimiento"
+          type="date"
+        >
 
-<div class="campo">
+      </div>
 
-<label>
-Fecha vencimiento
-</label>
-
-<input
-  id="fechaVencimiento"
-  type="date"
->
-
-</div>
-
-</div>
+    </div>
 
 
+    <div class="campo">
 
-<div class="campo">
+      <label>
+        Motivo diferencia monto factura
+      </label>
 
-<label>
-Motivo diferencia monto factura
-</label>
+      <textarea
+        id="motivoDiferenciaMonto"
+        class="sin-diferencia"
+        placeholder="Sin diferencia de monto"
+        disabled
+      ></textarea>
 
-<textarea
-  id="motivoDiferenciaMonto"
-  class="sin-diferencia"
-  placeholder="Sin diferencia de monto"
-  disabled
-></textarea>
+    </div>
 
-</div>
-
-</div>
+  </div>
 
 </section>
 
 
+<!-- =====================================================
+     6 · DOCUMENTOS
+===================================================== -->
 
 <section
   id="panelDocumentos"
   class="panel disabled-area"
 >
 
-<div class="panel-header">
+  <div class="panel-header">
 
-<div class="numero">
-6
-</div>
+    <div class="numero">
+      6
+    </div>
 
-<div class="panel-title">
-DOCUMENTOS
-</div>
+    <div class="panel-title">
+      DOCUMENTOS
+    </div>
 
-</div>
-
-
-<div class="documentos-body">
+  </div>
 
 
-<div class="factura-doc">
-
-<div class="doc-title">
-Factura · obligatoria
-</div>
+  <div class="documentos-body">
 
 
-<div class="acciones-doc">
+    <!-- FACTURA OBLIGATORIA -->
 
-<button
-  type="button"
-  class="btn-foto"
-  onclick="abrirCamara('FACTURA')"
->
-📷 TOMAR FOTO
-</button>
+    <div class="factura-doc">
+
+      <div class="doc-title">
+        Factura · obligatoria
+      </div>
 
 
-<button
-  type="button"
-  class="btn-archivo"
-  onclick="
-    document
-      .getElementById('facturaArchivo')
-      .click()
-  "
->
-📎 SUBIR ARCHIVO
-</button>
+      <div class="acciones-doc">
 
-</div>
+        <button
+          type="button"
+          class="btn-foto"
+          onclick="abrirCamara('FACTURA')"
+        >
+          📷 TOMAR FOTO
+        </button>
 
 
-<input
-  id="facturaArchivo"
-  class="input-oculto"
-  type="file"
-  accept="image/*,application/pdf"
-  onchange="seleccionarFacturaArchivo()"
->
+        <button
+          type="button"
+          class="btn-archivo"
+          onclick="
+            document
+              .getElementById('facturaArchivo')
+              .click()
+          "
+        >
+          📎 SUBIR ARCHIVO
+        </button>
+
+      </div>
 
 
-<div
-  id="estadoFactura"
-  class="archivo-estado"
->
-Ninguna factura seleccionada
-</div>
-
-</div>
-
+      <input
+        id="facturaArchivo"
+        class="input-oculto"
+        type="file"
+        accept="image/*,application/pdf"
+        onchange="seleccionarFacturaArchivo()"
+      >
 
 
-<div class="docs-extra">
+      <div
+        id="estadoFactura"
+        class="archivo-estado"
+      >
+        Ninguna factura seleccionada
+      </div>
 
-<div class="doc-title">
-Documentos adicionales · opcional
-</div>
-
-<div id="listaDocumentos"></div>
+    </div>
 
 
-<button
-  type="button"
-  class="btn-agregar"
-  onclick="agregarDocumento()"
->
-+ AGREGAR DOCUMENTO
-</button>
+    <!-- DOCUMENTOS ADICIONALES -->
 
-</div>
+    <div class="docs-extra">
 
-</div>
+      <div class="docs-extra-header">
+
+        <div class="docs-extra-title">
+          Documentos adicionales · opcional
+        </div>
+
+        <button
+          type="button"
+          class="btn-agregar"
+          onclick="agregarDocumento()"
+        >
+          + AGREGAR DOCUMENTO
+        </button>
+
+      </div>
+
+
+      <div id="listaDocumentos"></div>
+
+    </div>
+
+  </div>
 
 </section>
-
 
 </div>
 
 </main>
 
 
+<!-- =====================================================
+     CÁMARA
+===================================================== -->
 
 <div
   id="camaraFullscreen"
   class="camara-fullscreen"
 >
 
-<div class="camara-barra">
+  <div class="camara-barra">
 
-<button
-  type="button"
-  class="camara-cerrar"
-  onclick="cerrarCamara()"
->
-✕ CANCELAR
-</button>
+    <button
+      type="button"
+      class="camara-cerrar"
+      onclick="cerrarCamara()"
+    >
+      ✕ CANCELAR
+    </button>
 
-<div class="camara-titulo">
-TOMAR FOTO
+    <div class="camara-titulo">
+      TOMAR FOTO
+    </div>
+
+    <div style="width:100px"></div>
+
+  </div>
+
+
+  <div class="camara-contenedor">
+
+    <video
+      id="videoCamara"
+      autoplay
+      playsinline
+    ></video>
+
+
+    <canvas
+      id="canvasCamara"
+      style="display:none"
+    ></canvas>
+
+
+    <img
+      id="previewCamara"
+      alt=""
+      style="display:none"
+    >
+
+  </div>
+
+
+  <div class="camara-acciones">
+
+    <button
+      id="btnCapturarFoto"
+      type="button"
+      class="btn-capturar"
+      onclick="capturarFoto()"
+    >
+      📷 TOMAR FOTO
+    </button>
+
+
+    <button
+      id="btnRepetirFoto"
+      type="button"
+      class="btn-repetir"
+      style="display:none"
+      onclick="repetirFoto()"
+    >
+      REPETIR
+    </button>
+
+
+    <button
+      id="btnUsarFoto"
+      type="button"
+      class="btn-usar"
+      style="display:none"
+      onclick="usarFoto()"
+    >
+      ✓ USAR FOTO
+    </button>
+
+  </div>
+
 </div>
-
-<div style="width:100px"></div>
-
-</div>
-
-
-<div class="camara-contenedor">
-
-<video
-  id="videoCamara"
-  autoplay
-  playsinline
-></video>
-
-
-<canvas
-  id="canvasCamara"
-  style="display:none"
-></canvas>
-
-
-<img
-  id="previewCamara"
-  alt=""
-  style="display:none"
->
-
-</div>
-
-
-<div class="camara-acciones">
-
-<button
-  id="btnCapturarFoto"
-  type="button"
-  class="btn-capturar"
-  onclick="capturarFoto()"
->
-📷 TOMAR FOTO
-</button>
-
-
-<button
-  id="btnRepetirFoto"
-  type="button"
-  class="btn-repetir"
-  style="display:none"
-  onclick="repetirFoto()"
->
-REPETIR
-</button>
-
-
-<button
-  id="btnUsarFoto"
-  type="button"
-  class="btn-usar"
-  style="display:none"
-  onclick="usarFoto()"
->
-✓ USAR FOTO
-</button>
-
-</div>
-
-</div>
-
 
 
 <iframe
@@ -1556,7 +1545,6 @@ REPETIR
   name="apiPostFrame"
   style="display:none"
 ></iframe>
-
 
 
 <script>
@@ -1582,6 +1570,10 @@ let fotoCapturada = null;
 
 const fotosDocumentos = {};
 
+
+/* =====================================================
+   INICIO
+===================================================== */
 
 document.addEventListener(
 'DOMContentLoaded',
@@ -1703,6 +1695,10 @@ async function iniciarAplicacion() {
 }
 
 
+/* =====================================================
+   SERVICE WORKER
+===================================================== */
+
 async function registrarServiceWorker() {
 
   if (!('serviceWorker' in navigator)) {
@@ -1732,6 +1728,10 @@ async function registrarServiceWorker() {
 
 }
 
+
+/* =====================================================
+   CLAVE
+===================================================== */
 
 function obtenerClaveApi(
 solicitar=true
@@ -1801,6 +1801,10 @@ function cambiarClaveApi() {
 
 }
 
+
+/* =====================================================
+   API GET
+===================================================== */
 
 function apiGet(accion) {
 
@@ -1949,6 +1953,10 @@ return new Promise(
 }
 
 
+/* =====================================================
+   CARGAR OC
+===================================================== */
+
 async function cargarOC() {
 
   const tbody =
@@ -2016,6 +2024,10 @@ async function cargarOC() {
 }
 
 
+/* =====================================================
+   FILTROS
+===================================================== */
+
 function cargarFiltros() {
 
 const filtroEmpresa =
@@ -2027,7 +2039,6 @@ const filtroProveedor =
 document.getElementById(
 'filtroProveedor'
 );
-
 
 const empresaActual =
 filtroEmpresa.value;
@@ -2099,6 +2110,10 @@ if (
 
 }
 
+
+/* =====================================================
+   LISTA
+===================================================== */
 
 function renderLista() {
 
@@ -2262,6 +2277,10 @@ RECEPCIONAR
 }
 
 
+/* =====================================================
+   ABRIR OC
+===================================================== */
+
 function abrirOC(numeroOC) {
 
 ocActual =
@@ -2304,6 +2323,10 @@ recalcularMontos();
 
 }
 
+
+/* =====================================================
+   PRODUCTOS
+===================================================== */
 
 function renderProductos() {
 
@@ -2442,6 +2465,10 @@ $0
 
 }
 
+
+/* =====================================================
+   SELECCIÓN PRODUCTOS
+===================================================== */
 
 function seleccionarTodos() {
 
@@ -2586,6 +2613,10 @@ recalcularMontos();
 }
 
 
+/* =====================================================
+   TIPO RECEPCIÓN
+===================================================== */
+
 function estadoSeleccionado() {
 
 return (
@@ -2670,6 +2701,10 @@ recalcularMontos();
 
 }
 
+
+/* =====================================================
+   MONTOS
+===================================================== */
 
 function recalcularMontos() {
 
@@ -2878,6 +2913,10 @@ total
 }
 
 
+/* =====================================================
+   DIFERENCIA FACTURA
+===================================================== */
+
 function revisarDiferenciaMonto() {
 
 const campo =
@@ -2975,6 +3014,10 @@ campo.placeholder =
 
 }
 
+
+/* =====================================================
+   CÁMARA
+===================================================== */
 
 async function abrirCamara(
 destino
@@ -3424,6 +3467,10 @@ null;
 }
 
 
+/* =====================================================
+   FACTURA ARCHIVO
+===================================================== */
+
 function seleccionarFacturaArchivo() {
 
 const archivo =
@@ -3504,6 +3551,10 @@ renderEstadoFactura();
 
 }
 
+
+/* =====================================================
+   DOCUMENTOS ADICIONALES
+===================================================== */
 
 function agregarDocumento() {
 
@@ -3712,6 +3763,10 @@ document
 }
 
 
+/* =====================================================
+   HABILITAR / LIMPIAR
+===================================================== */
+
 function habilitarFormulario() {
 
 [
@@ -3892,6 +3947,10 @@ limpiarDatosFactura();
 }
 
 
+/* =====================================================
+   GUARDAR
+===================================================== */
+
 function guardarRecepcionApi(
 payload
 ) {
@@ -4020,6 +4079,10 @@ setTimeout(
 }
 
 
+/* =====================================================
+   RESPUESTA
+===================================================== */
+
 window.addEventListener(
 'message',
 event => {
@@ -4085,6 +4148,10 @@ respuesta.error ||
 }
 );
 
+
+/* =====================================================
+   CONFIRMAR RECEPCIÓN
+===================================================== */
 
 async function confirmarRecepcion() {
 
@@ -4360,6 +4427,8 @@ return mostrarMensaje(
 }
 
 
+/* DOCUMENTOS ADICIONALES */
+
 const documentos =
 [];
 
@@ -4429,6 +4498,8 @@ file
 
 }
 
+
+/* PAYLOAD */
 
 const payload = {
 
@@ -4535,6 +4606,10 @@ error
 }
 
 
+/* =====================================================
+   ARCHIVO BASE64
+===================================================== */
+
 function archivoABase64(
 file
 ) {
@@ -4580,6 +4655,10 @@ file
 
 }
 
+
+/* =====================================================
+   MENSAJES
+===================================================== */
 
 function mostrarMensaje(
 texto,
@@ -4639,6 +4718,10 @@ document
 
 }
 
+
+/* =====================================================
+   FORMATO
+===================================================== */
 
 function formatNumero(
 valor
