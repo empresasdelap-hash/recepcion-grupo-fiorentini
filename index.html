@@ -203,9 +203,9 @@ button {
   min-height: 0;
   display: grid;
   grid-template-rows:
-    minmax(190px,1fr)
-    168px
-    150px;
+    40%
+    27%
+    33%;
   gap: 5px;
 }
 
@@ -864,6 +864,10 @@ textarea {
 }
 
 
+/* =====================================================
+   TABLET HORIZONTAL DE MENOR ALTURA
+===================================================== */
+
 @media screen and (max-height:650px) {
 
   .topbar {
@@ -875,14 +879,16 @@ textarea {
   }
 
   .col-izquierda {
-    grid-template-rows: minmax(0,1fr) 82px;
+    grid-template-rows:
+      minmax(0,1fr)
+      82px;
   }
 
   .col-derecha {
     grid-template-rows:
-      minmax(165px,1fr)
-      158px
-      138px;
+      40%
+      27%
+      33%;
   }
 
   .titulo-principal {
@@ -891,6 +897,14 @@ textarea {
 
   .empresa-header {
     font-size: 10px;
+  }
+
+  .panel-header {
+    height: 29px;
+  }
+
+  .documentos-body {
+    height: calc(100% - 29px);
   }
 
 }
@@ -1691,26 +1705,19 @@ async function iniciarAplicacion() {
 
 async function registrarServiceWorker() {
 
-  if (
-    !(
-      'serviceWorker'
-      in navigator
-    )
-  ) {
+  if (!('serviceWorker' in navigator)) {
     return;
   }
 
   try {
 
     const registro =
-    await navigator
-      .serviceWorker
-      .register(
-        './service-worker.js',
-        {
-          updateViaCache:'none'
-        }
-      );
+    await navigator.serviceWorker.register(
+      './service-worker.js',
+      {
+        updateViaCache:'none'
+      }
+    );
 
     registro.update();
 
