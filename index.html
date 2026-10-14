@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
-
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
 >
-
 <title>Recepción de Mercadería</title>
-
 <meta name="theme-color" content="#0b4d7d">
-
 <link rel="manifest" href="manifest.webmanifest">
-
 <style>
-
 * {
   box-sizing: border-box;
 }
-
 :root {
   --azul-oscuro: #0b4d7d;
   --azul: #086bc1;
@@ -30,7 +22,6 @@
   --texto: #162633;
   --texto-suave: #71808c;
 }
-
 html,
 body {
   margin: 0;
@@ -43,22 +34,18 @@ body {
   color: var(--texto);
   -webkit-text-size-adjust: 100%;
 }
-
 button,
 input,
 select,
 textarea {
   font-family: inherit;
 }
-
 button {
   cursor: pointer;
 }
-
 /* =====================================================
    CABECERA
 ===================================================== */
-
 .topbar {
   height: 54px;
   display: flex;
@@ -68,14 +55,12 @@ button {
   background: linear-gradient(90deg,#0c4c7c,#063c64);
   color: white;
 }
-
 .topbar-left {
   display: flex;
   align-items: center;
   gap: 9px;
   min-width: 0;
 }
-
 .logo-box {
   width: 32px;
   height: 32px;
@@ -86,33 +71,28 @@ button {
   background: rgba(255,255,255,.12);
   font-size: 18px;
 }
-
 .titulo-principal {
   font-size: 16px;
   font-weight: 800;
   white-space: nowrap;
 }
-
 .empresa-header {
   padding-left: 9px;
   border-left: 1px solid rgba(255,255,255,.35);
   font-size: 12px;
   white-space: nowrap;
 }
-
 .acciones-recepcion-header {
   margin-left: auto;
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
 .header-derecha {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
 .usuario-header {
   padding: 5px 8px;
   border-radius: 6px;
@@ -120,7 +100,6 @@ button {
   font-size: 9px;
   white-space: nowrap;
 }
-
 .btn-header {
   min-height: 30px;
   padding: 0 10px;
@@ -131,7 +110,6 @@ button {
   font-size: 8px;
   font-weight: 800;
 }
-
 .btn-header-cancelar {
   min-height: 32px;
   padding: 0 11px;
@@ -142,7 +120,6 @@ button {
   font-size: 8px;
   font-weight: 800;
 }
-
 .btn-header-confirmar {
   min-height: 32px;
   padding: 0 14px;
@@ -153,12 +130,10 @@ button {
   font-size: 9px;
   font-weight: 900;
 }
-
 .btn-header-confirmar:disabled {
   opacity: .42;
   cursor: not-allowed;
 }
-
 .btn-clave {
   width: 30px;
   height: 30px;
@@ -168,11 +143,9 @@ button {
   color: white;
   font-size: 14px;
 }
-
 /* =====================================================
    ESTRUCTURA GENERAL
 ===================================================== */
-
 .app {
   height: calc(100dvh - 54px);
   padding: 5px;
@@ -181,7 +154,6 @@ button {
   gap: 5px;
   overflow: hidden;
 }
-
 .col-izquierda {
   min-width: 0;
   min-height: 0;
@@ -189,18 +161,16 @@ button {
   grid-template-rows: minmax(0,1fr) 92px;
   gap: 5px;
 }
-
 .col-derecha {
   min-width: 0;
   min-height: 0;
   display: grid;
   grid-template-rows:
+    minmax(0,34fr)
     minmax(0,36fr)
-    minmax(0,32fr)
-    minmax(0,32fr);
+    minmax(0,30fr);
   gap: 5px;
 }
-
 .panel {
   min-width: 0;
   min-height: 0;
@@ -209,7 +179,6 @@ button {
   border: 1px solid var(--borde);
   border-radius: 7px;
 }
-
 .panel-header {
   height: 32px;
   padding: 4px 7px;
@@ -219,7 +188,6 @@ button {
   background: linear-gradient(90deg,#eff7fd,#ffffff);
   border-bottom: 1px solid #e1eaf1;
 }
-
 .numero {
   width: 22px;
   height: 22px;
@@ -232,23 +200,19 @@ button {
   font-size: 11px;
   font-weight: 800;
 }
-
 .panel-title {
   color: var(--azul-oscuro);
   font-size: 11px;
   font-weight: 800;
 }
-
 .panel-sub {
   margin-top: 1px;
   color: var(--texto-suave);
   font-size: 7px;
 }
-
 /* =====================================================
    CAMPOS
 ===================================================== */
-
 input,
 select,
 textarea {
@@ -259,19 +223,16 @@ textarea {
   font-size: 8px;
   outline: none;
 }
-
 input,
 select {
   height: 27px;
   padding: 4px 6px;
 }
-
 textarea {
   min-height: 42px;
   padding: 5px 6px;
   resize: none;
 }
-
 .campo label {
   display: block;
   margin-bottom: 2px;
@@ -279,11 +240,9 @@ textarea {
   font-size: 7px;
   font-weight: 700;
 }
-
 /* =====================================================
    1 · OC AUTORIZADAS
 ===================================================== */
-
 .lista-body {
   height: calc(100% - 32px);
   padding: 5px;
@@ -291,36 +250,30 @@ textarea {
   grid-template-rows: auto minmax(0,1fr);
   gap: 4px;
 }
-
 .filtros {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px;
 }
-
 #buscador {
   grid-column: 1 / -1;
 }
-
 .tabla-scroll {
   min-height: 0;
   overflow: auto;
   border: 1px solid #e1e8ee;
   border-radius: 5px;
 }
-
 .tabla {
   width: 100%;
   border-collapse: collapse;
   font-size: 8px;
 }
-
 .tabla thead {
   position: sticky;
   top: 0;
   z-index: 3;
 }
-
 .tabla th {
   padding: 5px 3px;
   background: #e8f2fa;
@@ -330,18 +283,15 @@ textarea {
   font-size: 7px;
   white-space: nowrap;
 }
-
 .tabla td {
   padding: 5px 3px;
   border-bottom: 1px solid #edf2f5;
   vertical-align: middle;
   font-size: 8px;
 }
-
 .tabla tbody tr.oc-activa {
   background: #e8f5ff;
 }
-
 .btn-recepcionar {
   min-height: 26px;
   padding: 4px 6px;
@@ -352,16 +302,13 @@ textarea {
   font-size: 7px;
   font-weight: 800;
 }
-
 /* =====================================================
    3 · TIPO DE RECEPCIÓN
 ===================================================== */
-
 #panelTipo {
   display: grid;
   grid-template-rows: 30px 1fr;
 }
-
 .tipo-titulo {
   padding: 4px 7px;
   display: flex;
@@ -370,7 +317,6 @@ textarea {
   background: linear-gradient(90deg,#eff7fd,#ffffff);
   border-bottom: 1px solid #e2e9ef;
 }
-
 .tipo-controles {
   padding: 7px;
   display: grid;
@@ -378,7 +324,6 @@ textarea {
   gap: 5px;
   align-items: center;
 }
-
 .tipo-card {
   height: 38px;
   display: flex;
@@ -392,17 +337,14 @@ textarea {
   font-weight: 800;
   cursor: pointer;
 }
-
 .tipo-card input {
   display: none;
 }
-
 .tipo-card:has(input:checked) {
   border-color: #52bc7c;
   background: #e8f8ee;
   color: #126c39;
 }
-
 .seleccionar-todos {
   height: 38px;
   display: flex;
@@ -415,81 +357,62 @@ textarea {
   color: #465862;
   font-size: 8px;
 }
-
 .seleccionar-todos input {
   width: 14px;
   height: 14px;
 }
-
 /* =====================================================
    4 · PRODUCTOS
 ===================================================== */
-
 #panelProductos {
   display: flex;
   flex-direction: column;
 }
-
 #productosContenido {
   flex: 1;
   min-height: 0;
 }
-
 .productos-scroll {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
-
 .productos-table {
   width: 100%;
   min-width: 0;
   table-layout: fixed;
 }
-
 .productos-table th,
 .productos-table td {
   padding: 3px 2px;
   font-size: 7px;
   line-height: 1.1;
 }
-
 .productos-table th {
   white-space: normal;
   overflow-wrap: anywhere;
 }
-
 .productos-table td {
   overflow-wrap: anywhere;
 }
-
 .productos-table th:nth-child(1),
 .productos-table td:nth-child(1) { width: 4%; }
-
 .productos-table th:nth-child(2),
 .productos-table td:nth-child(2) { width: 13%; }
-
 .productos-table th:nth-child(3),
 .productos-table td:nth-child(3) { width: 25%; }
-
 .productos-table th:nth-child(4),
 .productos-table td:nth-child(4) { width: 6%; }
-
 .productos-table th:nth-child(5),
 .productos-table td:nth-child(5) { width: 8%; }
-
 .productos-table th:nth-child(6),
 .productos-table td:nth-child(6) { width: 10%; }
-
 .productos-table th:nth-child(7),
 .productos-table td:nth-child(7) { width: 11%; }
-
 .productos-table th:nth-child(8),
 .productos-table td:nth-child(8) { width: 11%; }
-
 .productos-table th:nth-child(9),
 .productos-table td:nth-child(9) { width: 12%; }
-
 .productos-table input[type="number"] {
   width: 100%;
   min-width: 0;
@@ -498,25 +421,20 @@ textarea {
   text-align: right;
   font-size: 7px;
 }
-
 .check-producto {
   width: 14px;
   height: 14px;
 }
-
 .precio-ref {
   font-weight: 700;
 }
-
 .total-real {
   color: #087944;
   font-weight: 800;
 }
-
 /* =====================================================
    5 · FACTURA
 ===================================================== */
-
 .factura-body {
   height: calc(100% - 32px);
   min-height: 0;
@@ -526,13 +444,11 @@ textarea {
   gap: 3px;
   overflow: hidden;
 }
-
 .montos {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 3px;
 }
-
 .monto-box {
   min-width: 0;
   padding: 3px 4px;
@@ -540,69 +456,59 @@ textarea {
   border-radius: 5px;
   background: #fafcfd;
 }
-
 .monto-box small {
   display: block;
   color: #71808c;
   font-size: 6px;
 }
-
 .monto-box strong {
   display: block;
   color: #183f62;
   font-size: 9px;
   line-height: 18px;
 }
-
 .monto-box input,
 .monto-box select {
   height: 21px;
   padding: 2px 4px;
   font-size: 7px;
 }
-
 .datos-factura {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 3px;
 }
-
 .datos-factura input {
   height: 23px;
   padding: 2px 4px;
 }
-
 .factura-body > .campo {
   min-height: 0;
   display: flex;
   flex-direction: column;
 }
-
 .factura-body > .campo label {
   flex: 0 0 auto;
 }
-
 .factura-body > .campo textarea {
   flex: 1 1 auto;
 }
-
 #motivoDiferenciaMonto {
-  min-height: 32px;
-  height: 100%;
-  max-height: 100%;
-  padding: 4px 5px;
+  min-height: 46px;
+  height: 46px;
+  max-height: 46px;
+  padding: 5px 6px;
   font-size: 7px;
+  line-height: 1.25;
+  resize: none;
 }
-
 .sin-diferencia {
   background: #f5f7f9;
   color: #86939d;
 }
-
 /* =====================================================
    6 · DOCUMENTOS
 ===================================================== */
-
 .documentos-body {
   height: calc(100% - 32px);
   min-height: 0;
@@ -610,28 +516,24 @@ textarea {
   grid-template-columns: 40% 60%;
   overflow: hidden;
 }
-
 .factura-doc {
   min-width: 0;
   min-height: 0;
   padding: 7px;
   border-right: 1px solid #dbe4eb;
 }
-
 .doc-title {
   margin-bottom: 5px;
   color: #374b59;
   font-size: 7px;
   font-weight: 800;
 }
-
 .acciones-doc {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
   margin-bottom: 5px;
 }
-
 .btn-foto,
 .btn-archivo {
   height: 29px;
@@ -640,23 +542,19 @@ textarea {
   font-weight: 800;
   white-space: nowrap;
 }
-
 .btn-foto {
   border: 0;
   background: #0788d5;
   color: white;
 }
-
 .btn-archivo {
   border: 1px solid #bfd7e8;
   background: #eaf4fb;
   color: #174c74;
 }
-
 .input-oculto {
   display: none;
 }
-
 .archivo-estado {
   min-height: 28px;
   padding: 5px;
@@ -670,12 +568,10 @@ textarea {
   color: #60717d;
   font-size: 7px;
 }
-
 .archivo-ok {
   color: #14713d;
   font-weight: 800;
 }
-
 .btn-quitar {
   width: 20px;
   height: 20px;
@@ -684,7 +580,6 @@ textarea {
   background: #fee8e8;
   color: #9c2828;
 }
-
 .docs-extra {
   min-width: 0;
   min-height: 0;
@@ -693,7 +588,6 @@ textarea {
   grid-template-rows: 30px minmax(0,1fr);
   gap: 5px;
 }
-
 .docs-extra-header {
   min-width: 0;
   display: flex;
@@ -701,14 +595,12 @@ textarea {
   justify-content: space-between;
   gap: 8px;
 }
-
 .docs-extra-title {
   color: #374b59;
   font-size: 7px;
   font-weight: 800;
   white-space: nowrap;
 }
-
 .btn-agregar {
   width: auto;
   min-width: 128px;
@@ -723,12 +615,10 @@ textarea {
   font-weight: 800;
   white-space: nowrap;
 }
-
 #listaDocumentos {
   min-height: 0;
   overflow-y: auto;
 }
-
 .doc-row {
   margin-bottom: 4px;
   padding: 4px;
@@ -736,7 +626,6 @@ textarea {
   border-radius: 5px;
   background: #fafcfd;
 }
-
 .doc-superior {
   display: grid;
   grid-template-columns:
@@ -748,19 +637,16 @@ textarea {
   gap: 4px;
   align-items: center;
 }
-
 .doc-superior select {
   height: 27px;
   font-size: 7px;
 }
-
 .doc-superior .btn-foto,
 .doc-superior .btn-archivo {
   width: 100%;
   height: 27px;
   padding: 0 3px;
 }
-
 .doc-estado {
   min-width: 0;
   overflow: hidden;
@@ -769,7 +655,6 @@ textarea {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
 .btn-eliminar {
   width: 24px;
   height: 27px;
@@ -779,11 +664,9 @@ textarea {
   color: #a12828;
   font-weight: 800;
 }
-
 /* =====================================================
    CÁMARA FULLSCREEN
 ===================================================== */
-
 .camara-fullscreen {
   position: fixed;
   inset: 0;
@@ -792,7 +675,6 @@ textarea {
   display: none;
   flex-direction: column;
 }
-
 .camara-barra {
   height: 54px;
   padding: 6px 10px;
@@ -803,12 +685,10 @@ textarea {
   background: #07131d;
   color: white;
 }
-
 .camara-titulo {
   font-size: 13px;
   font-weight: 800;
 }
-
 .camara-cerrar {
   height: 36px;
   padding: 0 14px;
@@ -818,7 +698,6 @@ textarea {
   color: white;
   font-weight: 800;
 }
-
 .camara-contenedor {
   flex: 1;
   min-height: 0;
@@ -828,7 +707,6 @@ textarea {
   overflow: hidden;
   background: #000;
 }
-
 #videoCamara,
 #previewCamara {
   width: 100%;
@@ -836,7 +714,6 @@ textarea {
   object-fit: contain;
   background: #000;
 }
-
 .camara-acciones {
   height: 74px;
   flex: 0 0 auto;
@@ -846,7 +723,6 @@ textarea {
   gap: 14px;
   background: #07131d;
 }
-
 .btn-capturar,
 .btn-repetir,
 .btn-usar {
@@ -859,23 +735,18 @@ textarea {
   font-size: 11px;
   font-weight: 900;
 }
-
 .btn-capturar {
   background: #0788d5;
 }
-
 .btn-repetir {
   background: #596873;
 }
-
 .btn-usar {
   background: #078b45;
 }
-
 /* =====================================================
    OTROS
 ===================================================== */
-
 .empty {
   height: 100%;
   display: grid;
@@ -883,12 +754,10 @@ textarea {
   color: #788794;
   font-size: 9px;
 }
-
 .disabled-area {
   opacity: .48;
   pointer-events: none;
 }
-
 #mensaje {
   position: fixed;
   z-index: 30000;
@@ -898,7 +767,6 @@ textarea {
   min-width: 300px;
   max-width: 80%;
 }
-
 .mensaje {
   padding: 8px 11px;
   border-radius: 6px;
@@ -906,99 +774,73 @@ textarea {
   font-size: 9px;
   font-weight: 700;
 }
-
 .mensaje.ok {
   background: #dcf7e6;
   color: #126c3a;
 }
-
 .mensaje.error {
   background: #fee5e5;
   color: #9c2424;
 }
-
 /* =====================================================
    TABLET HORIZONTAL
 ===================================================== */
-
 @media screen and (max-height:650px) {
-
   .topbar {
     height: 48px;
   }
-
   .app {
     height: calc(100dvh - 48px);
   }
-
   .col-izquierda {
     grid-template-rows:
       minmax(0,1fr)
       82px;
   }
-
   .col-derecha {
     grid-template-rows:
+      minmax(0,34fr)
       minmax(0,36fr)
-      minmax(0,32fr)
-      minmax(0,32fr);
+      minmax(0,30fr);
   }
-
   .titulo-principal {
     font-size: 14px;
   }
-
   .empresa-header {
     font-size: 10px;
   }
-
   .panel-header {
     height: 29px;
   }
-
   .documentos-body {
     height: calc(100% - 29px);
   }
-
   .factura-doc,
   .docs-extra {
     padding: 5px;
   }
-
   .docs-extra {
     grid-template-rows:
       27px
       minmax(0,1fr);
   }
-
 }
-
 </style>
-
 </head>
-
 <body>
-
 <header class="topbar">
-
   <div class="topbar-left">
-
     <div class="logo-box">
       📦
     </div>
-
     <div class="titulo-principal">
       50 · RECEPCIÓN DE MERCADERÍA
     </div>
-
     <div class="empresa-header">
       Grupo Fiorentini
     </div>
-
   </div>
-
   <div class="acciones-recepcion-header">
-
     <button
       class="btn-header-cancelar"
       type="button"
@@ -1006,7 +848,6 @@ textarea {
     >
       CANCELAR
     </button>
-
     <button
       id="btnConfirmar"
       class="btn-header-confirmar"
@@ -1016,15 +857,11 @@ textarea {
     >
       ✓ CONFIRMAR RECEPCIÓN
     </button>
-
   </div>
-
   <div class="header-derecha">
-
     <div class="usuario-header">
       👤 Recepción
     </div>
-
     <button
       class="btn-header"
       type="button"
@@ -1032,7 +869,6 @@ textarea {
     >
       🔄 ACTUALIZAR
     </button>
-
     <button
       class="btn-clave"
       type="button"
@@ -1040,39 +876,25 @@ textarea {
     >
       🔑
     </button>
-
   </div>
-
 </header>
-
 <div id="mensaje"></div>
-
 <main class="app">
-
 <div class="col-izquierda">
-
 <section class="panel">
-
   <div class="panel-header">
-
     <div class="numero">1</div>
-
     <div>
       <div class="panel-title">
         OC AUTORIZADAS
       </div>
-
       <div class="panel-sub">
         Seleccione la orden de compra recibida
       </div>
     </div>
-
   </div>
-
   <div class="lista-body">
-
     <div class="filtros">
-
       <select
         id="filtroEmpresa"
         onchange="renderLista()"
@@ -1081,7 +903,6 @@ textarea {
           TODAS LAS EMPRESAS
         </option>
       </select>
-
       <select
         id="filtroProveedor"
         onchange="renderLista()"
@@ -1090,19 +911,14 @@ textarea {
           TODOS LOS PROVEEDORES
         </option>
       </select>
-
       <input
         id="buscador"
         placeholder="Buscar OC, proveedor o producto..."
         oninput="renderLista()"
       >
-
     </div>
-
     <div class="tabla-scroll">
-
       <table class="tabla">
-
         <thead>
           <tr>
             <th>OC</th>
@@ -1112,7 +928,6 @@ textarea {
             <th></th>
           </tr>
         </thead>
-
         <tbody id="tablaOC">
           <tr>
             <td colspan="5">
@@ -1120,165 +935,111 @@ textarea {
             </td>
           </tr>
         </tbody>
-
       </table>
-
     </div>
-
   </div>
-
 </section>
-
 <section
   id="panelTipo"
   class="panel disabled-area"
 >
-
   <div class="tipo-titulo">
-
     <div class="numero">
       3
     </div>
-
     <div class="panel-title">
       TIPO DE RECEPCIÓN
     </div>
-
   </div>
-
   <div class="tipo-controles">
-
     <label class="tipo-card">
-
       <input
         type="radio"
         name="estado"
         value="COMPLETA"
         onchange="cambiarEstado()"
       >
-
       COMPLETA
-
     </label>
-
     <label class="tipo-card">
-
       <input
         type="radio"
         name="estado"
         value="PARCIAL"
         onchange="cambiarEstado()"
       >
-
       PARCIAL
-
     </label>
-
     <label class="seleccionar-todos">
-
       <input
         id="seleccionarTodo"
         type="checkbox"
         onchange="seleccionarTodos()"
       >
-
       Seleccionar todos
-
     </label>
-
   </div>
-
 </section>
-
 </div>
-
 <div class="col-derecha">
-
 <section
   id="panelProductos"
   class="panel disabled-area"
 >
-
   <div class="panel-header">
-
     <div class="numero">
       4
     </div>
-
     <div>
-
       <div class="panel-title">
         PRODUCTOS
       </div>
-
       <div class="panel-sub">
         Seleccione los productos de esta factura
       </div>
-
     </div>
-
   </div>
-
   <div
     id="productosContenido"
     class="empty"
   >
     Seleccione una OC.
   </div>
-
 </section>
-
 <section
   id="panelFactura"
   class="panel disabled-area"
 >
-
   <div class="panel-header">
-
     <div class="numero">
       5
     </div>
-
     <div class="panel-title">
       DATOS DE LA FACTURA
     </div>
-
   </div>
-
   <div class="factura-body">
-
     <div class="montos">
-
       <div class="monto-box">
-
         <small>
           Monto autorizado
         </small>
-
         <strong id="montoAutorizado">
           $0
         </strong>
-
       </div>
-
       <div class="monto-box">
-
         <small>
           Monto calculado
         </small>
-
         <strong id="montoCalculado">
           $0
         </strong>
-
       </div>
-
       <div class="monto-box">
-
         <small>
           Monto factura
         </small>
-
         <input
           id="montoFactura"
           type="number"
@@ -1288,124 +1049,84 @@ textarea {
             revisarDiferenciaMonto();
           "
         >
-
       </div>
-
       <div class="monto-box">
-
         <small>
           Monto factura corresponde a
         </small>
-
         <select
           id="tipoMontoFactura"
           onchange="revisarDiferenciaMonto()"
         >
-
           <option value="">
             SELECCIONAR
           </option>
-
           <option value="NETO">
             NETO
           </option>
-
           <option value="BRUTO">
             BRUTO
           </option>
-
         </select>
-
       </div>
-
     </div>
-
     <div class="datos-factura">
-
       <div class="campo">
-
         <label>
           N° factura
         </label>
-
         <input id="numeroFactura">
-
       </div>
-
       <div class="campo">
-
         <label>
           Fecha factura
         </label>
-
         <input
           id="fechaFactura"
           type="date"
         >
-
       </div>
-
       <div class="campo">
-
         <label>
           Fecha vencimiento
         </label>
-
         <input
           id="fechaVencimiento"
           type="date"
         >
-
       </div>
-
     </div>
-
     <div class="campo">
-
       <label>
         Motivo diferencia monto factura
       </label>
-
       <textarea
         id="motivoDiferenciaMonto"
         class="sin-diferencia"
         placeholder="Sin diferencia de monto"
         disabled
       ></textarea>
-
     </div>
-
   </div>
-
 </section>
-
 <section
   id="panelDocumentos"
   class="panel disabled-area"
 >
-
   <div class="panel-header">
-
     <div class="numero">
       6
     </div>
-
     <div class="panel-title">
       DOCUMENTOS
     </div>
-
   </div>
-
   <div class="documentos-body">
-
     <div class="factura-doc">
-
       <div class="doc-title">
         Factura · obligatoria
       </div>
-
       <div class="acciones-doc">
-
         <button
           type="button"
           class="btn-foto"
@@ -1413,7 +1134,6 @@ textarea {
         >
           📷 TOMAR FOTO
         </button>
-
         <button
           type="button"
           class="btn-archivo"
@@ -1425,9 +1145,7 @@ textarea {
         >
           📎 SUBIR ARCHIVO
         </button>
-
       </div>
-
       <input
         id="facturaArchivo"
         class="input-oculto"
@@ -1435,24 +1153,18 @@ textarea {
         accept="image/*,application/pdf"
         onchange="seleccionarFacturaArchivo()"
       >
-
       <div
         id="estadoFactura"
         class="archivo-estado"
       >
         Ninguna factura seleccionada
       </div>
-
     </div>
-
     <div class="docs-extra">
-
       <div class="docs-extra-header">
-
         <div class="docs-extra-title">
           Documentos adicionales · opcional
         </div>
-
         <button
           type="button"
           class="btn-agregar"
@@ -1460,28 +1172,18 @@ textarea {
         >
           + AGREGAR DOCUMENTO
         </button>
-
       </div>
-
       <div id="listaDocumentos"></div>
-
     </div>
-
   </div>
-
 </section>
-
 </div>
-
 </main>
-
 <div
   id="camaraFullscreen"
   class="camara-fullscreen"
 >
-
   <div class="camara-barra">
-
     <button
       type="button"
       class="camara-cerrar"
@@ -1489,38 +1191,28 @@ textarea {
     >
       ✕ CANCELAR
     </button>
-
     <div class="camara-titulo">
       TOMAR FOTO
     </div>
-
     <div style="width:100px"></div>
-
   </div>
-
   <div class="camara-contenedor">
-
     <video
       id="videoCamara"
       autoplay
       playsinline
     ></video>
-
     <canvas
       id="canvasCamara"
       style="display:none"
     ></canvas>
-
     <img
       id="previewCamara"
       alt=""
       style="display:none"
     >
-
   </div>
-
   <div class="camara-acciones">
-
     <button
       id="btnCapturarFoto"
       type="button"
@@ -1529,7 +1221,6 @@ textarea {
     >
       📷 TOMAR FOTO
     </button>
-
     <button
       id="btnRepetirFoto"
       type="button"
@@ -1539,7 +1230,6 @@ textarea {
     >
       REPETIR
     </button>
-
     <button
       id="btnUsarFoto"
       type="button"
@@ -1549,19 +1239,14 @@ textarea {
     >
       ✓ USAR FOTO
     </button>
-
   </div>
-
 </div>
-
 <iframe
   id="apiPostFrame"
   name="apiPostFrame"
   style="display:none"
 ></iframe>
-
 <script>
-
 const API_URL =
 'https://script.google.com/macros/s/AKfycbw9R6d_OSSX4QIL-RM9P76Y4fk38Dvn0U3Qb5J2rBjHus2fcmR6v2C-cij_0JYF_5q1KQ/exec';
 
@@ -1582,55 +1267,40 @@ let fotoCapturada = null;
 
 const fotosDocumentos = {};
 
-/* =====================================================
-   INICIO
-===================================================== */
-
 document.addEventListener(
 'DOMContentLoaded',
 async () => {
-
   registrarServiceWorker();
-
   await iniciarAplicacion();
-
 }
 );
 
 document.addEventListener(
 'visibilitychange',
 async () => {
-
   if (
     document.visibilityState === 'visible' &&
     obtenerClaveApi(false)
   ) {
-
-    const ahora =
-    Date.now();
+    const ahora = Date.now();
 
     if (
       ahora -
       ultimaActualizacionAutomatica >
       2000
     ) {
-
       ultimaActualizacionAutomatica =
       ahora;
 
       await actualizarAplicacion(false);
-
     }
-
   }
-
 }
 );
 
 window.addEventListener(
 'focus',
 async () => {
-
   if (!obtenerClaveApi(false)) {
     return;
   }
@@ -1643,32 +1313,25 @@ async () => {
     ultimaActualizacionAutomatica >
     2000
   ) {
-
     ultimaActualizacionAutomatica =
     ahora;
 
     await actualizarAplicacion(false);
-
   }
-
 }
 );
 
 async function actualizarAplicacion(
 mostrarAviso=true
 ) {
-
   try {
-
     await cargarOC();
 
     if (mostrarAviso) {
-
       mostrarMensaje(
         'Información actualizada.',
         'ok'
       );
-
     }
 
   } catch (error) {
@@ -1678,7 +1341,6 @@ mostrarAviso=true
     }
 
   }
-
 }
 
 async function iniciarAplicacion() {
@@ -1694,16 +1356,10 @@ async function iniciarAplicacion() {
     );
 
     return;
-
   }
 
   await cargarOC();
-
 }
-
-/* =====================================================
-   SERVICE WORKER
-===================================================== */
 
 async function registrarServiceWorker() {
 
@@ -1731,12 +1387,7 @@ async function registrarServiceWorker() {
     );
 
   }
-
 }
-
-/* =====================================================
-   CLAVE
-===================================================== */
 
 function obtenerClaveApi(
 solicitar=true
@@ -1777,7 +1428,6 @@ solicitar=true
   );
 
   return clave;
-
 }
 
 function cambiarClaveApi() {
@@ -1802,12 +1452,7 @@ function cambiarClaveApi() {
   );
 
   cargarOC();
-
 }
-
-/* =====================================================
-   API GET
-===================================================== */
 
 function apiGet(accion) {
 
@@ -1865,7 +1510,6 @@ return new Promise(
       undefined;
 
     }
-
   }
 
   window[
@@ -1884,19 +1528,15 @@ return new Promise(
         new Error(
           respuesta &&
           respuesta.error
-
           ? respuesta.error
-
           : 'Error al consultar el servidor.'
         )
       );
 
       return;
-
     }
 
     resolve(respuesta);
-
   };
 
   const clave =
@@ -1947,10 +1587,6 @@ return new Promise(
 
 }
 
-/* =====================================================
-   CARGAR OC
-===================================================== */
-
 async function cargarOC() {
 
   const tbody =
@@ -1981,8 +1617,8 @@ async function cargarOC() {
       const actualizada =
       ocDisponibles.find(
         x =>
-          x.oc ===
-          ocActual.oc
+        x.oc ===
+        ocActual.oc
       );
 
       if (actualizada) {
@@ -1999,7 +1635,6 @@ async function cargarOC() {
         limpiarSeleccion();
 
       }
-
     }
 
   } catch(error) {
@@ -2010,14 +1645,8 @@ async function cargarOC() {
     mostrarError(error);
 
     throw error;
-
   }
-
 }
-
-/* =====================================================
-   FILTROS
-===================================================== */
 
 function cargarFiltros() {
 
@@ -2079,7 +1708,6 @@ if (
 
   filtroEmpresa.value =
   empresaActual;
-
 }
 
 if (
@@ -2090,14 +1718,8 @@ if (
 
   filtroProveedor.value =
   proveedorActual;
-
 }
-
 }
-
-/* =====================================================
-   LISTA
-===================================================== */
 
 function renderLista() {
 
@@ -2171,11 +1793,9 @@ oc => {
     ) {
       return false;
     }
-
   }
 
   return true;
-
 }
 );
 
@@ -2190,7 +1810,6 @@ tbody.innerHTML =
 '<tr><td colspan="5">No hay OC habilitadas.</td></tr>';
 
 return;
-
 }
 
 tbody.innerHTML =
@@ -2244,10 +1863,6 @@ RECEPCIONAR
 
 }
 
-/* =====================================================
-   ABRIR OC
-===================================================== */
-
 function abrirOC(numeroOC) {
 
 ocActual =
@@ -2287,10 +1902,6 @@ limpiarDatosFactura();
 recalcularMontos();
 
 }
-
-/* =====================================================
-   PRODUCTOS
-===================================================== */
 
 function renderProductos() {
 
@@ -2426,10 +2037,6 @@ $0
 
 }
 
-/* =====================================================
-   SELECCIÓN PRODUCTOS
-===================================================== */
-
 function seleccionarTodos() {
 
 if (!ocActual) {
@@ -2560,10 +2167,6 @@ recalcularMontos();
 
 }
 
-/* =====================================================
-   TIPO RECEPCIÓN
-===================================================== */
-
 function estadoSeleccionado() {
 
 return (
@@ -2639,10 +2242,6 @@ false;
 recalcularMontos();
 
 }
-
-/* =====================================================
-   MONTOS
-===================================================== */
 
 function recalcularMontos() {
 
@@ -2829,10 +2428,6 @@ total
 
 }
 
-/* =====================================================
-   DIFERENCIA FACTURA
-===================================================== */
-
 function revisarDiferenciaMonto() {
 
 const campo =
@@ -2921,10 +2516,6 @@ campo.placeholder =
 }
 
 }
-
-/* =====================================================
-   CÁMARA
-===================================================== */
 
 async function abrirCamara(
 destino
@@ -3226,7 +2817,6 @@ mostrarMensaje(
 );
 
 return;
-
 }
 
 if (
@@ -3320,10 +2910,6 @@ null;
 
 }
 
-/* =====================================================
-   FACTURA ARCHIVO
-===================================================== */
-
 function seleccionarFacturaArchivo() {
 
 const archivo =
@@ -3354,7 +2940,6 @@ box.innerHTML =
 'Ninguna factura seleccionada';
 
 return;
-
 }
 
 box.innerHTML = `
@@ -3394,10 +2979,6 @@ archivo.value='';
 renderEstadoFactura();
 
 }
-
-/* =====================================================
-   DOCUMENTOS ADICIONALES
-===================================================== */
 
 function agregarDocumento() {
 
@@ -3552,7 +3133,6 @@ estado.style.fontWeight =
 'normal';
 
 return;
-
 }
 
 estado.textContent =
@@ -3581,10 +3161,6 @@ document
 ?.remove();
 
 }
-
-/* =====================================================
-   HABILITAR / LIMPIAR
-===================================================== */
 
 function habilitarFormulario() {
 
@@ -3745,10 +3321,6 @@ limpiarDatosFactura();
 
 }
 
-/* =====================================================
-   GUARDAR
-===================================================== */
-
 function guardarRecepcionApi(
 payload
 ) {
@@ -3765,7 +3337,6 @@ new Error(
 );
 
 return;
-
 }
 
 const timeout =
@@ -3864,10 +3435,6 @@ setTimeout(
 
 }
 
-/* =====================================================
-   RESPUESTA
-===================================================== */
-
 window.addEventListener(
 'message',
 event => {
@@ -3925,10 +3492,6 @@ respuesta.error ||
 
 }
 );
-
-/* =====================================================
-   CONFIRMAR RECEPCIÓN
-===================================================== */
 
 async function confirmarRecepcion() {
 
@@ -4332,10 +3895,6 @@ error
 
 }
 
-/* =====================================================
-   ARCHIVO BASE64
-===================================================== */
-
 function archivoABase64(
 file
 ) {
@@ -4377,10 +3936,6 @@ file
 );
 
 }
-
-/* =====================================================
-   MENSAJES
-===================================================== */
 
 function mostrarMensaje(
 texto,
@@ -4435,10 +3990,6 @@ document
 '';
 
 }
-
-/* =====================================================
-   FORMATO
-===================================================== */
 
 function formatNumero(
 valor
@@ -4522,6 +4073,5 @@ valor ??
 }
 
 </script>
-
 </body>
 </html>
