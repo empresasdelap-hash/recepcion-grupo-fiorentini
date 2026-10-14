@@ -1,4 +1,4 @@
-const CACHE_NAME = 'recepcion-fiorentini-v1';
+const CACHE_NAME = 'recepcion-fiorentini-v2';
 
 const APP_FILES = [
   './',
@@ -33,7 +33,19 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    fetch(event.request)
+    fetch(event.request, {
+      cache: 'no-store'
+    })
+      .then(response => {
+        const copia = response.clone();
+
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(event.request, copia);
+          });
+
+        return response;
+      })
       .catch(() => caches.match(event.request))
   );
 });
