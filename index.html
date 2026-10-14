@@ -556,14 +556,17 @@ textarea {
 
 .documentos-body {
   height: calc(100% - 32px);
+  min-height: 0;
   padding: 5px 6px;
   display: grid;
   grid-template-columns: 38% 62%;
   gap: 6px;
+  overflow: hidden;
 }
 
 .factura-doc {
   min-width: 0;
+  min-height: 0;
   padding-right: 6px;
   border-right: 1px solid #e2e8ed;
 }
@@ -634,18 +637,27 @@ textarea {
   color: #9c2828;
 }
 
+
+/* =====================================================
+   DOCUMENTOS ADICIONALES
+===================================================== */
+
 .docs-extra {
   min-width: 0;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  display: grid;
+  grid-template-rows:
+    auto
+    minmax(0,1fr)
+    30px;
+  gap: 4px;
 }
 
 #listaDocumentos {
-  flex: 1;
   min-height: 0;
   overflow-y: auto;
-  margin-bottom: 4px;
+  margin: 0;
 }
 
 .doc-row {
@@ -700,13 +712,16 @@ textarea {
 }
 
 .btn-agregar {
-  height: 27px;
+  width: 100%;
+  height: 30px;
+  min-height: 30px;
   border: 1px solid #83bce5;
   border-radius: 5px;
   background: #eef8ff;
   color: #075d9e;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 800;
+  display: block;
 }
 
 
@@ -963,10 +978,6 @@ textarea {
 <main class="app">
 
 
-<!-- =====================================================
-     IZQUIERDA
-===================================================== -->
-
 <div class="col-izquierda">
 
 
@@ -1130,10 +1141,6 @@ Seleccionar todos
 </div>
 
 
-
-<!-- =====================================================
-     DERECHA
-===================================================== -->
 
 <div class="col-derecha">
 
@@ -1360,8 +1367,6 @@ DOCUMENTOS
 <div class="documentos-body">
 
 
-<!-- FACTURA -->
-
 <div class="factura-doc">
 
 <div class="doc-title">
@@ -1415,8 +1420,6 @@ Ninguna factura seleccionada
 
 
 
-<!-- ADICIONALES -->
-
 <div class="docs-extra">
 
 <div class="doc-title">
@@ -1446,10 +1449,6 @@ Documentos adicionales · opcional
 </main>
 
 
-
-<!-- =====================================================
-     CÁMARA FULLSCREEN
-===================================================== -->
 
 <div
   id="camaraFullscreen"
@@ -1548,11 +1547,6 @@ REPETIR
 
 <script>
 
-
-/* =====================================================
-   CONFIGURACIÓN
-===================================================== */
-
 const API_URL =
 'https://script.google.com/macros/s/AKfycbw9R6d_OSSX4QIL-RM9P76Y4fk38Dvn0U3Qb5J2rBjHus2fcmR6v2C-cij_0JYF_5q1KQ/exec';
 
@@ -1561,38 +1555,19 @@ const STORAGE_API_KEY =
 
 
 let ocDisponibles = [];
-
 let ocActual = null;
-
 let montoEditadoManual = false;
-
 let contadorDocumentos = 0;
-
 let facturaSeleccionada = null;
-
 let postPendiente = null;
-
 let ultimaActualizacionAutomatica = 0;
 
-
-/* Cámara */
-
 let streamCamara = null;
-
 let destinoCamara = null;
-
 let fotoCapturada = null;
-
-
-/* Fotos tomadas internamente
-   para documentos adicionales */
 
 const fotosDocumentos = {};
 
-
-/* =====================================================
-   INICIO
-===================================================== */
 
 document.addEventListener(
 'DOMContentLoaded',
@@ -1605,10 +1580,6 @@ async () => {
 }
 );
 
-
-/* =====================================================
-   ACTUALIZACIÓN
-===================================================== */
 
 document.addEventListener(
 'visibilitychange',
@@ -1697,10 +1668,6 @@ mostrarAviso=true
 }
 
 
-/* =====================================================
-   APP
-===================================================== */
-
 async function iniciarAplicacion() {
 
   const clave =
@@ -1721,10 +1688,6 @@ async function iniciarAplicacion() {
 
 }
 
-
-/* =====================================================
-   SERVICE WORKER
-===================================================== */
 
 async function registrarServiceWorker() {
 
@@ -1762,10 +1725,6 @@ async function registrarServiceWorker() {
 
 }
 
-
-/* =====================================================
-   CLAVE
-===================================================== */
 
 function obtenerClaveApi(
 solicitar=true
@@ -1835,10 +1794,6 @@ function cambiarClaveApi() {
 
 }
 
-
-/* =====================================================
-   API GET
-===================================================== */
 
 function apiGet(accion) {
 
@@ -1987,10 +1942,6 @@ return new Promise(
 }
 
 
-/* =====================================================
-   CARGAR OC
-===================================================== */
-
 async function cargarOC() {
 
   const tbody =
@@ -2057,10 +2008,6 @@ async function cargarOC() {
 
 }
 
-
-/* =====================================================
-   FILTROS
-===================================================== */
 
 function cargarFiltros() {
 
@@ -2145,10 +2092,6 @@ if (
 
 }
 
-
-/* =====================================================
-   LISTADO
-===================================================== */
 
 function renderLista() {
 
@@ -2312,10 +2255,6 @@ RECEPCIONAR
 }
 
 
-/* =====================================================
-   ABRIR OC
-===================================================== */
-
 function abrirOC(numeroOC) {
 
 ocActual =
@@ -2358,10 +2297,6 @@ recalcularMontos();
 
 }
 
-
-/* =====================================================
-   PRODUCTOS
-===================================================== */
 
 function renderProductos() {
 
@@ -2500,10 +2435,6 @@ $0
 
 }
 
-
-/* =====================================================
-   SELECCIONES
-===================================================== */
 
 function seleccionarTodos() {
 
@@ -2648,10 +2579,6 @@ recalcularMontos();
 }
 
 
-/* =====================================================
-   TIPO RECEPCIÓN
-===================================================== */
-
 function estadoSeleccionado() {
 
 return (
@@ -2736,10 +2663,6 @@ recalcularMontos();
 
 }
 
-
-/* =====================================================
-   MONTOS
-===================================================== */
 
 function recalcularMontos() {
 
@@ -2948,10 +2871,6 @@ total
 }
 
 
-/* =====================================================
-   DIFERENCIA
-===================================================== */
-
 function revisarDiferenciaMonto() {
 
 const campo =
@@ -3049,10 +2968,6 @@ campo.placeholder =
 
 }
 
-
-/* =====================================================
-   CÁMARA INTERNA
-===================================================== */
 
 async function abrirCamara(
 destino
@@ -3206,20 +3121,13 @@ return;
 }
 
 
-/*
-  Recorte central 4:3
-*/
-
 const proporcion =
 4/3;
 
 
 let sx=0;
-
 let sy=0;
-
 let sw=ancho;
-
 let sh=alto;
 
 
@@ -3405,8 +3313,6 @@ return;
 }
 
 
-/* FACTURA */
-
 if (
 destinoCamara ===
 'FACTURA'
@@ -3419,8 +3325,6 @@ renderEstadoFactura();
 
 }
 
-
-/* DOCUMENTO ADICIONAL */
 
 if (
 destinoCamara &&
@@ -3513,10 +3417,6 @@ null;
 }
 
 
-/* =====================================================
-   FACTURA
-===================================================== */
-
 function seleccionarFacturaArchivo() {
 
 const archivo =
@@ -3597,10 +3497,6 @@ renderEstadoFactura();
 
 }
 
-
-/* =====================================================
-   DOCUMENTOS ADICIONALES
-===================================================== */
 
 function agregarDocumento() {
 
@@ -3732,9 +3628,6 @@ input.files[0] ||
 null;
 
 
-/* Si selecciona archivo,
-   eliminamos foto de cámara */
-
 delete fotosDocumentos[
 id
 ];
@@ -3811,10 +3704,6 @@ document
 
 }
 
-
-/* =====================================================
-   HABILITAR / LIMPIAR
-===================================================== */
 
 function habilitarFormulario() {
 
@@ -3996,10 +3885,6 @@ limpiarDatosFactura();
 }
 
 
-/* =====================================================
-   POST
-===================================================== */
-
 function guardarRecepcionApi(
 payload
 ) {
@@ -4128,10 +4013,6 @@ setTimeout(
 }
 
 
-/* =====================================================
-   RESPUESTA POST
-===================================================== */
-
 window.addEventListener(
 'message',
 event => {
@@ -4197,10 +4078,6 @@ respuesta.error ||
 }
 );
 
-
-/* =====================================================
-   CONFIRMAR
-===================================================== */
 
 async function confirmarRecepcion() {
 
@@ -4476,8 +4353,6 @@ return mostrarMensaje(
 }
 
 
-/* DOCUMENTOS */
-
 const documentos =
 [];
 
@@ -4547,8 +4422,6 @@ file
 
 }
 
-
-/* PAYLOAD */
 
 const payload = {
 
@@ -4655,10 +4528,6 @@ error
 }
 
 
-/* =====================================================
-   BASE64
-===================================================== */
-
 function archivoABase64(
 file
 ) {
@@ -4704,10 +4573,6 @@ file
 
 }
 
-
-/* =====================================================
-   MENSAJES
-===================================================== */
 
 function mostrarMensaje(
 texto,
@@ -4767,10 +4632,6 @@ document
 
 }
 
-
-/* =====================================================
-   FORMATOS
-===================================================== */
 
 function formatNumero(
 valor
