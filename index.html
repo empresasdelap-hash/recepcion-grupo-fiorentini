@@ -177,7 +177,7 @@ button {
   height: calc(100dvh - 54px);
   padding: 5px;
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 42% 58%;
   gap: 5px;
   overflow: hidden;
 }
@@ -195,9 +195,9 @@ button {
   min-height: 0;
   display: grid;
   grid-template-rows:
-    40%
-    27%
-    33%;
+    minmax(0,36fr)
+    minmax(0,32fr)
+    minmax(0,32fr);
   gap: 5px;
 }
 
@@ -342,16 +342,6 @@ textarea {
   background: #e8f5ff;
 }
 
-.badge {
-  display: inline-block;
-  padding: 3px 4px;
-  border-radius: 4px;
-  background: #ddf5e6;
-  color: #14703c;
-  font-size: 6px;
-  font-weight: 800;
-}
-
 .btn-recepcionar {
   min-height: 26px;
   padding: 4px 6px;
@@ -447,17 +437,66 @@ textarea {
 
 .productos-scroll {
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .productos-table {
-  min-width: 760px;
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
 }
 
+.productos-table th,
+.productos-table td {
+  padding: 3px 2px;
+  font-size: 7px;
+  line-height: 1.1;
+}
+
+.productos-table th {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.productos-table td {
+  overflow-wrap: anywhere;
+}
+
+.productos-table th:nth-child(1),
+.productos-table td:nth-child(1) { width: 4%; }
+
+.productos-table th:nth-child(2),
+.productos-table td:nth-child(2) { width: 13%; }
+
+.productos-table th:nth-child(3),
+.productos-table td:nth-child(3) { width: 25%; }
+
+.productos-table th:nth-child(4),
+.productos-table td:nth-child(4) { width: 6%; }
+
+.productos-table th:nth-child(5),
+.productos-table td:nth-child(5) { width: 8%; }
+
+.productos-table th:nth-child(6),
+.productos-table td:nth-child(6) { width: 10%; }
+
+.productos-table th:nth-child(7),
+.productos-table td:nth-child(7) { width: 11%; }
+
+.productos-table th:nth-child(8),
+.productos-table td:nth-child(8) { width: 11%; }
+
+.productos-table th:nth-child(9),
+.productos-table td:nth-child(9) { width: 12%; }
+
 .productos-table input[type="number"] {
-  width: 72px;
-  height: 25px;
+  width: 100%;
+  min-width: 0;
+  height: 23px;
+  padding: 2px 3px;
   text-align: right;
+  font-size: 7px;
 }
 
 .check-producto {
@@ -480,21 +519,23 @@ textarea {
 
 .factura-body {
   height: calc(100% - 32px);
-  padding: 5px 7px;
+  min-height: 0;
+  padding: 4px 6px;
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 5px;
-  overflow: auto;
+  grid-template-rows: auto auto minmax(0,1fr);
+  gap: 3px;
+  overflow: hidden;
 }
 
 .montos {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 5px;
+  gap: 3px;
 }
 
 .monto-box {
-  padding: 4px 6px;
+  min-width: 0;
+  padding: 3px 4px;
   border: 1px solid #dbe4eb;
   border-radius: 5px;
   background: #fafcfd;
@@ -509,23 +550,48 @@ textarea {
 .monto-box strong {
   display: block;
   color: #183f62;
-  font-size: 10px;
-  line-height: 22px;
+  font-size: 9px;
+  line-height: 18px;
 }
 
 .monto-box input,
 .monto-box select {
-  height: 23px;
+  height: 21px;
+  padding: 2px 4px;
+  font-size: 7px;
 }
 
 .datos-factura {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 5px;
+  gap: 3px;
+}
+
+.datos-factura input {
+  height: 23px;
+  padding: 2px 4px;
+}
+
+.factura-body > .campo {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.factura-body > .campo label {
+  flex: 0 0 auto;
+}
+
+.factura-body > .campo textarea {
+  flex: 1 1 auto;
 }
 
 #motivoDiferenciaMonto {
-  min-height: 35px;
+  min-height: 32px;
+  height: 100%;
+  max-height: 100%;
+  padding: 4px 5px;
+  font-size: 7px;
 }
 
 .sin-diferencia {
@@ -544,8 +610,6 @@ textarea {
   grid-template-columns: 40% 60%;
   overflow: hidden;
 }
-
-/* FACTURA */
 
 .factura-doc {
   min-width: 0;
@@ -620,8 +684,6 @@ textarea {
   background: #fee8e8;
   color: #9c2828;
 }
-
-/* DOCUMENTOS ADICIONALES */
 
 .docs-extra {
   min-width: 0;
@@ -877,9 +939,9 @@ textarea {
 
   .col-derecha {
     grid-template-rows:
-      40%
-      27%
-      33%;
+      minmax(0,36fr)
+      minmax(0,32fr)
+      minmax(0,32fr);
   }
 
   .titulo-principal {
@@ -987,10 +1049,6 @@ textarea {
 
 <main class="app">
 
-<!-- =====================================================
-     COLUMNA IZQUIERDA
-===================================================== -->
-
 <div class="col-izquierda">
 
 <section class="panel">
@@ -1051,14 +1109,13 @@ textarea {
             <th>Proveedor</th>
             <th>Fecha</th>
             <th>Prod.</th>
-            <th>Estado</th>
             <th></th>
           </tr>
         </thead>
 
         <tbody id="tablaOC">
           <tr>
-            <td colspan="6">
+            <td colspan="5">
               Cargando...
             </td>
           </tr>
@@ -1071,7 +1128,6 @@ textarea {
   </div>
 
 </section>
-
 
 <section
   id="panelTipo"
@@ -1136,15 +1192,7 @@ textarea {
 
 </div>
 
-
-<!-- =====================================================
-     COLUMNA DERECHA
-===================================================== -->
-
 <div class="col-derecha">
-
-
-<!-- PRODUCTOS -->
 
 <section
   id="panelProductos"
@@ -1179,9 +1227,6 @@ textarea {
   </div>
 
 </section>
-
-
-<!-- FACTURA -->
 
 <section
   id="panelFactura"
@@ -1275,7 +1320,6 @@ textarea {
 
     </div>
 
-
     <div class="datos-factura">
 
       <div class="campo">
@@ -1316,7 +1360,6 @@ textarea {
 
     </div>
 
-
     <div class="campo">
 
       <label>
@@ -1336,11 +1379,6 @@ textarea {
 
 </section>
 
-
-<!-- =====================================================
-     6 · DOCUMENTOS
-===================================================== -->
-
 <section
   id="panelDocumentos"
   class="panel disabled-area"
@@ -1358,18 +1396,13 @@ textarea {
 
   </div>
 
-
   <div class="documentos-body">
-
-
-    <!-- FACTURA OBLIGATORIA -->
 
     <div class="factura-doc">
 
       <div class="doc-title">
         Factura · obligatoria
       </div>
-
 
       <div class="acciones-doc">
 
@@ -1380,7 +1413,6 @@ textarea {
         >
           📷 TOMAR FOTO
         </button>
-
 
         <button
           type="button"
@@ -1396,7 +1428,6 @@ textarea {
 
       </div>
 
-
       <input
         id="facturaArchivo"
         class="input-oculto"
@@ -1404,7 +1435,6 @@ textarea {
         accept="image/*,application/pdf"
         onchange="seleccionarFacturaArchivo()"
       >
-
 
       <div
         id="estadoFactura"
@@ -1414,9 +1444,6 @@ textarea {
       </div>
 
     </div>
-
-
-    <!-- DOCUMENTOS ADICIONALES -->
 
     <div class="docs-extra">
 
@@ -1436,7 +1463,6 @@ textarea {
 
       </div>
 
-
       <div id="listaDocumentos"></div>
 
     </div>
@@ -1448,11 +1474,6 @@ textarea {
 </div>
 
 </main>
-
-
-<!-- =====================================================
-     CÁMARA
-===================================================== -->
 
 <div
   id="camaraFullscreen"
@@ -1477,7 +1498,6 @@ textarea {
 
   </div>
 
-
   <div class="camara-contenedor">
 
     <video
@@ -1486,12 +1506,10 @@ textarea {
       playsinline
     ></video>
 
-
     <canvas
       id="canvasCamara"
       style="display:none"
     ></canvas>
-
 
     <img
       id="previewCamara"
@@ -1500,7 +1518,6 @@ textarea {
     >
 
   </div>
-
 
   <div class="camara-acciones">
 
@@ -1513,7 +1530,6 @@ textarea {
       📷 TOMAR FOTO
     </button>
 
-
     <button
       id="btnRepetirFoto"
       type="button"
@@ -1523,7 +1539,6 @@ textarea {
     >
       REPETIR
     </button>
-
 
     <button
       id="btnUsarFoto"
@@ -1539,13 +1554,11 @@ textarea {
 
 </div>
 
-
 <iframe
   id="apiPostFrame"
   name="apiPostFrame"
   style="display:none"
 ></iframe>
-
 
 <script>
 
@@ -1554,7 +1567,6 @@ const API_URL =
 
 const STORAGE_API_KEY =
 'GF_RECEPCION_API_KEY';
-
 
 let ocDisponibles = [];
 let ocActual = null;
@@ -1570,7 +1582,6 @@ let fotoCapturada = null;
 
 const fotosDocumentos = {};
 
-
 /* =====================================================
    INICIO
 ===================================================== */
@@ -1585,7 +1596,6 @@ async () => {
 
 }
 );
-
 
 document.addEventListener(
 'visibilitychange',
@@ -1617,7 +1627,6 @@ async () => {
 }
 );
 
-
 window.addEventListener(
 'focus',
 async () => {
@@ -1644,7 +1653,6 @@ async () => {
 
 }
 );
-
 
 async function actualizarAplicacion(
 mostrarAviso=true
@@ -1673,7 +1681,6 @@ mostrarAviso=true
 
 }
 
-
 async function iniciarAplicacion() {
 
   const clave =
@@ -1693,7 +1700,6 @@ async function iniciarAplicacion() {
   await cargarOC();
 
 }
-
 
 /* =====================================================
    SERVICE WORKER
@@ -1727,7 +1733,6 @@ async function registrarServiceWorker() {
   }
 
 }
-
 
 /* =====================================================
    CLAVE
@@ -1775,7 +1780,6 @@ solicitar=true
 
 }
 
-
 function cambiarClaveApi() {
 
   const nuevaClave =
@@ -1801,7 +1805,6 @@ function cambiarClaveApi() {
 
 }
 
-
 /* =====================================================
    API GET
 ===================================================== */
@@ -1819,7 +1822,6 @@ return new Promise(
     Math.random()*100000
   );
 
-
   const timeout =
   setTimeout(
   () => {
@@ -1835,7 +1837,6 @@ return new Promise(
   },
   30000
   );
-
 
   function limpiar() {
 
@@ -1866,7 +1867,6 @@ return new Promise(
     }
 
   }
-
 
   window[
     callback
@@ -1899,10 +1899,8 @@ return new Promise(
 
   };
 
-
   const clave =
   obtenerClaveApi();
-
 
   const url =
   API_URL +
@@ -1916,7 +1914,6 @@ return new Promise(
   '&_=' +
   Date.now();
 
-
   const script =
   document.createElement(
     'script'
@@ -1927,7 +1924,6 @@ return new Promise(
 
   script.src =
   url;
-
 
   script.onerror =
   () => {
@@ -1942,7 +1938,6 @@ return new Promise(
 
   };
 
-
   document.body.appendChild(
     script
   );
@@ -1951,7 +1946,6 @@ return new Promise(
 );
 
 }
-
 
 /* =====================================================
    CARGAR OC
@@ -1965,8 +1959,7 @@ async function cargarOC() {
   );
 
   tbody.innerHTML =
-  '<tr><td colspan="6">Cargando...</td></tr>';
-
+  '<tr><td colspan="5">Cargando...</td></tr>';
 
   try {
 
@@ -1983,14 +1976,13 @@ async function cargarOC() {
 
     renderLista();
 
-
     if (ocActual) {
 
       const actualizada =
       ocDisponibles.find(
         x =>
-        x.oc ===
-        ocActual.oc
+          x.oc ===
+          ocActual.oc
       );
 
       if (actualizada) {
@@ -2013,7 +2005,7 @@ async function cargarOC() {
   } catch(error) {
 
     tbody.innerHTML =
-    '<tr><td colspan="6">No fue posible cargar las OC.</td></tr>';
+    '<tr><td colspan="5">No fue posible cargar las OC.</td></tr>';
 
     mostrarError(error);
 
@@ -2022,7 +2014,6 @@ async function cargarOC() {
   }
 
 }
-
 
 /* =====================================================
    FILTROS
@@ -2046,7 +2037,6 @@ filtroEmpresa.value;
 const proveedorActual =
 filtroProveedor.value;
 
-
 const empresas = [
 ...new Set(
   ocDisponibles
@@ -2055,7 +2045,6 @@ const empresas = [
 )
 ].sort();
 
-
 const proveedores = [
 ...new Set(
   ocDisponibles
@@ -2063,7 +2052,6 @@ const proveedores = [
   .filter(Boolean)
 )
 ].sort();
-
 
 filtroEmpresa.innerHTML =
 '<option value="">TODAS LAS EMPRESAS</option>' +
@@ -2074,7 +2062,6 @@ x =>
 )
 .join('');
 
-
 filtroProveedor.innerHTML =
 '<option value="">TODOS LOS PROVEEDORES</option>' +
 proveedores
@@ -2083,7 +2070,6 @@ x =>
 `<option value="${esc(x)}">${esc(x)}</option>`
 )
 .join('');
-
 
 if (
   empresas.includes(
@@ -2095,7 +2081,6 @@ if (
   empresaActual;
 
 }
-
 
 if (
   proveedores.includes(
@@ -2109,7 +2094,6 @@ if (
 }
 
 }
-
 
 /* =====================================================
    LISTA
@@ -2126,7 +2110,6 @@ document
 .trim()
 .toLowerCase();
 
-
 const empresa =
 document
 .getElementById(
@@ -2134,14 +2117,12 @@ document
 )
 .value;
 
-
 const proveedor =
 document
 .getElementById(
 'filtroProveedor'
 )
 .value;
-
 
 const filtradas =
 ocDisponibles.filter(
@@ -2154,14 +2135,12 @@ oc => {
     return false;
   }
 
-
   if (
     proveedor &&
     oc.proveedor !== proveedor
   ) {
     return false;
   }
-
 
   if (texto) {
 
@@ -2176,7 +2155,6 @@ oc => {
     )
     .join(' ');
 
-
     const cadena = [
       oc.oc,
       oc.empresa,
@@ -2185,7 +2163,6 @@ oc => {
     ]
     .join(' ')
     .toLowerCase();
-
 
     if (
       !cadena.includes(
@@ -2202,22 +2179,19 @@ oc => {
 }
 );
 
-
 const tbody =
 document.getElementById(
 'tablaOC'
 );
 
-
 if (!filtradas.length) {
 
 tbody.innerHTML =
-'<tr><td colspan="6">No hay OC habilitadas.</td></tr>';
+'<tr><td colspan="5">No hay OC habilitadas.</td></tr>';
 
 return;
 
 }
-
 
 tbody.innerHTML =
 filtradas
@@ -2252,12 +2226,6 @@ ${oc.cantidadProductos}
 </td>
 
 <td>
-<span class="badge">
-HABILITADA
-</span>
-</td>
-
-<td>
 
 <button
 class="btn-recepcionar"
@@ -2275,7 +2243,6 @@ RECEPCIONAR
 .join('');
 
 }
-
 
 /* =====================================================
    ABRIR OC
@@ -2302,14 +2269,12 @@ contadorDocumentos =
 facturaSeleccionada =
 null;
 
-
 Object.keys(
 fotosDocumentos
 )
 .forEach(
 key => delete fotosDocumentos[key]
 );
-
 
 renderLista();
 
@@ -2323,7 +2288,6 @@ recalcularMontos();
 
 }
 
-
 /* =====================================================
    PRODUCTOS
 ===================================================== */
@@ -2334,16 +2298,13 @@ if (!ocActual) {
 return;
 }
 
-
 const contenedor =
 document.getElementById(
 'productosContenido'
 );
 
-
 contenedor.className =
 'productos-scroll';
-
 
 contenedor.innerHTML = `
 
@@ -2465,7 +2426,6 @@ $0
 
 }
 
-
 /* =====================================================
    SELECCIÓN PRODUCTOS
 ===================================================== */
@@ -2476,14 +2436,12 @@ if (!ocActual) {
 return;
 }
 
-
 const valor =
 document
 .getElementById(
 'seleccionarTodo'
 )
 .checked;
-
 
 ocActual.productos
 .forEach(
@@ -2496,7 +2454,6 @@ document
 .checked =
 valor;
 
-
 cambiarSeleccionProducto(
 i,
 false
@@ -2505,11 +2462,9 @@ false
 }
 );
 
-
 recalcularMontos();
 
 }
-
 
 function cambiarSeleccionProducto(
 i,
@@ -2523,18 +2478,15 @@ document
 )
 .checked;
 
-
 const cantidad =
 document.getElementById(
 'cantidad_'+i
 );
 
-
 const precio =
 document.getElementById(
 'precio_'+i
 );
-
 
 if (!seleccionado) {
 
@@ -2546,7 +2498,6 @@ true;
 
 precio.disabled =
 true;
-
 
 document
 .getElementById(
@@ -2560,10 +2511,8 @@ document
 precio.disabled =
 false;
 
-
 const estado =
 estadoSeleccionado();
-
 
 if (
 estado === 'COMPLETA'
@@ -2605,13 +2554,11 @@ true;
 
 }
 
-
 if (recalcular) {
 recalcularMontos();
 }
 
 }
-
 
 /* =====================================================
    TIPO RECEPCIÓN
@@ -2629,17 +2576,14 @@ document.querySelector(
 
 }
 
-
 function cambiarEstado() {
 
 if (!ocActual) {
 return;
 }
 
-
 const estado =
 estadoSeleccionado();
-
 
 ocActual.productos
 .forEach(
@@ -2652,17 +2596,14 @@ document
 )
 .checked;
 
-
 if (!seleccionado) {
 return;
 }
-
 
 const cantidad =
 document.getElementById(
 'cantidad_'+i
 );
-
 
 if (
 estado === 'COMPLETA'
@@ -2675,7 +2616,6 @@ cantidad.disabled =
 true;
 
 }
-
 
 if (
 estado === 'PARCIAL'
@@ -2696,11 +2636,9 @@ false;
 }
 );
 
-
 recalcularMontos();
 
 }
-
 
 /* =====================================================
    MONTOS
@@ -2712,13 +2650,11 @@ if (!ocActual) {
 return;
 }
 
-
 let autorizado =
 0;
 
 let calculado =
 0;
-
 
 ocActual.productos
 .forEach(
@@ -2730,7 +2666,6 @@ document
 'sel_'+i
 )
 ?.checked;
-
 
 if (!seleccionado) {
 
@@ -2747,7 +2682,6 @@ return;
 
 }
 
-
 autorizado +=
 Number(
 p.cantidadAutorizada || 0
@@ -2756,7 +2690,6 @@ p.cantidadAutorizada || 0
 Number(
 p.precioAutorizado || 0
 );
-
 
 const cantidad =
 Number(
@@ -2769,7 +2702,6 @@ document
 0
 );
 
-
 const precio =
 Number(
 document
@@ -2781,15 +2713,12 @@ document
 0
 );
 
-
 const totalReal =
 cantidad *
 precio;
 
-
 calculado +=
 totalReal;
-
 
 document
 .getElementById(
@@ -2804,7 +2733,6 @@ totalReal
 }
 );
 
-
 document
 .getElementById(
 'montoAutorizado'
@@ -2815,7 +2743,6 @@ formatDinero(
 autorizado
 );
 
-
 document
 .getElementById(
 'montoCalculado'
@@ -2825,7 +2752,6 @@ document
 formatDinero(
 calculado
 );
-
 
 if (!montoEditadoManual) {
 
@@ -2840,11 +2766,9 @@ calculado
 
 }
 
-
 revisarDiferenciaMonto();
 
 }
-
 
 function obtenerMontoCalculadoActual() {
 
@@ -2852,10 +2776,8 @@ if (!ocActual) {
 return 0;
 }
 
-
 let total =
 0;
-
 
 ocActual.productos
 .forEach(
@@ -2868,11 +2790,9 @@ document
 )
 ?.checked;
 
-
 if (!seleccionado) {
 return;
 }
-
 
 const cantidad =
 Number(
@@ -2885,7 +2805,6 @@ document
 0
 );
 
-
 const precio =
 Number(
 document
@@ -2897,7 +2816,6 @@ document
 0
 );
 
-
 total +=
 cantidad *
 precio;
@@ -2905,13 +2823,11 @@ precio;
 }
 );
 
-
 return redondearMonto(
 total
 );
 
 }
-
 
 /* =====================================================
    DIFERENCIA FACTURA
@@ -2924,11 +2840,9 @@ document.getElementById(
 'motivoDiferenciaMonto'
 );
 
-
 if (!campo) {
 return;
 }
-
 
 const tipo =
 document
@@ -2939,7 +2853,6 @@ document
 ||
 '';
 
-
 const montoFactura =
 Number(
 document
@@ -2949,14 +2862,11 @@ document
 ?.value
 );
 
-
 const calculadoNeto =
 obtenerMontoCalculadoActual();
 
-
 let esperado =
 calculadoNeto;
-
 
 if (
 tipo === 'BRUTO'
@@ -2970,7 +2880,6 @@ calculadoNeto *
 
 }
 
-
 const diferencia =
 tipo &&
 Number.isFinite(
@@ -2981,7 +2890,6 @@ Math.abs(
 montoFactura -
 esperado
 ) > 0.01;
-
 
 if (diferencia) {
 
@@ -3014,7 +2922,6 @@ campo.placeholder =
 
 }
 
-
 /* =====================================================
    CÁMARA
 ===================================================== */
@@ -3029,31 +2936,26 @@ destino;
 fotoCapturada =
 null;
 
-
 const modal =
 document.getElementById(
 'camaraFullscreen'
 );
-
 
 const video =
 document.getElementById(
 'videoCamara'
 );
 
-
 const preview =
 document.getElementById(
 'previewCamara'
 );
-
 
 preview.style.display =
 'none';
 
 video.style.display =
 'block';
-
 
 document
 .getElementById(
@@ -3062,14 +2964,12 @@ document
 .style.display =
 'inline-block';
 
-
 document
 .getElementById(
 'btnRepetirFoto'
 )
 .style.display =
 'none';
-
 
 document
 .getElementById(
@@ -3078,10 +2978,8 @@ document
 .style.display =
 'none';
 
-
 modal.style.display =
 'flex';
-
 
 try {
 
@@ -3113,13 +3011,10 @@ audio:false
 
 });
 
-
 video.srcObject =
 streamCamara;
 
-
 await video.play();
-
 
 } catch(error) {
 
@@ -3134,7 +3029,6 @@ mostrarMensaje(
 
 }
 
-
 function capturarFoto() {
 
 const video =
@@ -3142,26 +3036,21 @@ document.getElementById(
 'videoCamara'
 );
 
-
 const canvas =
 document.getElementById(
 'canvasCamara'
 );
-
 
 const preview =
 document.getElementById(
 'previewCamara'
 );
 
-
 const ancho =
 video.videoWidth;
 
-
 const alto =
 video.videoHeight;
-
 
 if (
 !ancho ||
@@ -3170,16 +3059,13 @@ if (
 return;
 }
 
-
 const proporcion =
 4/3;
-
 
 let sx=0;
 let sy=0;
 let sw=ancho;
 let sh=alto;
-
 
 if (
 ancho / alto >
@@ -3204,19 +3090,16 @@ sy =
 
 }
 
-
 canvas.width =
 1600;
 
 canvas.height =
 1200;
 
-
 const ctx =
 canvas.getContext(
 '2d'
 );
-
 
 ctx.drawImage(
 video,
@@ -3230,25 +3113,20 @@ canvas.width,
 canvas.height
 );
 
-
 const dataUrl =
 canvas.toDataURL(
 'image/jpeg',
 0.90
 );
 
-
 preview.src =
 dataUrl;
-
 
 preview.style.display =
 'block';
 
-
 video.style.display =
 'none';
-
 
 canvas.toBlob(
 blob => {
@@ -3271,7 +3149,6 @@ type:'image/jpeg'
 0.90
 );
 
-
 document
 .getElementById(
 'btnCapturarFoto'
@@ -3279,14 +3156,12 @@ document
 .style.display =
 'none';
 
-
 document
 .getElementById(
 'btnRepetirFoto'
 )
 .style.display =
 'inline-block';
-
 
 document
 .getElementById(
@@ -3297,24 +3172,20 @@ document
 
 }
 
-
 function repetirFoto() {
 
 fotoCapturada =
 null;
-
 
 const video =
 document.getElementById(
 'videoCamara'
 );
 
-
 const preview =
 document.getElementById(
 'previewCamara'
 );
-
 
 preview.style.display =
 'none';
@@ -3322,7 +3193,6 @@ preview.style.display =
 video.style.display =
 'block';
 
-
 document
 .getElementById(
 'btnCapturarFoto'
@@ -3330,14 +3200,12 @@ document
 .style.display =
 'inline-block';
 
-
 document
 .getElementById(
 'btnRepetirFoto'
 )
 .style.display =
 'none';
-
 
 document
 .getElementById(
@@ -3347,7 +3215,6 @@ document
 'none';
 
 }
-
 
 function usarFoto() {
 
@@ -3362,7 +3229,6 @@ return;
 
 }
 
-
 if (
 destinoCamara ===
 'FACTURA'
@@ -3374,7 +3240,6 @@ fotoCapturada;
 renderEstadoFactura();
 
 }
-
 
 if (
 destinoCamara &&
@@ -3390,23 +3255,19 @@ destinoCamara.replace(
 ''
 );
 
-
 fotosDocumentos[
 id
 ] =
 fotoCapturada;
-
 
 const inputArchivo =
 document.getElementById(
 'docArchivo_'+id
 );
 
-
 if (inputArchivo) {
 inputArchivo.value='';
 }
-
 
 renderEstadoDocumento(
 id,
@@ -3415,11 +3276,9 @@ fotoCapturada
 
 }
 
-
 cerrarCamara();
 
 }
-
 
 function cerrarCamara() {
 
@@ -3434,21 +3293,17 @@ track.stop()
 
 }
 
-
 streamCamara =
 null;
-
 
 const video =
 document.getElementById(
 'videoCamara'
 );
 
-
 if (video) {
 video.srcObject=null;
 }
-
 
 document
 .getElementById(
@@ -3457,7 +3312,6 @@ document
 .style.display =
 'none';
 
-
 fotoCapturada =
 null;
 
@@ -3465,7 +3319,6 @@ destinoCamara =
 null;
 
 }
-
 
 /* =====================================================
    FACTURA ARCHIVO
@@ -3480,16 +3333,13 @@ document
 )
 .files[0];
 
-
 facturaSeleccionada =
 archivo ||
 null;
 
-
 renderEstadoFactura();
 
 }
-
 
 function renderEstadoFactura() {
 
@@ -3497,7 +3347,6 @@ const box =
 document.getElementById(
 'estadoFactura'
 );
-
 
 if (!facturaSeleccionada) {
 
@@ -3507,7 +3356,6 @@ box.innerHTML =
 return;
 
 }
-
 
 box.innerHTML = `
 
@@ -3529,28 +3377,23 @@ onclick="quitarFactura()"
 
 }
 
-
 function quitarFactura() {
 
 facturaSeleccionada =
 null;
-
 
 const archivo =
 document.getElementById(
 'facturaArchivo'
 );
 
-
 if (archivo) {
 archivo.value='';
 }
 
-
 renderEstadoFactura();
 
 }
-
 
 /* =====================================================
    DOCUMENTOS ADICIONALES
@@ -3560,24 +3403,19 @@ function agregarDocumento() {
 
 contadorDocumentos++;
 
-
 const id =
 contadorDocumentos;
-
 
 const fila =
 document.createElement(
 'div'
 );
 
-
 fila.className =
 'doc-row';
 
-
 fila.id =
 'docRow_'+id;
-
 
 fila.innerHTML = `
 
@@ -3607,7 +3445,6 @@ OTRO
 
 </select>
 
-
 <button
 type="button"
 class="btn-foto"
@@ -3615,7 +3452,6 @@ onclick="abrirCamara('DOC_${id}')"
 >
 📷 TOMAR FOTO
 </button>
-
 
 <button
 type="button"
@@ -3629,14 +3465,12 @@ document
 📎 SUBIR ARCHIVO
 </button>
 
-
 <div
 id="docEstado_${id}"
 class="doc-estado"
 >
 Sin archivo
 </div>
-
 
 <button
 type="button"
@@ -3648,7 +3482,6 @@ onclick="eliminarDocumento(${id})"
 
 </div>
 
-
 <input
 id="docArchivo_${id}"
 class="input-oculto"
@@ -3658,7 +3491,6 @@ onchange="seleccionarDocumentoArchivo(${id})"
 >
 
 `;
-
 
 document
 .getElementById(
@@ -3670,7 +3502,6 @@ fila
 
 }
 
-
 function seleccionarDocumentoArchivo(
 id
 ) {
@@ -3680,16 +3511,13 @@ document.getElementById(
 'docArchivo_'+id
 );
 
-
 const archivo =
 input.files[0] ||
 null;
 
-
 delete fotosDocumentos[
 id
 ];
-
 
 renderEstadoDocumento(
 id,
@@ -3697,7 +3525,6 @@ archivo
 );
 
 }
-
 
 function renderEstadoDocumento(
 id,
@@ -3709,11 +3536,9 @@ document.getElementById(
 'docEstado_'+id
 );
 
-
 if (!estado) {
 return;
 }
-
 
 if (!archivo) {
 
@@ -3730,20 +3555,16 @@ return;
 
 }
 
-
 estado.textContent =
 '✓ '+archivo.name;
 
-
 estado.style.color =
 '#15713e';
-
 
 estado.style.fontWeight =
 '800';
 
 }
-
 
 function eliminarDocumento(
 id
@@ -3753,7 +3574,6 @@ delete fotosDocumentos[
 id
 ];
 
-
 document
 .getElementById(
 'docRow_'+id
@@ -3761,7 +3581,6 @@ document
 ?.remove();
 
 }
-
 
 /* =====================================================
    HABILITAR / LIMPIAR
@@ -3790,7 +3609,6 @@ id
 }
 );
 
-
 document
 .getElementById(
 'btnConfirmar'
@@ -3800,12 +3618,10 @@ false;
 
 }
 
-
 function limpiarDatosFactura() {
 
 montoEditadoManual =
 false;
-
 
 [
 'montoFactura',
@@ -3830,24 +3646,19 @@ el.value='';
 }
 );
 
-
 facturaSeleccionada =
 null;
-
 
 const facturaArchivo =
 document.getElementById(
 'facturaArchivo'
 );
 
-
 if (facturaArchivo) {
 facturaArchivo.value='';
 }
 
-
 renderEstadoFactura();
-
 
 document
 .getElementById(
@@ -3856,7 +3667,6 @@ document
 .innerHTML =
 '';
 
-
 Object.keys(
 fotosDocumentos
 )
@@ -3864,7 +3674,6 @@ fotosDocumentos
 key =>
 delete fotosDocumentos[key]
 );
-
 
 document
 .querySelectorAll(
@@ -3875,7 +3684,6 @@ x =>
 x.checked=false
 );
 
-
 document
 .getElementById(
 'seleccionarTodo'
@@ -3883,34 +3691,27 @@ document
 .checked =
 false;
 
-
 revisarDiferenciaMonto();
 
 }
-
 
 function limpiarSeleccion() {
 
 ocActual =
 null;
 
-
 renderLista();
-
 
 const productos =
 document.getElementById(
 'productosContenido'
 );
 
-
 productos.className =
 'empty';
 
-
 productos.innerHTML =
 'Seleccione una OC.';
-
 
 [
 'panelTipo',
@@ -3933,7 +3734,6 @@ id
 }
 );
 
-
 document
 .getElementById(
 'btnConfirmar'
@@ -3941,11 +3741,9 @@ document
 .disabled =
 true;
 
-
 limpiarDatosFactura();
 
 }
-
 
 /* =====================================================
    GUARDAR
@@ -3970,7 +3768,6 @@ return;
 
 }
 
-
 const timeout =
 setTimeout(
 () => {
@@ -3988,35 +3785,28 @@ new Error(
 120000
 );
 
-
 postPendiente = {
 resolve,
 reject,
 timeout
 };
 
-
 const form =
 document.createElement(
 'form'
 );
 
-
 form.method =
 'POST';
-
 
 form.action =
 API_URL;
 
-
 form.target =
 'apiPostFrame';
 
-
 form.style.display =
 'none';
-
 
 const datos = {
 
@@ -4033,7 +3823,6 @@ payload
 )
 
 };
-
 
 Object.entries(
 datos
@@ -4059,14 +3848,11 @@ campo
 }
 );
 
-
 document.body.appendChild(
 form
 );
 
-
 form.submit();
-
 
 setTimeout(
 () => form.remove(),
@@ -4077,7 +3863,6 @@ setTimeout(
 );
 
 }
-
 
 /* =====================================================
    RESPUESTA
@@ -4091,10 +3876,8 @@ if (!postPendiente) {
 return;
 }
 
-
 const respuesta =
 event.data;
-
 
 if (
 !respuesta ||
@@ -4104,7 +3887,6 @@ typeof respuesta !==
 return;
 }
 
-
 if (
 respuesta.accion !==
 'guardar'
@@ -4112,19 +3894,15 @@ respuesta.accion !==
 return;
 }
 
-
 clearTimeout(
 postPendiente.timeout
 );
 
-
 const pendiente =
 postPendiente;
 
-
 postPendiente =
 null;
-
 
 if (
 respuesta.ok === true
@@ -4148,7 +3926,6 @@ respuesta.error ||
 }
 );
 
-
 /* =====================================================
    CONFIRMAR RECEPCIÓN
 ===================================================== */
@@ -4156,7 +3933,6 @@ respuesta.error ||
 async function confirmarRecepcion() {
 
 limpiarMensaje();
-
 
 if (!ocActual) {
 
@@ -4167,10 +3943,8 @@ return mostrarMensaje(
 
 }
 
-
 const estado =
 estadoSeleccionado();
-
 
 if (!estado) {
 
@@ -4181,10 +3955,8 @@ return mostrarMensaje(
 
 }
 
-
 const productos =
 [];
-
 
 ocActual.productos
 .forEach(
@@ -4197,11 +3969,9 @@ document
 )
 .checked;
 
-
 if (!seleccionado) {
 return;
 }
-
 
 const cantidad =
 Number(
@@ -4212,7 +3982,6 @@ document
 .value
 );
 
-
 const precio =
 Number(
 document
@@ -4221,7 +3990,6 @@ document
 )
 .value
 );
-
 
 productos.push({
 
@@ -4247,7 +4015,6 @@ precio
 }
 );
 
-
 if (!productos.length) {
 
 return mostrarMensaje(
@@ -4256,7 +4023,6 @@ return mostrarMensaje(
 );
 
 }
-
 
 for (
 const p
@@ -4278,7 +4044,6 @@ return mostrarMensaje(
 
 }
 
-
 if (
 !Number.isFinite(
 p.precioFactura
@@ -4296,7 +4061,6 @@ return mostrarMensaje(
 
 }
 
-
 const montoFactura =
 Number(
 document
@@ -4306,14 +4070,12 @@ document
 .value
 );
 
-
 const tipoMontoFactura =
 document
 .getElementById(
 'tipoMontoFactura'
 )
 .value;
-
 
 const motivoDiferenciaMonto =
 document
@@ -4323,7 +4085,6 @@ document
 .value
 .trim();
 
-
 const numeroFactura =
 document
 .getElementById(
@@ -4332,7 +4093,6 @@ document
 .value
 .trim();
 
-
 const fechaFactura =
 document
 .getElementById(
@@ -4340,14 +4100,12 @@ document
 )
 .value;
 
-
 const fechaVencimiento =
 document
 .getElementById(
 'fechaVencimiento'
 )
 .value;
-
 
 if (
 !numeroFactura ||
@@ -4363,7 +4121,6 @@ return mostrarMensaje(
 
 }
 
-
 if (!facturaSeleccionada) {
 
 return mostrarMensaje(
@@ -4372,7 +4129,6 @@ return mostrarMensaje(
 );
 
 }
-
 
 if (
 !Number.isFinite(
@@ -4389,10 +4145,8 @@ return mostrarMensaje(
 
 }
 
-
 const montoEsperadoNeto =
 obtenerMontoCalculadoActual();
-
 
 const montoEsperado =
 tipoMontoFactura ===
@@ -4405,14 +4159,12 @@ montoEsperadoNeto *
 
 : montoEsperadoNeto;
 
-
 const existeDiferencia =
 Math.abs(
 montoFactura -
 montoEsperado
 ) >
 0.01;
-
 
 if (
 existeDiferencia &&
@@ -4426,18 +4178,13 @@ return mostrarMensaje(
 
 }
 
-
-/* DOCUMENTOS ADICIONALES */
-
 const documentos =
 [];
-
 
 const filasDocs =
 document.querySelectorAll(
 '.doc-row'
 );
-
 
 for (
 const fila
@@ -4450,7 +4197,6 @@ fila.id.replace(
 ''
 );
 
-
 const archivoSubido =
 document
 .getElementById(
@@ -4458,17 +4204,14 @@ document
 )
 ?.files[0];
 
-
 const fotoInterna =
 fotosDocumentos[
 id
 ];
 
-
 const file =
 fotoInterna ||
 archivoSubido;
-
 
 if (!file) {
 
@@ -4478,7 +4221,6 @@ return mostrarMensaje(
 );
 
 }
-
 
 documentos.push({
 
@@ -4497,9 +4239,6 @@ file
 });
 
 }
-
-
-/* PAYLOAD */
 
 const payload = {
 
@@ -4542,20 +4281,16 @@ documentos
 
 };
 
-
 const btn =
 document.getElementById(
 'btnConfirmar'
 );
 
-
 btn.disabled =
 true;
 
-
 btn.textContent =
 'GUARDANDO...';
-
 
 try {
 
@@ -4564,11 +4299,9 @@ await guardarRecepcionApi(
 payload
 );
 
-
 const resultado =
 respuesta.data ||
 {};
-
 
 mostrarMensaje(
 resultado.mensaje ||
@@ -4576,26 +4309,20 @@ resultado.mensaje ||
 'ok'
 );
 
-
 btn.textContent =
 '✓ CONFIRMAR RECEPCIÓN';
 
-
 limpiarSeleccion();
 
-
 await cargarOC();
-
 
 } catch(error) {
 
 btn.disabled =
 false;
 
-
 btn.textContent =
 '✓ CONFIRMAR RECEPCIÓN';
-
 
 mostrarError(
 error
@@ -4604,7 +4331,6 @@ error
 }
 
 }
-
 
 /* =====================================================
    ARCHIVO BASE64
@@ -4619,7 +4345,6 @@ return new Promise(
 
 const reader =
 new FileReader();
-
 
 reader.onload =
 () => {
@@ -4641,10 +4366,8 @@ reader
 
 };
 
-
 reader.onerror =
 reject;
-
 
 reader.readAsDataURL(
 file
@@ -4654,7 +4377,6 @@ file
 );
 
 }
-
 
 /* =====================================================
    MENSAJES
@@ -4670,7 +4392,6 @@ document.getElementById(
 'mensaje'
 );
 
-
 contenedor.innerHTML = `
 
 <div class="mensaje ${tipo}">
@@ -4678,7 +4399,6 @@ ${esc(texto)}
 </div>
 
 `;
-
 
 setTimeout(
 () => {
@@ -4691,7 +4411,6 @@ contenedor.innerHTML =
 );
 
 }
-
 
 function mostrarError(
 error
@@ -4706,7 +4425,6 @@ String(error) ||
 
 }
 
-
 function limpiarMensaje() {
 
 document
@@ -4717,7 +4435,6 @@ document
 '';
 
 }
-
 
 /* =====================================================
    FORMATO
@@ -4740,7 +4457,6 @@ maximumFractionDigits:3
 
 }
 
-
 function formatDinero(
 valor
 ) {
@@ -4758,7 +4474,6 @@ maximumFractionDigits:2
 
 }
 
-
 function redondearMonto(
 valor
 ) {
@@ -4774,7 +4489,6 @@ valor ||
 /100;
 
 }
-
 
 function esc(
 valor
