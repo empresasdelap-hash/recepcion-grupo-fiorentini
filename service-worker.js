@@ -1,159 +1,4169 @@
-const CACHE_NAME = 'recepcion-fiorentini-v4';
+<!DOCTYPE html>
+<html lang="es">
 
-const APP_FILES = [
-  './',
-  './index.html',
-  './manifest.webmanifest'
-];
+<head>
+  <meta charset="UTF-8">
 
-/* =========================================
-   INSTALACIÓN
-========================================= */
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
+  >
 
-self.addEventListener('install', event => {
-  self.skipWaiting();
+  <title>Recepción de Mercadería</title>
 
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_FILES))
-  );
-});
+  <meta name="theme-color" content="#0b4d7d">
+
+  <link
+    rel="manifest"
+    href="manifest.webmanifest"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --azul-oscuro: #0b4d7d;
+      --azul: #086bc1;
+      --azul-suave: #eef7fd;
+      --verde: #078b45;
+      --verde-suave: #e5f6eb;
+      --fondo: #f3f6f9;
+      --borde: #d9e4ec;
+      --texto: #162633;
+      --texto-suave: #71808c;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =====================================================
+       CABECERA
+    ===================================================== */
+
+    .topbar {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 8px;
+      background: linear-gradient(90deg, #0c4c7c, #063c64);
+      color: white;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .logo-box {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: rgba(255,255,255,.12);
+      font-size: 18px;
+    }
+
+    .titulo-principal {
+      font-size: 16px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .empresa-header {
+      padding-left: 9px;
+      border-left: 1px solid rgba(255,255,255,.35);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .acciones-recepcion-header {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    .header-derecha {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    .usuario-header {
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.10);
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .btn-header {
+      min-height: 30px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 6px;
+      background: rgba(255,255,255,.12);
+      color: white;
+      font-size: 8px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn-header-cancelar {
+      min-height: 32px;
+      padding: 0 11px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 6px;
+      background: rgba(255,255,255,.14);
+      color: white;
+      font-size: 8px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn-header-confirmar {
+      min-height: 32px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 6px;
+      background: linear-gradient(90deg,#0aa85a,#078b45);
+      color: white;
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+      box-shadow: 0 2px 5px rgba(0,0,0,.18);
+    }
+
+    .btn-header-confirmar:disabled {
+      opacity: .42;
+      cursor: not-allowed;
+    }
+
+    .btn-clave {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 6px;
+      background: rgba(255,255,255,.12);
+      color: white;
+      font-size: 14px;
+    }
+
+    /* =====================================================
+       ESTRUCTURA
+    ===================================================== */
+
+    .app {
+      height: calc(100dvh - 54px);
+      padding: 5px 5px calc(6px + env(safe-area-inset-bottom, 0px));
+      display: grid;
+      grid-template-columns: 40% 60%;
+      gap: 5px;
+      overflow: hidden;
+    }
+
+    .col-izquierda {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) 92px;
+      gap: 5px;
+    }
+
+    .col-derecha {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows:
+        minmax(190px, 1fr)
+        168px
+        150px;
+      gap: 5px;
+    }
+
+    .panel {
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--borde);
+      border-radius: 7px;
+    }
+
+    .panel-header {
+      height: 32px;
+      padding: 4px 7px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(90deg, #eff7fd, #ffffff);
+      border-bottom: 1px solid #e1eaf1;
+    }
+
+    .numero {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--azul);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .panel-title {
+      color: var(--azul-oscuro);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .panel-sub {
+      margin-top: 1px;
+      color: var(--texto-suave);
+      font-size: 7px;
+    }
+
+    /* =====================================================
+       CAMPOS
+    ===================================================== */
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #cbd7e0;
+      border-radius: 5px;
+      background: white;
+      font-size: 8px;
+      outline: none;
+    }
+
+    input,
+    select {
+      height: 27px;
+      padding: 4px 6px;
+    }
+
+    textarea {
+      min-height: 42px;
+      padding: 5px 6px;
+      resize: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #3990d1;
+      box-shadow: 0 0 0 2px rgba(57,144,209,.10);
+    }
+
+    .campo label {
+      display: block;
+      margin-bottom: 2px;
+      color: #536471;
+      font-size: 7px;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       1 · OC AUTORIZADAS
+    ===================================================== */
+
+    .lista-body {
+      height: calc(100% - 32px);
+      padding: 5px;
+      display: grid;
+      grid-template-rows: auto minmax(0,1fr);
+      gap: 4px;
+    }
+
+    .filtros {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    #buscador {
+      grid-column: 1 / -1;
+    }
+
+    .tabla-scroll {
+      min-height: 0;
+      overflow: auto;
+      border: 1px solid #e1e8ee;
+      border-radius: 5px;
+    }
+
+    .tabla {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8px;
+    }
+
+    .tabla thead {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
+
+    .tabla th {
+      padding: 5px 3px;
+      background: #e8f2fa;
+      color: #304b61;
+      border-bottom: 1px solid #cedde8;
+      text-align: left;
+      font-size: 7px;
+      white-space: nowrap;
+    }
+
+    .tabla td {
+      padding: 5px 3px;
+      border-bottom: 1px solid #edf2f5;
+      vertical-align: middle;
+      font-size: 8px;
+    }
+
+    .tabla tbody tr.oc-activa {
+      background: #e8f5ff;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 4px;
+      border-radius: 4px;
+      background: #ddf5e6;
+      color: #14703c;
+      font-size: 6px;
+      font-weight: 800;
+    }
+
+    .btn-recepcionar {
+      min-height: 26px;
+      padding: 4px 6px;
+      border: 0;
+      border-radius: 5px;
+      background: var(--azul);
+      color: white;
+      font-size: 7px;
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       3 · TIPO DE RECEPCIÓN
+    ===================================================== */
+
+    #panelTipo {
+      display: grid;
+      grid-template-rows: 30px 1fr;
+    }
+
+    .tipo-titulo {
+      padding: 4px 7px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(90deg, #eff7fd, #ffffff);
+      border-bottom: 1px solid #e2e9ef;
+    }
+
+    .tipo-controles {
+      padding: 7px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.25fr;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .tipo-card {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #cbd7e0;
+      border-radius: 6px;
+      background: white;
+      color: #17496f;
+      font-size: 9px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tipo-card input {
+      display: none;
+    }
+
+    .tipo-card:has(input:checked) {
+      border-color: #52bc7c;
+      background: #e8f8ee;
+      color: #126c39;
+    }
+
+    .seleccionar-todos {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 1px solid #d8e1e7;
+      border-radius: 6px;
+      background: #fafcfd;
+      color: #465862;
+      font-size: 8px;
+      white-space: nowrap;
+    }
+
+    .seleccionar-todos input {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* =====================================================
+       4 · PRODUCTOS
+    ===================================================== */
+
+    #panelProductos {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    #productosContenido {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .productos-scroll {
+      height: 100%;
+      overflow: auto;
+    }
+
+    .productos-table {
+      min-width: 760px;
+    }
+
+    .productos-table input[type="number"] {
+      width: 72px;
+      height: 25px;
+      text-align: right;
+      font-size: 8px;
+    }
+
+    .check-producto {
+      width: 14px;
+      height: 14px;
+    }
+
+    .precio-ref {
+      font-weight: 700;
+    }
+
+    .total-real {
+      color: #087944;
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       5 · DATOS FACTURA
+    ===================================================== */
+
+    .factura-body {
+      height: calc(100% - 32px);
+      padding: 5px 7px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 5px;
+      overflow: auto;
+    }
+
+    .montos {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 5px;
+    }
+
+    .monto-box {
+      min-width: 0;
+      padding: 4px 6px;
+      border: 1px solid #dbe4eb;
+      border-radius: 5px;
+      background: #fafcfd;
+    }
+
+    .monto-box small {
+      display: block;
+      margin-bottom: 1px;
+      color: #71808c;
+      font-size: 6px;
+      white-space: nowrap;
+    }
+
+    .monto-box strong {
+      display: block;
+      color: #183f62;
+      font-size: 10px;
+      line-height: 22px;
+    }
+
+    .monto-box input,
+    .monto-box select {
+      height: 23px;
+      font-size: 8px;
+    }
+
+    .datos-factura {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 5px;
+      align-items: end;
+    }
+
+    .motivo-diferencia {
+      display: grid;
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    #motivoDiferenciaMonto {
+      min-height: 35px;
+    }
+
+    .sin-diferencia {
+      background: #f5f7f9;
+      color: #86939d;
+    }
+
+    /* =====================================================
+       6 · DOCUMENTOS
+    ===================================================== */
+
+    .documentos-body {
+      height: calc(100% - 32px);
+      padding: 5px 6px;
+      display: grid;
+      grid-template-columns: 38% 62%;
+      gap: 6px;
+    }
+
+    .factura-doc {
+      min-width: 0;
+      padding-right: 6px;
+      border-right: 1px solid #e2e8ed;
+    }
+
+    .doc-title {
+      margin-bottom: 4px;
+      font-size: 7px;
+      font-weight: 800;
+    }
+
+    .acciones-doc {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .btn-foto,
+    .btn-archivo {
+      height: 27px;
+      border-radius: 5px;
+      font-size: 7px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn-foto {
+      border: 0;
+      background: #0788d5;
+      color: white;
+    }
+
+    .btn-archivo {
+      border: 1px solid #bfd7e8;
+      background: #eaf4fb;
+      color: #174c74;
+    }
+
+    .input-oculto {
+      display: none;
+    }
+
+    .archivo-estado {
+      min-height: 26px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      border: 1px solid #dce5ec;
+      border-radius: 5px;
+      background: #f9fbfc;
+      color: #60717d;
+      font-size: 7px;
+    }
+
+    .archivo-ok {
+      color: #14713d;
+      font-weight: 800;
+    }
+
+    .btn-quitar {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 4px;
+      background: #fee8e8;
+      color: #9c2828;
+      font-weight: 800;
+    }
+
+    .docs-extra {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #listaDocumentos {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      margin-bottom: 4px;
+    }
+
+    .doc-row {
+      margin-bottom: 4px;
+      padding: 4px;
+      border: 1px solid #dfe7ed;
+      border-radius: 5px;
+      background: #fafcfd;
+    }
+
+    .doc-superior {
+      display: grid;
+      grid-template-columns: 105px 92px 92px minmax(70px,1fr) 24px;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .doc-superior select {
+      height: 27px;
+      font-size: 7px;
+    }
+
+    .doc-superior .btn-foto,
+    .doc-superior .btn-archivo {
+      width: 100%;
+      height: 27px;
+      padding: 0 4px;
+      font-size: 7px;
+    }
+
+    .doc-estado {
+      min-width: 0;
+      overflow: hidden;
+      color: #60707c;
+      font-size: 7px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .btn-eliminar {
+      width: 24px;
+      height: 27px;
+      border: 0;
+      border-radius: 4px;
+      background: #fee8e8;
+      color: #a12828;
+      font-weight: 800;
+    }
+
+    .btn-agregar {
+      height: 27px;
+      flex: 0 0 auto;
+      border: 1px solid #83bce5;
+      border-radius: 5px;
+      background: #eef8ff;
+      color: #075d9e;
+      font-size: 7px;
+      font-weight: 800;
+    }
+
+    .empty {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: #788794;
+      font-size: 9px;
+    }
+
+    .disabled-area {
+      opacity: .48;
+      pointer-events: none;
+    }
+
+    /* =====================================================
+       MENSAJES
+    ===================================================== */
+
+    #mensaje {
+      position: fixed;
+      z-index: 9999;
+      top: 58px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 300px;
+      max-width: 80%;
+    }
+
+    .mensaje {
+      padding: 8px 11px;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgba(0,0,0,.16);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .mensaje.ok {
+      background: #dcf7e6;
+      color: #126c3a;
+    }
+
+    .mensaje.error {
+      background: #fee5e5;
+      color: #9c2424;
+    }
+
+    @media screen and (max-height: 650px) {
+
+      .topbar {
+        height: 48px;
+      }
+
+      .app {
+        height: calc(100dvh - 48px);
+      }
+
+      .col-izquierda {
+        grid-template-rows: minmax(0,1fr) 82px;
+      }
+
+      .col-derecha {
+        grid-template-rows:
+          minmax(165px,1fr)
+          158px
+          138px;
+      }
+
+      .panel-header {
+        height: 29px;
+      }
+
+      .tipo-controles {
+        padding: 4px;
+      }
+
+      .tipo-card,
+      .seleccionar-todos {
+        height: 32px;
+      }
+
+      .titulo-principal {
+        font-size: 14px;
+      }
+
+      .empresa-header {
+        font-size: 10px;
+      }
+
+      .btn-header-confirmar {
+        padding: 0 10px;
+        font-size: 8px;
+      }
+
+      .btn-header-cancelar {
+        padding: 0 8px;
+        font-size: 7px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <div class="logo-box">
+      📦
+    </div>
+
+    <div class="titulo-principal">
+      50 · RECEPCIÓN DE MERCADERÍA
+    </div>
+
+    <div class="empresa-header">
+      Grupo Fiorentini
+    </div>
+
+  </div>
 
 
-/* =========================================
-   ACTIVACIÓN
-========================================= */
+  <div class="acciones-recepcion-header">
 
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys =>
-        Promise.all(
-          keys
-            .filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
-        )
-      )
-      .then(() => self.clients.claim())
-  );
-});
+    <button
+      class="btn-header-cancelar"
+      type="button"
+      onclick="limpiarSeleccion()"
+    >
+      CANCELAR
+    </button>
+
+    <button
+      id="btnConfirmar"
+      class="btn-header-confirmar"
+      type="button"
+      onclick="confirmarRecepcion()"
+      disabled
+    >
+      ✓ CONFIRMAR RECEPCIÓN
+    </button>
+
+  </div>
 
 
-/* =========================================
-   ACTUALIZAR CACHE EN SEGUNDO PLANO
-========================================= */
+  <div class="header-derecha">
 
-async function actualizarCache(request) {
+    <div class="usuario-header">
+      👤 Recepción
+    </div>
+
+    <button
+      class="btn-header"
+      type="button"
+      onclick="actualizarAplicacion(true)"
+    >
+      🔄 ACTUALIZAR
+    </button>
+
+    <button
+      class="btn-clave"
+      type="button"
+      title="Cambiar clave"
+      onclick="cambiarClaveApi()"
+    >
+      🔑
+    </button>
+
+  </div>
+
+</header>
+
+
+<div id="mensaje"></div>
+
+
+<main class="app">
+
+  <div class="col-izquierda">
+
+    <section class="panel">
+
+      <div class="panel-header">
+
+        <div class="numero">
+          1
+        </div>
+
+        <div>
+
+          <div class="panel-title">
+            OC AUTORIZADAS
+          </div>
+
+          <div class="panel-sub">
+            Seleccione la orden de compra recibida
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="lista-body">
+
+        <div class="filtros">
+
+          <select
+            id="filtroEmpresa"
+            onchange="renderLista()"
+          >
+            <option value="">
+              TODAS LAS EMPRESAS
+            </option>
+          </select>
+
+          <select
+            id="filtroProveedor"
+            onchange="renderLista()"
+          >
+            <option value="">
+              TODOS LOS PROVEEDORES
+            </option>
+          </select>
+
+          <input
+            id="buscador"
+            placeholder="Buscar OC, proveedor o producto..."
+            oninput="renderLista()"
+          >
+
+        </div>
+
+        <div class="tabla-scroll">
+
+          <table class="tabla">
+
+            <thead>
+              <tr>
+                <th>OC</th>
+                <th>Proveedor</th>
+                <th>Fecha</th>
+                <th>Prod.</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody id="tablaOC">
+              <tr>
+                <td colspan="6">
+                  Cargando...
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section
+      id="panelTipo"
+      class="panel disabled-area"
+    >
+
+      <div class="tipo-titulo">
+
+        <div class="numero">
+          3
+        </div>
+
+        <div class="panel-title">
+          TIPO DE RECEPCIÓN
+        </div>
+
+      </div>
+
+      <div class="tipo-controles">
+
+        <label class="tipo-card">
+
+          <input
+            type="radio"
+            name="estado"
+            value="COMPLETA"
+            onchange="cambiarEstado()"
+          >
+
+          COMPLETA
+
+        </label>
+
+        <label class="tipo-card">
+
+          <input
+            type="radio"
+            name="estado"
+            value="PARCIAL"
+            onchange="cambiarEstado()"
+          >
+
+          PARCIAL
+
+        </label>
+
+        <label class="seleccionar-todos">
+
+          <input
+            id="seleccionarTodo"
+            type="checkbox"
+            onchange="seleccionarTodos()"
+          >
+
+          Seleccionar todos
+
+        </label>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <div class="col-derecha">
+
+    <section
+      id="panelProductos"
+      class="panel disabled-area"
+    >
+
+      <div class="panel-header">
+
+        <div class="numero">
+          4
+        </div>
+
+        <div>
+
+          <div class="panel-title">
+            PRODUCTOS
+          </div>
+
+          <div class="panel-sub">
+            Seleccione los productos de esta factura
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        id="productosContenido"
+        class="empty"
+      >
+        Seleccione una OC.
+      </div>
+
+    </section>
+
+
+    <section
+      id="panelFactura"
+      class="panel disabled-area"
+    >
+
+      <div class="panel-header">
+
+        <div class="numero">
+          5
+        </div>
+
+        <div class="panel-title">
+          DATOS DE LA FACTURA
+        </div>
+
+      </div>
+
+      <div class="factura-body">
+
+        <div class="montos">
+
+          <div class="monto-box">
+
+            <small>
+              Monto autorizado
+            </small>
+
+            <strong id="montoAutorizado">
+              $0
+            </strong>
+
+          </div>
+
+          <div class="monto-box">
+
+            <small>
+              Monto calculado
+            </small>
+
+            <strong id="montoCalculado">
+              $0
+            </strong>
+
+          </div>
+
+          <div class="monto-box">
+
+            <small>
+              Monto factura
+            </small>
+
+            <input
+              id="montoFactura"
+              type="number"
+              step="0.01"
+              oninput="
+                montoEditadoManual = true;
+                revisarDiferenciaMonto();
+              "
+            >
+
+          </div>
+
+          <div class="monto-box">
+
+            <small>
+              Monto factura corresponde a
+            </small>
+
+            <select
+              id="tipoMontoFactura"
+              onchange="revisarDiferenciaMonto()"
+            >
+              <option value="">
+                SELECCIONAR
+              </option>
+
+              <option value="NETO">
+                NETO
+              </option>
+
+              <option value="BRUTO">
+                BRUTO
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="datos-factura">
+
+          <div class="campo">
+
+            <label>
+              N° factura
+            </label>
+
+            <input id="numeroFactura">
+
+          </div>
+
+          <div class="campo">
+
+            <label>
+              Fecha factura
+            </label>
+
+            <input
+              id="fechaFactura"
+              type="date"
+            >
+
+          </div>
+
+          <div class="campo">
+
+            <label>
+              Fecha vencimiento
+            </label>
+
+            <input
+              id="fechaVencimiento"
+              type="date"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="motivo-diferencia">
+
+          <div class="campo">
+
+            <label>
+              Motivo diferencia monto factura
+            </label>
+
+            <textarea
+              id="motivoDiferenciaMonto"
+              class="sin-diferencia"
+              placeholder="Sin diferencia de monto"
+              disabled
+            ></textarea>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section
+      id="panelDocumentos"
+      class="panel disabled-area"
+    >
+
+      <div class="panel-header">
+
+        <div class="numero">
+          6
+        </div>
+
+        <div class="panel-title">
+          DOCUMENTOS
+        </div>
+
+      </div>
+
+      <div class="documentos-body">
+
+        <div class="factura-doc">
+
+          <div class="doc-title">
+            Factura · obligatoria
+          </div>
+
+          <div class="acciones-doc">
+
+            <button
+              type="button"
+              class="btn-foto"
+              onclick="
+                document
+                  .getElementById('facturaCamara')
+                  .click()
+              "
+            >
+              📷 TOMAR FOTO
+            </button>
+
+            <button
+              type="button"
+              class="btn-archivo"
+              onclick="
+                document
+                  .getElementById('facturaArchivo')
+                  .click()
+              "
+            >
+              📎 SUBIR ARCHIVO
+            </button>
+
+          </div>
+
+          <input
+            id="facturaCamara"
+            class="input-oculto"
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onchange="seleccionarFactura('camara')"
+          >
+
+          <input
+            id="facturaArchivo"
+            class="input-oculto"
+            type="file"
+            accept="image/*,application/pdf"
+            onchange="seleccionarFactura('archivo')"
+          >
+
+          <div
+            id="estadoFactura"
+            class="archivo-estado"
+          >
+            Ninguna factura seleccionada
+          </div>
+
+        </div>
+
+
+        <div class="docs-extra">
+
+          <div class="doc-title">
+            Documentos adicionales · opcional
+          </div>
+
+          <div id="listaDocumentos"></div>
+
+          <button
+            type="button"
+            class="btn-agregar"
+            onclick="agregarDocumento()"
+          >
+            + AGREGAR DOCUMENTO
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</main>
+
+
+<iframe
+  id="apiPostFrame"
+  name="apiPostFrame"
+  style="display:none"
+></iframe>
+
+
+<script>
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbw9R6d_OSSX4QIL-RM9P76Y4fk38Dvn0U3Qb5J2rBjHus2fcmR6v2C-cij_0JYF_5q1KQ/exec';
+
+const STORAGE_API_KEY =
+  'GF_RECEPCION_API_KEY';
+
+
+let ocDisponibles = [];
+let ocActual = null;
+let montoEditadoManual = false;
+let contadorDocumentos = 0;
+let facturaSeleccionada = null;
+let postPendiente = null;
+let ultimaActualizacionAutomatica = 0;
+
+
+document.addEventListener(
+  'DOMContentLoaded',
+  async () => {
+
+    registrarServiceWorker();
+
+    await iniciarAplicacion();
+
+  }
+);
+
+
+document.addEventListener(
+  'visibilitychange',
+  async () => {
+
+    if (
+      document.visibilityState === 'visible' &&
+      obtenerClaveApi(false)
+    ) {
+
+      const ahora =
+        Date.now();
+
+      if (
+        ahora -
+        ultimaActualizacionAutomatica >
+        2000
+      ) {
+
+        ultimaActualizacionAutomatica =
+          ahora;
+
+        await actualizarAplicacion(false);
+
+      }
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  'focus',
+  async () => {
+
+    if (!obtenerClaveApi(false)) {
+      return;
+    }
+
+    const ahora =
+      Date.now();
+
+    if (
+      ahora -
+      ultimaActualizacionAutomatica >
+      2000
+    ) {
+
+      ultimaActualizacionAutomatica =
+        ahora;
+
+      await actualizarAplicacion(false);
+
+    }
+
+  }
+);
+
+
+async function actualizarAplicacion(
+  mostrarAviso = true
+) {
+
   try {
-    const response = await fetch(request, {
-      cache: 'no-cache'
-    });
 
-    if (response && response.ok) {
-      const cache = await caches.open(CACHE_NAME);
+    await cargarOC();
 
-      await cache.put(
-        request,
-        response.clone()
+    if (mostrarAviso) {
+
+      mostrarMensaje(
+        'Información actualizada.',
+        'ok'
       );
+
     }
 
   } catch (error) {
-    // No bloquea la apertura de la aplicación
+
+    if (mostrarAviso) {
+
+      mostrarError(
+        error
+      );
+
+    }
+
   }
+
 }
 
 
-/* =========================================
-   FETCH
-========================================= */
+async function iniciarAplicacion() {
 
-self.addEventListener('fetch', event => {
+  const clave =
+    obtenerClaveApi();
 
-  if (event.request.method !== 'GET') {
-    return;
-  }
+  if (!clave) {
 
-  const request = event.request;
-
-
-  /* -----------------------------------------
-     NAVEGACIÓN PRINCIPAL
-     ABRE INDEX.HTML DIRECTAMENTE DESDE CACHE
-  ----------------------------------------- */
-
-  if (request.mode === 'navigate') {
-
-    event.respondWith(
-      caches.match('./index.html')
-        .then(cached => {
-
-          if (cached) {
-
-            event.waitUntil(
-              actualizarCache('./index.html')
-            );
-
-            return cached;
-          }
-
-
-          return fetch(request)
-            .then(response => {
-
-              const copia = response.clone();
-
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put('./index.html', copia);
-                });
-
-              return response;
-            });
-
-        })
+    mostrarMensaje(
+      'Debe ingresar la clave de Recepción.',
+      'error'
     );
 
     return;
+
+  }
+
+  await cargarOC();
+
+}
+
+
+function registrarServiceWorker() {
+
+  if (
+    'serviceWorker'
+    in navigator
+  ) {
+
+    window.addEventListener(
+      'load',
+      () => {
+
+        navigator
+          .serviceWorker
+          .register(
+            'service-worker.js'
+          )
+          .catch(
+            error => {
+
+              console.error(
+                'Service Worker:',
+                error
+              );
+
+            }
+          );
+
+      }
+    );
+
+  }
+
+}
+
+
+function obtenerClaveApi(
+  solicitar = true
+) {
+
+  let clave =
+    localStorage.getItem(
+      STORAGE_API_KEY
+    );
+
+  if (clave) {
+    return clave;
+  }
+
+  if (!solicitar) {
+    return '';
+  }
+
+  clave =
+    window.prompt(
+      'Ingrese la clave de Recepción de Mercadería:'
+    );
+
+  if (!clave) {
+    return '';
+  }
+
+  clave =
+    String(
+      clave
+    ).trim();
+
+  if (!clave) {
+    return '';
+  }
+
+  localStorage.setItem(
+    STORAGE_API_KEY,
+    clave
+  );
+
+  return clave;
+
+}
+
+
+function cambiarClaveApi() {
+
+  const nuevaClave =
+    window.prompt(
+      'Ingrese la nueva clave de Recepción:'
+    );
+
+  if (!nuevaClave) {
+    return;
+  }
+
+  localStorage.setItem(
+    STORAGE_API_KEY,
+    String(
+      nuevaClave
+    ).trim()
+  );
+
+  mostrarMensaje(
+    'Clave actualizada.',
+    'ok'
+  );
+
+  cargarOC();
+
+}
+
+
+function apiGet(
+  accion
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const callback =
+        '__gfCallback_' +
+        Date.now() +
+        '_' +
+        Math.floor(
+          Math.random() *
+          100000
+        );
+
+      const timeout =
+        setTimeout(
+          () => {
+
+            limpiar();
+
+            reject(
+              new Error(
+                'No hubo respuesta del servidor.'
+              )
+            );
+
+          },
+          30000
+        );
+
+      function limpiar() {
+
+        clearTimeout(
+          timeout
+        );
+
+        const script =
+          document.getElementById(
+            callback
+          );
+
+        if (script) {
+          script.remove();
+        }
+
+        try {
+
+          delete window[
+            callback
+          ];
+
+        } catch (e) {
+
+          window[
+            callback
+          ] =
+            undefined;
+
+        }
+
+      }
+
+
+      window[
+        callback
+      ] =
+        respuesta => {
+
+          limpiar();
+
+          if (
+            !respuesta ||
+            respuesta.ok !==
+            true
+          ) {
+
+            reject(
+              new Error(
+                respuesta &&
+                respuesta.error
+
+                  ? respuesta.error
+
+                  : 'Error al consultar el servidor.'
+              )
+            );
+
+            return;
+
+          }
+
+          resolve(
+            respuesta
+          );
+
+        };
+
+
+      const clave =
+        obtenerClaveApi();
+
+      const url =
+        API_URL +
+        '?api=recepcion' +
+        '&accion=' +
+        encodeURIComponent(
+          accion
+        ) +
+        '&key=' +
+        encodeURIComponent(
+          clave
+        ) +
+        '&callback=' +
+        encodeURIComponent(
+          callback
+        ) +
+        '&_=' +
+        Date.now();
+
+
+      const script =
+        document.createElement(
+          'script'
+        );
+
+      script.id =
+        callback;
+
+      script.src =
+        url;
+
+      script.onerror =
+        () => {
+
+          limpiar();
+
+          reject(
+            new Error(
+              'No fue posible conectar con el servidor.'
+            )
+          );
+
+        };
+
+      document.body.appendChild(
+        script
+      );
+
+    }
+  );
+
+}
+
+
+async function cargarOC() {
+
+  const tbody =
+    document.getElementById(
+      'tablaOC'
+    );
+
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="6">
+        Cargando...
+      </td>
+    </tr>
+  `;
+
+  try {
+
+    const respuesta =
+      await apiGet(
+        'listar'
+      );
+
+    ocDisponibles =
+      respuesta.data ||
+      [];
+
+    cargarFiltros();
+
+    renderLista();
+
+    if (ocActual) {
+
+      const actualizada =
+        ocDisponibles.find(
+          x =>
+            x.oc ===
+            ocActual.oc
+        );
+
+      if (actualizada) {
+
+        ocActual =
+          actualizada;
+
+        renderProductos();
+
+        recalcularMontos();
+
+      } else {
+
+        limpiarSeleccion();
+
+      }
+
+    }
+
+  } catch (error) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6">
+          No fue posible cargar las OC.
+        </td>
+      </tr>
+    `;
+
+    mostrarError(
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+function cargarFiltros() {
+
+  const filtroEmpresa =
+    document.getElementById(
+      'filtroEmpresa'
+    );
+
+  const filtroProveedor =
+    document.getElementById(
+      'filtroProveedor'
+    );
+
+  const empresaActual =
+    filtroEmpresa.value;
+
+  const proveedorActual =
+    filtroProveedor.value;
+
+
+  const empresas = [
+    ...new Set(
+      ocDisponibles
+        .map(
+          x => x.empresa
+        )
+        .filter(
+          Boolean
+        )
+    )
+  ].sort();
+
+
+  const proveedores = [
+    ...new Set(
+      ocDisponibles
+        .map(
+          x => x.proveedor
+        )
+        .filter(
+          Boolean
+        )
+    )
+  ].sort();
+
+
+  filtroEmpresa.innerHTML =
+    '<option value="">TODAS LAS EMPRESAS</option>' +
+    empresas
+      .map(
+        x =>
+          `<option value="${esc(x)}">${esc(x)}</option>`
+      )
+      .join('');
+
+
+  filtroProveedor.innerHTML =
+    '<option value="">TODOS LOS PROVEEDORES</option>' +
+    proveedores
+      .map(
+        x =>
+          `<option value="${esc(x)}">${esc(x)}</option>`
+      )
+      .join('');
+
+
+  if (
+    empresas.includes(
+      empresaActual
+    )
+  ) {
+
+    filtroEmpresa.value =
+      empresaActual;
+
   }
 
 
-  /* -----------------------------------------
-     ARCHIVOS INTERNOS
-  ----------------------------------------- */
+  if (
+    proveedores.includes(
+      proveedorActual
+    )
+  ) {
 
-  event.respondWith(
-    caches.match(request)
-      .then(cached => {
+    filtroProveedor.value =
+      proveedorActual;
 
-        if (cached) {
+  }
 
-          event.waitUntil(
-            actualizarCache(request)
-          );
+}
 
-          return cached;
+
+function renderLista() {
+
+  const texto =
+    document
+      .getElementById(
+        'buscador'
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+  const empresa =
+    document
+      .getElementById(
+        'filtroEmpresa'
+      )
+      .value;
+
+  const proveedor =
+    document
+      .getElementById(
+        'filtroProveedor'
+      )
+      .value;
+
+
+  const filtradas =
+    ocDisponibles.filter(
+      oc => {
+
+        if (
+          empresa &&
+          oc.empresa !==
+          empresa
+        ) {
+
+          return false;
+
         }
 
+        if (
+          proveedor &&
+          oc.proveedor !==
+          proveedor
+        ) {
 
-        return fetch(request)
-          .then(response => {
+          return false;
 
-            if (response && response.ok) {
+        }
 
-              const copia = response.clone();
+        if (texto) {
 
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put(request, copia);
-                });
+          const productos =
+            (
+              oc.productos ||
+              []
+            )
+              .map(
+                p =>
+                  `${p.codigo} ${p.producto}`
+              )
+              .join(' ');
 
-            }
+          const cadena = [
+            oc.oc,
+            oc.empresa,
+            oc.proveedor,
+            productos
+          ]
+            .join(' ')
+            .toLowerCase();
 
-            return response;
-          });
+          if (
+            !cadena.includes(
+              texto
+            )
+          ) {
 
-      })
+            return false;
+
+          }
+
+        }
+
+        return true;
+
+      }
+    );
+
+
+  const tbody =
+    document.getElementById(
+      'tablaOC'
+    );
+
+
+  if (
+    !filtradas.length
+  ) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6">
+          No hay OC habilitadas.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    filtradas
+      .map(
+        oc => `
+
+          <tr
+            class="${
+              ocActual &&
+              ocActual.oc ===
+              oc.oc
+                ? 'oc-activa'
+                : ''
+            }"
+          >
+
+            <td>
+              <strong>
+                ${esc(oc.oc)}
+              </strong>
+            </td>
+
+            <td>
+              ${esc(
+                oc.proveedor
+              )}
+            </td>
+
+            <td>
+              ${esc(
+                oc.fechaOC ||
+                ''
+              )}
+            </td>
+
+            <td>
+              ${oc.cantidadProductos}
+            </td>
+
+            <td>
+              <span class="badge">
+                HABILITADA
+              </span>
+            </td>
+
+            <td>
+
+              <button
+                class="btn-recepcionar"
+                onclick='abrirOC(${JSON.stringify(oc.oc)})'
+              >
+                RECEPCIONAR
+              </button>
+
+            </td>
+
+          </tr>
+
+        `
+      )
+      .join('');
+
+}
+
+
+function abrirOC(
+  numeroOC
+) {
+
+  ocActual =
+    ocDisponibles.find(
+      x =>
+        x.oc ===
+        numeroOC
+    );
+
+  if (!ocActual) {
+    return;
+  }
+
+  montoEditadoManual =
+    false;
+
+  contadorDocumentos =
+    0;
+
+  facturaSeleccionada =
+    null;
+
+  renderLista();
+
+  renderProductos();
+
+  habilitarFormulario();
+
+  limpiarDatosFactura();
+
+  recalcularMontos();
+
+}
+
+
+function renderProductos() {
+
+  if (!ocActual) {
+    return;
+  }
+
+  const contenedor =
+    document.getElementById(
+      'productosContenido'
+    );
+
+  contenedor.className =
+    'productos-scroll';
+
+  contenedor.innerHTML = `
+
+    <table class="tabla productos-table">
+
+      <thead>
+
+        <tr>
+          <th></th>
+          <th>Código</th>
+          <th>Producto</th>
+          <th>Und</th>
+          <th>Cant. OC</th>
+          <th>Cant. recibir</th>
+          <th>Precio autorizado</th>
+          <th>Precio factura</th>
+          <th>Total</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          (
+            ocActual.productos ||
+            []
+          )
+            .map(
+              (p, i) => `
+
+                <tr>
+
+                  <td>
+
+                    <input
+                      id="sel_${i}"
+                      class="check-producto"
+                      type="checkbox"
+                      onchange="cambiarSeleccionProducto(${i})"
+                    >
+
+                  </td>
+
+                  <td>
+                    ${esc(
+                      p.codigo
+                    )}
+                  </td>
+
+                  <td>
+                    <strong>
+                      ${esc(
+                        p.producto
+                      )}
+                    </strong>
+                  </td>
+
+                  <td>
+                    ${esc(
+                      p.unidad
+                    )}
+                  </td>
+
+                  <td>
+                    ${formatNumero(
+                      p.cantidadAutorizada
+                    )}
+                  </td>
+
+                  <td>
+
+                    <input
+                      id="cantidad_${i}"
+                      type="number"
+                      step="0.001"
+                      disabled
+                      oninput="recalcularMontos()"
+                    >
+
+                  </td>
+
+                  <td class="precio-ref">
+
+                    $
+                    ${formatDinero(
+                      p.precioAutorizado
+                    )}
+
+                  </td>
+
+                  <td>
+
+                    <input
+                      id="precio_${i}"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value="${p.precioAutorizado}"
+                      disabled
+                      oninput="recalcularMontos()"
+                    >
+
+                  </td>
+
+                  <td
+                    id="total_${i}"
+                    class="total-real"
+                  >
+                    $0
+                  </td>
+
+                </tr>
+
+              `
+            )
+            .join('')
+        }
+
+      </tbody>
+
+    </table>
+
+  `;
+
+}
+
+
+function seleccionarTodos() {
+
+  if (!ocActual) {
+    return;
+  }
+
+  const valor =
+    document
+      .getElementById(
+        'seleccionarTodo'
+      )
+      .checked;
+
+  ocActual.productos.forEach(
+    (p, i) => {
+
+      document
+        .getElementById(
+          'sel_' + i
+        )
+        .checked =
+          valor;
+
+      cambiarSeleccionProducto(
+        i,
+        false
+      );
+
+    }
   );
 
-});
+  recalcularMontos();
+
+}
+
+
+function cambiarSeleccionProducto(
+  i,
+  recalcular = true
+) {
+
+  const seleccionado =
+    document
+      .getElementById(
+        'sel_' + i
+      )
+      .checked;
+
+  const cantidad =
+    document.getElementById(
+      'cantidad_' + i
+    );
+
+  const precio =
+    document.getElementById(
+      'precio_' + i
+    );
+
+
+  if (!seleccionado) {
+
+    cantidad.value =
+      '';
+
+    cantidad.disabled =
+      true;
+
+    precio.disabled =
+      true;
+
+    document
+      .getElementById(
+        'total_' + i
+      )
+      .textContent =
+        '$0';
+
+  } else {
+
+    precio.disabled =
+      false;
+
+    const estado =
+      estadoSeleccionado();
+
+    if (
+      estado ===
+      'COMPLETA'
+    ) {
+
+      cantidad.value =
+        ocActual
+          .productos[i]
+          .cantidadAutorizada;
+
+      cantidad.disabled =
+        true;
+
+    } else if (
+      estado ===
+      'PARCIAL'
+    ) {
+
+      if (
+        !cantidad.value
+      ) {
+
+        cantidad.value =
+          ocActual
+            .productos[i]
+            .cantidadAutorizada;
+
+      }
+
+      cantidad.disabled =
+        false;
+
+    } else {
+
+      cantidad.value =
+        '';
+
+      cantidad.disabled =
+        true;
+
+    }
+
+  }
+
+  if (recalcular) {
+    recalcularMontos();
+  }
+
+}
+
+
+function estadoSeleccionado() {
+
+  return (
+    document.querySelector(
+      'input[name="estado"]:checked'
+    )?.value
+    ||
+    ''
+  );
+
+}
+
+
+function cambiarEstado() {
+
+  if (!ocActual) {
+    return;
+  }
+
+  const estado =
+    estadoSeleccionado();
+
+  ocActual.productos.forEach(
+    (p, i) => {
+
+      const seleccionado =
+        document
+          .getElementById(
+            'sel_' + i
+          )
+          .checked;
+
+      if (!seleccionado) {
+        return;
+      }
+
+      const cantidad =
+        document.getElementById(
+          'cantidad_' + i
+        );
+
+      if (
+        estado ===
+        'COMPLETA'
+      ) {
+
+        cantidad.value =
+          p.cantidadAutorizada;
+
+        cantidad.disabled =
+          true;
+
+      }
+
+      if (
+        estado ===
+        'PARCIAL'
+      ) {
+
+        if (
+          !cantidad.value
+        ) {
+
+          cantidad.value =
+            p.cantidadAutorizada;
+
+        }
+
+        cantidad.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+  recalcularMontos();
+
+}
+
+
+function recalcularMontos() {
+
+  if (!ocActual) {
+    return;
+  }
+
+  let autorizado =
+    0;
+
+  let calculado =
+    0;
+
+
+  ocActual.productos.forEach(
+    (p, i) => {
+
+      const seleccionado =
+        document
+          .getElementById(
+            'sel_' + i
+          )
+          ?.checked;
+
+      if (!seleccionado) {
+
+        const total =
+          document.getElementById(
+            'total_' + i
+          );
+
+        if (total) {
+          total.textContent =
+            '$0';
+        }
+
+        return;
+
+      }
+
+      autorizado +=
+        Number(
+          p.cantidadAutorizada ||
+          0
+        )
+        *
+        Number(
+          p.precioAutorizado ||
+          0
+        );
+
+      const cantidad =
+        Number(
+          document
+            .getElementById(
+              'cantidad_' + i
+            )
+            .value
+          ||
+          0
+        );
+
+      const precio =
+        Number(
+          document
+            .getElementById(
+              'precio_' + i
+            )
+            .value
+          ||
+          0
+        );
+
+      const totalReal =
+        cantidad *
+        precio;
+
+      calculado +=
+        totalReal;
+
+      document
+        .getElementById(
+          'total_' + i
+        )
+        .textContent =
+          '$' +
+          formatDinero(
+            totalReal
+          );
+
+    }
+  );
+
+
+  document
+    .getElementById(
+      'montoAutorizado'
+    )
+    .textContent =
+      '$' +
+      formatDinero(
+        autorizado
+      );
+
+
+  document
+    .getElementById(
+      'montoCalculado'
+    )
+    .textContent =
+      '$' +
+      formatDinero(
+        calculado
+      );
+
+
+  if (
+    !montoEditadoManual
+  ) {
+
+    document
+      .getElementById(
+        'montoFactura'
+      )
+      .value =
+        redondearMonto(
+          calculado
+        );
+
+  }
+
+  revisarDiferenciaMonto();
+
+}
+
+
+function obtenerMontoCalculadoActual() {
+
+  if (!ocActual) {
+    return 0;
+  }
+
+  let total =
+    0;
+
+  ocActual.productos.forEach(
+    (p, i) => {
+
+      const seleccionado =
+        document
+          .getElementById(
+            'sel_' + i
+          )
+          ?.checked;
+
+      if (!seleccionado) {
+        return;
+      }
+
+      const cantidad =
+        Number(
+          document
+            .getElementById(
+              'cantidad_' + i
+            )
+            ?.value
+          ||
+          0
+        );
+
+      const precio =
+        Number(
+          document
+            .getElementById(
+              'precio_' + i
+            )
+            ?.value
+          ||
+          0
+        );
+
+      total +=
+        cantidad *
+        precio;
+
+    }
+  );
+
+  return redondearMonto(
+    total
+  );
+
+}
+
+
+function revisarDiferenciaMonto() {
+
+  const campo =
+    document.getElementById(
+      'motivoDiferenciaMonto'
+    );
+
+  if (!campo) {
+    return;
+  }
+
+  const tipo =
+    document
+      .getElementById(
+        'tipoMontoFactura'
+      )
+      ?.value
+    ||
+    '';
+
+  const montoFactura =
+    Number(
+      document
+        .getElementById(
+          'montoFactura'
+        )
+        ?.value
+    );
+
+  const calculadoNeto =
+    obtenerMontoCalculadoActual();
+
+  let esperado =
+    calculadoNeto;
+
+  if (
+    tipo ===
+    'BRUTO'
+  ) {
+
+    esperado =
+      redondearMonto(
+        calculadoNeto *
+        1.19
+      );
+
+  }
+
+  const diferencia =
+    tipo &&
+    Number.isFinite(
+      montoFactura
+    ) &&
+    Math.abs(
+      montoFactura -
+      esperado
+    ) >
+    0.01;
+
+
+  if (diferencia) {
+
+    campo.disabled =
+      false;
+
+    campo.classList.remove(
+      'sin-diferencia'
+    );
+
+    campo.placeholder =
+      'Explique la diferencia del monto de la factura';
+
+  } else {
+
+    campo.disabled =
+      true;
+
+    campo.value =
+      '';
+
+    campo.classList.add(
+      'sin-diferencia'
+    );
+
+    campo.placeholder =
+      'Sin diferencia de monto';
+
+  }
+
+}
+
+
+function seleccionarFactura(
+  origen
+) {
+
+  const camara =
+    document.getElementById(
+      'facturaCamara'
+    );
+
+  const archivo =
+    document.getElementById(
+      'facturaArchivo'
+    );
+
+  if (
+    origen ===
+    'camara'
+  ) {
+
+    facturaSeleccionada =
+      camara.files[0] ||
+      null;
+
+    if (
+      facturaSeleccionada
+    ) {
+
+      archivo.value =
+        '';
+
+    }
+
+  } else {
+
+    facturaSeleccionada =
+      archivo.files[0] ||
+      null;
+
+    if (
+      facturaSeleccionada
+    ) {
+
+      camara.value =
+        '';
+
+    }
+
+  }
+
+  renderEstadoFactura();
+
+}
+
+
+function renderEstadoFactura() {
+
+  const box =
+    document.getElementById(
+      'estadoFactura'
+    );
+
+  if (
+    !facturaSeleccionada
+  ) {
+
+    box.innerHTML =
+      'Ninguna factura seleccionada';
+
+    return;
+
+  }
+
+  box.innerHTML = `
+
+    <span class="archivo-ok">
+
+      ✓
+      ${esc(
+        facturaSeleccionada.name
+      )}
+
+    </span>
+
+    <button
+      type="button"
+      class="btn-quitar"
+      onclick="quitarFactura()"
+    >
+      ×
+    </button>
+
+  `;
+
+}
+
+
+function quitarFactura() {
+
+  facturaSeleccionada =
+    null;
+
+  document
+    .getElementById(
+      'facturaCamara'
+    )
+    .value =
+      '';
+
+  document
+    .getElementById(
+      'facturaArchivo'
+    )
+    .value =
+      '';
+
+  renderEstadoFactura();
+
+}
+
+
+function agregarDocumento() {
+
+  contadorDocumentos++;
+
+  const id =
+    contadorDocumentos;
+
+  const fila =
+    document.createElement(
+      'div'
+    );
+
+  fila.className =
+    'doc-row';
+
+  fila.id =
+    'docRow_' +
+    id;
+
+
+  fila.innerHTML = `
+
+    <div class="doc-superior">
+
+      <select
+        id="docTipo_${id}"
+      >
+
+        <option value="GUIA DE DESPACHO">
+          GUÍA DESPACHO
+        </option>
+
+        <option value="ENCOMIENDA">
+          ENCOMIENDA
+        </option>
+
+        <option value="CHEQUE">
+          CHEQUE
+        </option>
+
+        <option value="VOUCHER DE PAGO">
+          VOUCHER
+        </option>
+
+        <option value="OTRO">
+          OTRO
+        </option>
+
+      </select>
+
+
+      <button
+        type="button"
+        class="btn-foto"
+        onclick="
+          document
+            .getElementById('docCamara_${id}')
+            .click()
+        "
+      >
+        📷 TOMAR FOTO
+      </button>
+
+
+      <button
+        type="button"
+        class="btn-archivo"
+        onclick="
+          document
+            .getElementById('docArchivo_${id}')
+            .click()
+        "
+      >
+        📎 SUBIR ARCHIVO
+      </button>
+
+
+      <div
+        id="docEstado_${id}"
+        class="doc-estado"
+      >
+        Sin archivo
+      </div>
+
+
+      <button
+        type="button"
+        class="btn-eliminar"
+        onclick="eliminarDocumento(${id})"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <input
+      id="docCamara_${id}"
+      class="input-oculto"
+      type="file"
+      accept="image/*"
+      capture="environment"
+      onchange="seleccionarDocumento(${id}, 'camara')"
+    >
+
+
+    <input
+      id="docArchivo_${id}"
+      class="input-oculto"
+      type="file"
+      accept="image/*,application/pdf"
+      onchange="seleccionarDocumento(${id}, 'archivo')"
+    >
+
+  `;
+
+
+  document
+    .getElementById(
+      'listaDocumentos'
+    )
+    .appendChild(
+      fila
+    );
+
+}
+
+
+function seleccionarDocumento(
+  id,
+  origen
+) {
+
+  const camara =
+    document.getElementById(
+      'docCamara_' +
+      id
+    );
+
+  const archivo =
+    document.getElementById(
+      'docArchivo_' +
+      id
+    );
+
+  let seleccionado;
+
+  if (
+    origen ===
+    'camara'
+  ) {
+
+    seleccionado =
+      camara.files[0] ||
+      null;
+
+    if (seleccionado) {
+
+      archivo.value =
+        '';
+
+    }
+
+  } else {
+
+    seleccionado =
+      archivo.files[0] ||
+      null;
+
+    if (seleccionado) {
+
+      camara.value =
+        '';
+
+    }
+
+  }
+
+  const estado =
+    document.getElementById(
+      'docEstado_' +
+      id
+    );
+
+  if (seleccionado) {
+
+    estado.textContent =
+      '✓ ' +
+      seleccionado.name;
+
+    estado.style.color =
+      '#15713e';
+
+    estado.style.fontWeight =
+      '800';
+
+  } else {
+
+    estado.textContent =
+      'Sin archivo';
+
+  }
+
+}
+
+
+function eliminarDocumento(
+  id
+) {
+
+  document
+    .getElementById(
+      'docRow_' +
+      id
+    )
+    ?.remove();
+
+}
+
+
+function habilitarFormulario() {
+
+  [
+    'panelTipo',
+    'panelProductos',
+    'panelFactura',
+    'panelDocumentos'
+  ]
+  .forEach(
+    id => {
+
+      document
+        .getElementById(
+          id
+        )
+        .classList
+        .remove(
+          'disabled-area'
+        );
+
+    }
+  );
+
+  document
+    .getElementById(
+      'btnConfirmar'
+    )
+    .disabled =
+      false;
+
+}
+
+
+function limpiarDatosFactura() {
+
+  montoEditadoManual =
+    false;
+
+  [
+    'montoFactura',
+    'numeroFactura',
+    'fechaFactura',
+    'fechaVencimiento',
+    'tipoMontoFactura',
+    'motivoDiferenciaMonto'
+  ]
+  .forEach(
+    id => {
+
+      const el =
+        document.getElementById(
+          id
+        );
+
+      if (el) {
+
+        el.value =
+          '';
+
+      }
+
+    }
+  );
+
+
+  facturaSeleccionada =
+    null;
+
+
+  document
+    .getElementById(
+      'facturaCamara'
+    )
+    .value =
+      '';
+
+
+  document
+    .getElementById(
+      'facturaArchivo'
+    )
+    .value =
+      '';
+
+
+  renderEstadoFactura();
+
+
+  document
+    .getElementById(
+      'listaDocumentos'
+    )
+    .innerHTML =
+      '';
+
+
+  document
+    .querySelectorAll(
+      'input[name="estado"]'
+    )
+    .forEach(
+      x => {
+
+        x.checked =
+          false;
+
+      }
+    );
+
+
+  document
+    .getElementById(
+      'seleccionarTodo'
+    )
+    .checked =
+      false;
+
+
+  revisarDiferenciaMonto();
+
+}
+
+
+function limpiarSeleccion() {
+
+  ocActual =
+    null;
+
+  renderLista();
+
+
+  const productos =
+    document.getElementById(
+      'productosContenido'
+    );
+
+  productos.className =
+    'empty';
+
+  productos.innerHTML =
+    'Seleccione una OC.';
+
+
+  [
+    'panelTipo',
+    'panelProductos',
+    'panelFactura',
+    'panelDocumentos'
+  ]
+  .forEach(
+    id => {
+
+      document
+        .getElementById(
+          id
+        )
+        .classList
+        .add(
+          'disabled-area'
+        );
+
+    }
+  );
+
+
+  document
+    .getElementById(
+      'btnConfirmar'
+    )
+    .disabled =
+      true;
+
+}
+
+
+function guardarRecepcionApi(
+  payload
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      if (
+        postPendiente
+      ) {
+
+        reject(
+          new Error(
+            'Ya existe una recepción en proceso.'
+          )
+        );
+
+        return;
+
+      }
+
+
+      const timeout =
+        setTimeout(
+          () => {
+
+            postPendiente =
+              null;
+
+            reject(
+              new Error(
+                'El servidor demoró demasiado en responder.'
+              )
+            );
+
+          },
+          120000
+        );
+
+
+      postPendiente = {
+        resolve,
+        reject,
+        timeout
+      };
+
+
+      const form =
+        document.createElement(
+          'form'
+        );
+
+      form.method =
+        'POST';
+
+      form.action =
+        API_URL;
+
+      form.target =
+        'apiPostFrame';
+
+      form.style.display =
+        'none';
+
+
+      const datos = {
+
+        api:
+          'recepcion',
+
+        accion:
+          'guardar',
+
+        key:
+          obtenerClaveApi(),
+
+        payload:
+          JSON.stringify(
+            payload
+          )
+
+      };
+
+
+      Object
+        .entries(
+          datos
+        )
+        .forEach(
+          (
+            [
+              nombre,
+              valor
+            ]
+          ) => {
+
+            const campo =
+              document.createElement(
+                'textarea'
+              );
+
+            campo.name =
+              nombre;
+
+            campo.value =
+              valor;
+
+            form.appendChild(
+              campo
+            );
+
+          }
+        );
+
+
+      document.body.appendChild(
+        form
+      );
+
+      form.submit();
+
+      setTimeout(
+        () => {
+
+          form.remove();
+
+        },
+        1000
+      );
+
+    }
+  );
+
+}
+
+
+window.addEventListener(
+  'message',
+  event => {
+
+    if (
+      !postPendiente
+    ) {
+
+      return;
+
+    }
+
+    const respuesta =
+      event.data;
+
+    if (
+      !respuesta ||
+      typeof respuesta !==
+      'object'
+    ) {
+
+      return;
+
+    }
+
+    if (
+      respuesta.accion !==
+      'guardar'
+    ) {
+
+      return;
+
+    }
+
+    clearTimeout(
+      postPendiente.timeout
+    );
+
+    const pendiente =
+      postPendiente;
+
+    postPendiente =
+      null;
+
+    if (
+      respuesta.ok ===
+      true
+    ) {
+
+      pendiente.resolve(
+        respuesta
+      );
+
+    } else {
+
+      pendiente.reject(
+        new Error(
+          respuesta.error ||
+          'No fue posible guardar la recepción.'
+        )
+      );
+
+    }
+
+  }
+);
+
+
+async function confirmarRecepcion() {
+
+  limpiarMensaje();
+
+  if (!ocActual) {
+
+    return mostrarMensaje(
+      'Seleccione una OC.',
+      'error'
+    );
+
+  }
+
+
+  const estado =
+    estadoSeleccionado();
+
+  if (!estado) {
+
+    return mostrarMensaje(
+      'Seleccione COMPLETA o PARCIAL.',
+      'error'
+    );
+
+  }
+
+
+  const productos =
+    [];
+
+
+  ocActual.productos.forEach(
+    (p, i) => {
+
+      const seleccionado =
+        document
+          .getElementById(
+            'sel_' +
+            i
+          )
+          .checked;
+
+      if (
+        !seleccionado
+      ) {
+
+        return;
+
+      }
+
+      const cantidad =
+        Number(
+          document
+            .getElementById(
+              'cantidad_' +
+              i
+            )
+            .value
+        );
+
+      const precio =
+        Number(
+          document
+            .getElementById(
+              'precio_' +
+              i
+            )
+            .value
+        );
+
+
+      productos.push({
+
+        idLinea:
+          p.idLinea,
+
+        producto:
+          p.producto,
+
+        cantidadRecepcionada:
+          estado ===
+          'COMPLETA'
+
+            ? p.cantidadAutorizada
+
+            : cantidad,
+
+        precioFactura:
+          precio
+
+      });
+
+    }
+  );
+
+
+  if (
+    !productos.length
+  ) {
+
+    return mostrarMensaje(
+      'Seleccione al menos un producto.',
+      'error'
+    );
+
+  }
+
+
+  for (
+    const p of productos
+  ) {
+
+    if (
+      !Number.isFinite(
+        p.cantidadRecepcionada
+      )
+      ||
+      p.cantidadRecepcionada <=
+      0
+    ) {
+
+      return mostrarMensaje(
+        'Revise las cantidades recepcionadas.',
+        'error'
+      );
+
+    }
+
+
+    if (
+      !Number.isFinite(
+        p.precioFactura
+      )
+      ||
+      p.precioFactura <
+      0
+    ) {
+
+      return mostrarMensaje(
+        'Revise los precios.',
+        'error'
+      );
+
+    }
+
+  }
+
+
+  const montoFactura =
+    Number(
+      document
+        .getElementById(
+          'montoFactura'
+        )
+        .value
+    );
+
+
+  const tipoMontoFactura =
+    document
+      .getElementById(
+        'tipoMontoFactura'
+      )
+      .value;
+
+
+  const motivoDiferenciaMonto =
+    document
+      .getElementById(
+        'motivoDiferenciaMonto'
+      )
+      .value
+      .trim();
+
+
+  const numeroFactura =
+    document
+      .getElementById(
+        'numeroFactura'
+      )
+      .value
+      .trim();
+
+
+  const fechaFactura =
+    document
+      .getElementById(
+        'fechaFactura'
+      )
+      .value;
+
+
+  const fechaVencimiento =
+    document
+      .getElementById(
+        'fechaVencimiento'
+      )
+      .value;
+
+
+  if (
+    !numeroFactura
+    ||
+    !fechaFactura
+    ||
+    !fechaVencimiento
+    ||
+    !tipoMontoFactura
+  ) {
+
+    return mostrarMensaje(
+      'Complete los datos de la factura y seleccione NETO o BRUTO.',
+      'error'
+    );
+
+  }
+
+
+  if (
+    !facturaSeleccionada
+  ) {
+
+    return mostrarMensaje(
+      'Debe tomar una foto o adjuntar la factura.',
+      'error'
+    );
+
+  }
+
+
+  if (
+    !Number.isFinite(
+      montoFactura
+    )
+    ||
+    montoFactura <
+    0
+  ) {
+
+    return mostrarMensaje(
+      'Revise el monto de factura.',
+      'error'
+    );
+
+  }
+
+
+  const montoEsperadoNeto =
+    obtenerMontoCalculadoActual();
+
+  const montoEsperado =
+    tipoMontoFactura ===
+    'BRUTO'
+
+      ? redondearMonto(
+          montoEsperadoNeto *
+          1.19
+        )
+
+      : montoEsperadoNeto;
+
+
+  const existeDiferencia =
+    Math.abs(
+      montoFactura -
+      montoEsperado
+    ) >
+    0.01;
+
+
+  if (
+    existeDiferencia &&
+    !motivoDiferenciaMonto
+  ) {
+
+    return mostrarMensaje(
+      'Explique el motivo de la diferencia del monto de la factura.',
+      'error'
+    );
+
+  }
+
+
+  const documentos =
+    [];
+
+
+  const filasDocs =
+    document.querySelectorAll(
+      '.doc-row'
+    );
+
+
+  for (
+    const fila of filasDocs
+  ) {
+
+    const id =
+      fila.id.replace(
+        'docRow_',
+        ''
+      );
+
+
+    const camara =
+      document
+        .getElementById(
+          'docCamara_' +
+          id
+        )
+        .files[0];
+
+
+    const archivo =
+      document
+        .getElementById(
+          'docArchivo_' +
+          id
+        )
+        .files[0];
+
+
+    const file =
+      camara ||
+      archivo;
+
+
+    if (!file) {
+
+      return mostrarMensaje(
+        'Hay un documento adicional sin archivo.',
+        'error'
+      );
+
+    }
+
+
+    documentos.push({
+
+      tipo:
+        document
+          .getElementById(
+            'docTipo_' +
+            id
+          )
+          .value,
+
+      archivo:
+        await archivoABase64(
+          file
+        )
+
+    });
+
+  }
+
+
+  const payload = {
+
+    oc:
+      ocActual.oc,
+
+    estadoRecepcion:
+      estado,
+
+    productos:
+      productos,
+
+    montoFactura:
+      montoFactura,
+
+    tipoMontoFactura:
+      tipoMontoFactura,
+
+    motivoDiferenciaMonto:
+      existeDiferencia
+        ? motivoDiferenciaMonto
+        : '',
+
+    numeroFactura:
+      numeroFactura,
+
+    fechaFactura:
+      fechaFactura,
+
+    fechaVencimiento:
+      fechaVencimiento,
+
+    factura:
+      await archivoABase64(
+        facturaSeleccionada
+      ),
+
+    documentosAdicionales:
+      documentos
+
+  };
+
+
+  const btn =
+    document.getElementById(
+      'btnConfirmar'
+    );
+
+  btn.disabled =
+    true;
+
+  btn.textContent =
+    'GUARDANDO...';
+
+
+  try {
+
+    const respuesta =
+      await guardarRecepcionApi(
+        payload
+      );
+
+    const resultado =
+      respuesta.data ||
+      {};
+
+    mostrarMensaje(
+      resultado.mensaje ||
+      'Recepción registrada correctamente.',
+      'ok'
+    );
+
+    btn.textContent =
+      '✓ CONFIRMAR RECEPCIÓN';
+
+    limpiarSeleccion();
+
+    await cargarOC();
+
+  } catch (error) {
+
+    btn.disabled =
+      false;
+
+    btn.textContent =
+      '✓ CONFIRMAR RECEPCIÓN';
+
+    mostrarError(
+      error
+    );
+
+  }
+
+}
+
+
+function archivoABase64(
+  file
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        () => {
+
+          resolve({
+
+            name:
+              file.name,
+
+            mimeType:
+              file.type,
+
+            data:
+              reader
+                .result
+                .split(',')[1]
+
+          });
+
+        };
+
+      reader.onerror =
+        reject;
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+function mostrarMensaje(
+  texto,
+  tipo
+) {
+
+  const contenedor =
+    document.getElementById(
+      'mensaje'
+    );
+
+  contenedor.innerHTML = `
+
+    <div class="mensaje ${tipo}">
+      ${esc(texto)}
+    </div>
+
+  `;
+
+  setTimeout(
+    () => {
+
+      contenedor.innerHTML =
+        '';
+
+    },
+    5000
+  );
+
+}
+
+
+function mostrarError(
+  error
+) {
+
+  mostrarMensaje(
+    error?.message
+    ||
+    String(
+      error
+    )
+    ||
+    'Ocurrió un error.',
+    'error'
+  );
+
+}
+
+
+function limpiarMensaje() {
+
+  document
+    .getElementById(
+      'mensaje'
+    )
+    .innerHTML =
+      '';
+
+}
+
+
+function formatNumero(
+  valor
+) {
+
+  return Number(
+    valor ||
+    0
+  )
+  .toLocaleString(
+    'es-CL',
+    {
+      maximumFractionDigits:
+        3
+    }
+  );
+
+}
+
+
+function formatDinero(
+  valor
+) {
+
+  return Number(
+    valor ||
+    0
+  )
+  .toLocaleString(
+    'es-CL',
+    {
+      maximumFractionDigits:
+        2
+    }
+  );
+
+}
+
+
+function redondearMonto(
+  valor
+) {
+
+  return Math.round(
+    Number(
+      valor ||
+      0
+    )
+    *
+    100
+  ) / 100;
+
+}
+
+
+function esc(
+  valor
+) {
+
+  return String(
+    valor ??
+    ''
+  )
+  .replace(
+    /&/g,
+    '&amp;'
+  )
+  .replace(
+    /</g,
+    '&lt;'
+  )
+  .replace(
+    />/g,
+    '&gt;'
+  )
+  .replace(
+    /"/g,
+    '&quot;'
+  )
+  .replace(
+    /'/g,
+    '&#039;'
+  );
+
+}
+
+</script>
+
+</body>
+</html>
