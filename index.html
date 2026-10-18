@@ -1,3615 +1,5661 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
->
-<title>Recepción de Mercadería</title>
-<meta name="theme-color" content="#0b4d7d">
-<link rel="manifest" href="manifest.webmanifest">
-<style>
-* {
-  box-sizing: border-box;
-}
-:root {
-  --azul-oscuro: #0b4d7d;
-  --azul: #086bc1;
-  --verde: #078b45;
-  --fondo: #f3f6f9;
-  --borde: #d9e4ec;
-  --texto: #162633;
-  --texto-suave: #71808c;
-}
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--fondo);
-  color: var(--texto);
-  -webkit-text-size-adjust: 100%;
-}
-button,
-input,
-select,
-textarea {
-  font-family: inherit;
-}
-button {
-  cursor: pointer;
-}
-/* =====================================================
-   CABECERA
-===================================================== */
-.topbar {
-  height: 54px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  gap: 8px;
-  background: linear-gradient(90deg,#0c4c7c,#063c64);
-  color: white;
-}
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-width: 0;
-}
-.logo-box {
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  border-radius: 7px;
-  background: rgba(255,255,255,.12);
-  font-size: 18px;
-}
-.titulo-principal {
-  font-size: 16px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-.empresa-header {
-  padding-left: 9px;
-  border-left: 1px solid rgba(255,255,255,.35);
-  font-size: 12px;
-  white-space: nowrap;
-}
-.acciones-recepcion-header {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.header-derecha {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.usuario-header {
-  padding: 5px 8px;
-  border-radius: 6px;
-  background: rgba(255,255,255,.10);
-  font-size: 9px;
-  white-space: nowrap;
-}
-.btn-header {
-  min-height: 30px;
-  padding: 0 10px;
-  border: 0;
-  border-radius: 6px;
-  background: rgba(255,255,255,.12);
-  color: white;
-  font-size: 8px;
-  font-weight: 800;
-}
-.btn-header-cancelar {
-  min-height: 32px;
-  padding: 0 11px;
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 6px;
-  background: rgba(255,255,255,.14);
-  color: white;
-  font-size: 8px;
-  font-weight: 800;
-}
-.btn-header-confirmar {
-  min-height: 32px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 6px;
-  background: linear-gradient(90deg,#0aa85a,#078b45);
-  color: white;
-  font-size: 9px;
-  font-weight: 900;
-}
-.btn-header-confirmar:disabled {
-  opacity: .42;
-  cursor: not-allowed;
-}
-.btn-clave {
-  width: 30px;
-  height: 30px;
-  border: 0;
-  border-radius: 6px;
-  background: rgba(255,255,255,.12);
-  color: white;
-  font-size: 14px;
-}
-/* =====================================================
-   ESTRUCTURA GENERAL
-===================================================== */
-.app {
-  height: calc(100dvh - 54px);
-  padding: 5px;
-  display: grid;
-  grid-template-columns: 42% 58%;
-  gap: 5px;
-  overflow: hidden;
-}
-.col-izquierda {
-  min-width: 0;
-  min-height: 0;
-  display: grid;
-  grid-template-rows: minmax(0,1fr) 92px;
-  gap: 5px;
-}
-.col-derecha {
-  min-width: 0;
-  min-height: 0;
-  display: grid;
-  grid-template-rows:
-    minmax(0,34fr)
-    minmax(0,36fr)
-    minmax(0,30fr);
-  gap: 5px;
-}
-.panel {
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  background: white;
-  border: 1px solid var(--borde);
-  border-radius: 7px;
-}
-.panel-header {
-  height: 32px;
-  padding: 4px 7px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: linear-gradient(90deg,#eff7fd,#ffffff);
-  border-bottom: 1px solid #e1eaf1;
-}
-.numero {
-  width: 22px;
-  height: 22px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--azul);
-  color: white;
-  font-size: 11px;
-  font-weight: 800;
-}
-.panel-title {
-  color: var(--azul-oscuro);
-  font-size: 11px;
-  font-weight: 800;
-}
-.panel-sub {
-  margin-top: 1px;
-  color: var(--texto-suave);
-  font-size: 7px;
-}
-/* =====================================================
-   CAMPOS
-===================================================== */
-input,
-select,
-textarea {
-  width: 100%;
-  border: 1px solid #cbd7e0;
-  border-radius: 5px;
-  background: white;
-  font-size: 8px;
-  outline: none;
-}
-input,
-select {
-  height: 27px;
-  padding: 4px 6px;
-}
-textarea {
-  min-height: 42px;
-  padding: 5px 6px;
-  resize: none;
-}
-.campo label {
-  display: block;
-  margin-bottom: 2px;
-  color: #536471;
-  font-size: 7px;
-  font-weight: 700;
-}
-/* =====================================================
-   1 · OC AUTORIZADAS
-===================================================== */
-.lista-body {
-  height: calc(100% - 32px);
-  padding: 5px;
-  display: grid;
-  grid-template-rows: auto minmax(0,1fr);
-  gap: 4px;
-}
-.filtros {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-}
-#buscador {
-  grid-column: 1 / -1;
-}
-.tabla-scroll {
-  min-height: 0;
-  overflow: auto;
-  border: 1px solid #e1e8ee;
-  border-radius: 5px;
-}
-.tabla {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 8px;
-}
-.tabla thead {
-  position: sticky;
-  top: 0;
-  z-index: 3;
-}
-.tabla th {
-  padding: 5px 3px;
-  background: #e8f2fa;
-  color: #304b61;
-  border-bottom: 1px solid #cedde8;
-  text-align: left;
-  font-size: 7px;
-  white-space: nowrap;
-}
-.tabla td {
-  padding: 5px 3px;
-  border-bottom: 1px solid #edf2f5;
-  vertical-align: middle;
-  font-size: 8px;
-}
-.tabla tbody tr.oc-activa {
-  background: #e8f5ff;
-}
-.btn-recepcionar {
-  min-height: 26px;
-  padding: 4px 6px;
-  border: 0;
-  border-radius: 5px;
-  background: var(--azul);
-  color: white;
-  font-size: 7px;
-  font-weight: 800;
-}
-/* =====================================================
-   3 · TIPO DE RECEPCIÓN
-===================================================== */
-#panelTipo {
-  display: grid;
-  grid-template-rows: 30px 1fr;
-}
-.tipo-titulo {
-  padding: 4px 7px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: linear-gradient(90deg,#eff7fd,#ffffff);
-  border-bottom: 1px solid #e2e9ef;
-}
-.tipo-controles {
-  padding: 7px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.25fr;
-  gap: 5px;
-  align-items: center;
-}
-.tipo-card {
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #cbd7e0;
-  border-radius: 6px;
-  background: white;
-  color: #17496f;
-  font-size: 9px;
-  font-weight: 800;
-  cursor: pointer;
-}
-.tipo-card input {
-  display: none;
-}
-.tipo-card:has(input:checked) {
-  border-color: #52bc7c;
-  background: #e8f8ee;
-  color: #126c39;
-}
-.seleccionar-todos {
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  border: 1px solid #d8e1e7;
-  border-radius: 6px;
-  background: #fafcfd;
-  color: #465862;
-  font-size: 8px;
-}
-.seleccionar-todos input {
-  width: 14px;
-  height: 14px;
-}
-/* =====================================================
-   4 · PRODUCTOS
-===================================================== */
-#panelProductos {
-  display: flex;
-  flex-direction: column;
-}
-#productosContenido {
-  flex: 1;
-  min-height: 0;
-}
-.productos-scroll {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.productos-table {
-  width: 100%;
-  min-width: 0;
-  table-layout: fixed;
-}
-.productos-table th,
-.productos-table td {
-  padding: 3px 2px;
-  font-size: 7px;
-  line-height: 1.1;
-}
-.productos-table th {
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-.productos-table td {
-  overflow-wrap: anywhere;
-}
-.productos-table th:nth-child(1),
-.productos-table td:nth-child(1) { width: 4%; }
-.productos-table th:nth-child(2),
-.productos-table td:nth-child(2) { width: 13%; }
-.productos-table th:nth-child(3),
-.productos-table td:nth-child(3) { width: 25%; }
-.productos-table th:nth-child(4),
-.productos-table td:nth-child(4) { width: 6%; }
-.productos-table th:nth-child(5),
-.productos-table td:nth-child(5) { width: 8%; }
-.productos-table th:nth-child(6),
-.productos-table td:nth-child(6) { width: 10%; }
-.productos-table th:nth-child(7),
-.productos-table td:nth-child(7) { width: 11%; }
-.productos-table th:nth-child(8),
-.productos-table td:nth-child(8) { width: 11%; }
-.productos-table th:nth-child(9),
-.productos-table td:nth-child(9) { width: 12%; }
-.productos-table input[type="number"] {
-  width: 100%;
-  min-width: 0;
-  height: 23px;
-  padding: 2px 3px;
-  text-align: right;
-  font-size: 7px;
-}
-.check-producto {
-  width: 14px;
-  height: 14px;
-}
-.precio-ref {
-  font-weight: 700;
-}
-.total-real {
-  color: #087944;
-  font-weight: 800;
-}
-/* =====================================================
-   5 · FACTURA
-===================================================== */
-.factura-body {
-  height: calc(100% - 32px);
-  min-height: 0;
-  padding: 4px 6px;
-  display: grid;
-  grid-template-rows: auto auto minmax(0,1fr);
-  gap: 3px;
-  overflow: hidden;
-}
-.montos {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 3px;
-}
-.monto-box {
-  min-width: 0;
-  padding: 3px 4px;
-  border: 1px solid #dbe4eb;
-  border-radius: 5px;
-  background: #fafcfd;
-}
-.monto-box small {
-  display: block;
-  color: #71808c;
-  font-size: 6px;
-}
-.monto-box strong {
-  display: block;
-  color: #183f62;
-  font-size: 9px;
-  line-height: 18px;
-}
-.monto-box input,
-.monto-box select {
-  height: 21px;
-  padding: 2px 4px;
-  font-size: 7px;
-}
-.datos-factura {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 3px;
-}
-.datos-factura input {
-  height: 23px;
-  padding: 2px 4px;
-}
-.factura-body > .campo {
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-.factura-body > .campo label {
-  flex: 0 0 auto;
-}
-.factura-body > .campo textarea {
-  flex: 1 1 auto;
-}
-#motivoDiferenciaMonto {
-  min-height: 46px;
-  height: 46px;
-  max-height: 46px;
-  padding: 5px 6px;
-  font-size: 7px;
-  line-height: 1.25;
-  resize: none;
-}
-.sin-diferencia {
-  background: #f5f7f9;
-  color: #86939d;
-}
-/* =====================================================
-   6 · DOCUMENTOS
-===================================================== */
-.documentos-body {
-  height: calc(100% - 32px);
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 40% 60%;
-  overflow: hidden;
-}
-.factura-doc {
-  min-width: 0;
-  min-height: 0;
-  padding: 7px;
-  border-right: 1px solid #dbe4eb;
-}
-.doc-title {
-  margin-bottom: 5px;
-  color: #374b59;
-  font-size: 7px;
-  font-weight: 800;
-}
-.acciones-doc {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin-bottom: 5px;
-}
-.btn-foto,
-.btn-archivo {
-  height: 29px;
-  border-radius: 5px;
-  font-size: 7px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-.btn-foto {
-  border: 0;
-  background: #0788d5;
-  color: white;
-}
-.btn-archivo {
-  border: 1px solid #bfd7e8;
-  background: #eaf4fb;
-  color: #174c74;
-}
-.input-oculto {
-  display: none;
-}
-.archivo-estado {
-  min-height: 28px;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
-  border: 1px solid #dce5ec;
-  border-radius: 5px;
-  background: #f9fbfc;
-  color: #60717d;
-  font-size: 7px;
-}
-.archivo-ok {
-  color: #14713d;
-  font-weight: 800;
-}
-.btn-quitar {
-  width: 20px;
-  height: 20px;
-  border: 0;
-  border-radius: 4px;
-  background: #fee8e8;
-  color: #9c2828;
-}
-.docs-extra {
-  min-width: 0;
-  min-height: 0;
-  padding: 7px;
-  display: grid;
-  grid-template-rows: 30px minmax(0,1fr);
-  gap: 5px;
-}
-.docs-extra-header {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.docs-extra-title {
-  color: #374b59;
-  font-size: 7px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-.btn-agregar {
-  width: auto;
-  min-width: 128px;
-  height: 27px;
-  padding: 0 10px;
-  flex: 0 0 auto;
-  border: 1px solid #3996d6;
-  border-radius: 5px;
-  background: #eef8ff;
-  color: #075d9e;
-  font-size: 7px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-#listaDocumentos {
-  min-height: 0;
-  overflow-y: auto;
-}
-.doc-row {
-  margin-bottom: 4px;
-  padding: 4px;
-  border: 1px solid #dfe7ed;
-  border-radius: 5px;
-  background: #fafcfd;
-}
-.doc-superior {
-  display: grid;
-  grid-template-columns:
-    100px
-    90px
-    90px
-    minmax(60px,1fr)
-    24px;
-  gap: 4px;
-  align-items: center;
-}
-.doc-superior select {
-  height: 27px;
-  font-size: 7px;
-}
-.doc-superior .btn-foto,
-.doc-superior .btn-archivo {
-  width: 100%;
-  height: 27px;
-  padding: 0 3px;
-}
-.doc-estado {
-  min-width: 0;
-  overflow: hidden;
-  color: #60707c;
-  font-size: 7px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.btn-eliminar {
-  width: 24px;
-  height: 27px;
-  border: 0;
-  border-radius: 4px;
-  background: #fee8e8;
-  color: #a12828;
-  font-weight: 800;
-}
-/* =====================================================
-   CÁMARA FULLSCREEN
-===================================================== */
-.camara-fullscreen {
-  position: fixed;
-  inset: 0;
-  z-index: 20000;
-  background: #000;
-  display: none;
-  flex-direction: column;
-}
-.camara-barra {
-  height: 54px;
-  padding: 6px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: 0 0 auto;
-  background: #07131d;
-  color: white;
-}
-.camara-titulo {
-  font-size: 13px;
-  font-weight: 800;
-}
-.camara-cerrar {
-  height: 36px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 6px;
-  background: #34434e;
-  color: white;
-  font-weight: 800;
-}
-.camara-contenedor {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #000;
-}
-#videoCamara,
-#previewCamara {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: #000;
-}
-.camara-acciones {
-  height: 74px;
-  flex: 0 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  background: #07131d;
-}
-.btn-capturar,
-.btn-repetir,
-.btn-usar {
-  min-width: 150px;
-  height: 44px;
-  padding: 0 18px;
-  border: 0;
-  border-radius: 8px;
-  color: white;
-  font-size: 11px;
-  font-weight: 900;
-}
-.btn-capturar {
-  background: #0788d5;
-}
-.btn-repetir {
-  background: #596873;
-}
-.btn-usar {
-  background: #078b45;
-}
-.empty {
-  height: 100%;
-  display: grid;
-  place-items: center;
-  color: #788794;
-  font-size: 9px;
-}
-.disabled-area {
-  opacity: .48;
-  pointer-events: none;
-}
-#mensaje {
-  position: fixed;
-  z-index: 30000;
-  top: 58px;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 300px;
-  max-width: 80%;
-}
-.mensaje {
-  padding: 8px 11px;
-  border-radius: 6px;
-  box-shadow: 0 5px 15px rgba(0,0,0,.16);
-  font-size: 9px;
-  font-weight: 700;
-}
-.mensaje.ok {
-  background: #dcf7e6;
-  color: #126c3a;
-}
-.mensaje.error {
-  background: #fee5e5;
-  color: #9c2424;
-}
-@media screen and (max-height:650px) {
-  .topbar {
-    height: 48px;
-  }
-  .app {
-    height: calc(100dvh - 48px);
-  }
-  .col-izquierda {
-    grid-template-rows:
-      minmax(0,1fr)
-      82px;
-  }
-  .col-derecha {
-    grid-template-rows:
-      minmax(0,34fr)
-      minmax(0,36fr)
-      minmax(0,30fr);
-  }
-  .titulo-principal {
-    font-size: 14px;
-  }
-  .empresa-header {
-    font-size: 10px;
-  }
-  .panel-header {
-    height: 29px;
-  }
-  .documentos-body {
-    height: calc(100% - 29px);
-  }
-  .factura-doc,
-  .docs-extra {
-    padding: 5px;
-  }
-  .docs-extra {
-    grid-template-rows:
-      27px
-      minmax(0,1fr);
-  }
-}
-</style>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#184f78">
+
+  <title>Gestión de Compras · Grupo Fiorentini</title>
+
+
+  <style>
+
+    :root {
+      --fondo: #f4f6f8;
+      --blanco: #ffffff;
+
+      --azul: #184f78;
+      --azul-2: #24638f;
+      --azul-claro: #eaf3f9;
+      --azul-linea: #c8dcea;
+
+      --texto: #182230;
+      --muted: #667085;
+      --borde: #dbe3ea;
+
+      --verde: #079455;
+      --verde-claro: #dcfae6;
+
+      --naranjo-bg: #fff1e8;
+      --naranjo-text: #c4320a;
+
+      --amarillo-bg: #fffaeb;
+      --amarillo-text: #b54708;
+
+      --azul-bg: #eff8ff;
+      --azul-text: #175cd3;
+
+      --morado-bg: #f4f3ff;
+      --morado-text: #5925dc;
+
+      --rojo-bg: #fef3f2;
+      --rojo-text: #b42318;
+
+      --gris-bg: #f2f4f7;
+      --gris-text: #475467;
+
+      --radio: 16px;
+
+      --sombra:
+        0 4px 15px rgba(16, 24, 40, 0.08);
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background: var(--fondo);
+      color: var(--texto);
+    }
+
+
+    button,
+    select {
+      font: inherit;
+    }
+
+
+    button {
+      cursor: pointer;
+    }
+
+
+    /* =========================================================
+       APP
+       ========================================================= */
+
+    .app-shell {
+      width: 100%;
+      max-width: 1450px;
+
+      margin: auto;
+      padding: 18px;
+    }
+
+
+    .topbar {
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items: center;
+
+      gap: 15px;
+
+      padding: 16px 18px;
+
+      background: #fff;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:
+        var(--radio);
+
+      box-shadow:
+        var(--sombra);
+
+      position: sticky;
+      top: 10px;
+
+      z-index: 20;
+    }
+
+
+    .topbar h1 {
+      margin: 0;
+
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+
+    .topbar-sub {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+
+    .btn-refresh {
+      min-height: 44px;
+
+      border: none;
+
+      border-radius: 10px;
+
+      padding: 10px 17px;
+
+      background: #12b76a;
+
+      color: #fff;
+
+      font-weight: 900;
+    }
+
+
+    .btn-refresh:disabled {
+      opacity: .5;
+    }
+
+
+    /* =========================================================
+       FILTROS
+       ========================================================= */
+
+    .filters {
+      margin-top: 16px;
+
+      background: #fff;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:
+        var(--radio);
+
+      padding: 14px;
+
+      box-shadow:
+        var(--sombra);
+    }
+
+
+    .filters-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(180px, 1fr));
+
+      gap: 12px;
+    }
+
+
+    .filter label {
+      display: block;
+
+      margin-bottom: 6px;
+
+      font-size: 12px;
+
+      color: #475467;
+
+      font-weight: 900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .filter select {
+      width: 100%;
+      height: 44px;
+
+      border:
+        1px solid #d0d5dd;
+
+      border-radius: 10px;
+
+      padding: 0 12px;
+
+      background: #fff;
+    }
+
+
+    .filters-bottom {
+      margin-top: 12px;
+      padding-top: 12px;
+
+      border-top:
+        1px solid var(--borde);
+
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      gap: 12px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+
+    /* =========================================================
+       ESTADOS
+       ========================================================= */
+
+    .loading,
+    .empty,
+    .error {
+      margin-top: 18px;
+
+      padding: 30px;
+
+      background: #fff;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:
+        var(--radio);
+
+      box-shadow:
+        var(--sombra);
+
+      text-align: center;
+    }
+
+
+    .error {
+      color:
+        var(--rojo-text);
+    }
+
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+
+      border:
+        4px solid #e4e7ec;
+
+      border-top-color:
+        #1570ef;
+
+      border-radius: 50%;
+
+      margin:
+        0 auto 12px;
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+
+    @keyframes spin {
+
+      to {
+        transform:
+          rotate(360deg);
+      }
+
+    }
+
+
+    /* =========================================================
+       TARJETAS
+       ========================================================= */
+
+    .cards {
+      margin-top: 18px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 16px;
+    }
+
+
+    .oc-card {
+      padding: 15px;
+
+      min-height: 260px;
+
+      background: #fff;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:
+        var(--radio);
+
+      box-shadow:
+        var(--sombra);
+
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    .card-head {
+      display: flex;
+
+      gap: 10px;
+
+      align-items:
+        flex-start;
+    }
+
+
+    .card-check input {
+      width: 20px;
+      height: 20px;
+    }
+
+
+    .card-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+
+    .card-title-row {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .oc-number {
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+
+    .status {
+      padding: 5px 9px;
+
+      border-radius:
+        999px;
+
+      font-size: 10px;
+      font-weight: 900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .status-NARANJO {
+      background:
+        var(--naranjo-bg);
+
+      color:
+        var(--naranjo-text);
+    }
+
+
+    .status-AMARILLO {
+      background:
+        var(--amarillo-bg);
+
+      color:
+        var(--amarillo-text);
+    }
+
+
+    .status-AZUL {
+      background:
+        var(--azul-bg);
+
+      color:
+        var(--azul-text);
+    }
+
+
+    .status-MORADO {
+      background:
+        var(--morado-bg);
+
+      color:
+        var(--morado-text);
+    }
+
+
+    .status-ROJO {
+      background:
+        var(--rojo-bg);
+
+      color:
+        var(--rojo-text);
+    }
+
+
+    .status-GRIS {
+      background:
+        var(--gris-bg);
+
+      color:
+        var(--gris-text);
+    }
+
+
+    .provider {
+      margin-top: 9px;
+
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+
+    .meta {
+      margin-top: 10px;
+
+      display: grid;
+      gap: 5px;
+
+      font-size: 13px;
+
+      color: #475467;
+    }
+
+
+    .meta strong {
+      color: #344054;
+    }
+
+
+    .amount-row {
+      margin-top: 14px;
+
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        flex-end;
+
+      gap: 12px;
+    }
+
+
+    .line-count {
+      font-size: 13px;
+
+      color:
+        var(--muted);
+    }
+
+
+    .amount {
+      font-size: 20px;
+
+      font-weight: 900;
+    }
+
+
+    .actions {
+      margin-top: auto;
+
+      padding-top: 16px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1.2fr;
+
+      gap: 9px;
+    }
+
+
+    .btn {
+      min-height: 44px;
+
+      border: none;
+
+      border-radius: 10px;
+
+      padding: 10px;
+
+      font-weight: 900;
+    }
+
+
+    .btn-view {
+      background: #eff8ff;
+
+      color: #175cd3;
+    }
+
+
+    .btn-blue {
+      background: #1570ef;
+
+      color: #fff;
+    }
+
+
+    .btn-whatsapp {
+      background: #12b76a;
+
+      color: #fff;
+    }
+
+
+    .btn-confirmar-envio {
+      background: #184f78;
+      color: #fff;
+    }
+
+
+    .btn-confirmar-envio:disabled,
+    .btn-blue:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+
+    /* =========================================================
+       MODAL
+       ========================================================= */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+
+      overflow-y: auto;
+
+      padding: 18px;
+
+      background:
+        rgba(16, 24, 40, .72);
+
+      z-index: 100;
+    }
+
+
+    .modal-overlay.visible {
+      display: block;
+    }
+
+
+    .modal {
+      width:
+        min(1050px, 100%);
+
+      margin:
+        18px auto;
+
+      border-radius: 16px;
+
+      background: #fff;
+
+      overflow: hidden;
+    }
+
+
+    .modal-head {
+      min-height: 62px;
+
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items: center;
+
+      padding: 12px 18px;
+
+      border-bottom:
+        1px solid var(--borde);
+    }
+
+
+    .modal-head h2 {
+      margin: 0;
+
+      font-size: 19px;
+    }
+
+
+    .modal-close {
+      width: 40px;
+      height: 40px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background:
+        #f2f4f7;
+
+      font-size: 23px;
+    }
+
+
+    .modal-body {
+      background:
+        #edf1f4;
+
+      padding: 18px;
+    }
+
+
+    .modal-footer {
+      padding: 12px 18px;
+
+      background: #fff;
+
+      border-top:
+        1px solid var(--borde);
+
+      display: flex;
+
+      justify-content:
+        flex-end;
+
+      gap: 10px;
+    }
+
+
+    /* =========================================================
+       OC
+       ========================================================= */
+
+    .purchase-order {
+      width: 100%;
+      max-width: 900px;
+
+      margin: auto;
+
+      padding: 18px 24px 0;
+
+      background: #fff;
+
+      box-shadow:
+        0 3px 13px
+        rgba(16, 24, 40, .10);
+    }
+
+
+    .po-header-top {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1.45fr;
+
+      gap: 20px;
+
+      align-items: start;
+    }
+
+
+    .po-brand {
+      padding-top: 0;
+    }
+
+
+    .po-logo-real {
+      display: block;
+
+      width: 150px;
+      max-width: 100%;
+
+      height: auto;
+
+      object-fit: contain;
+
+      margin-bottom: 8px;
+    }
+
+
+    .po-company-name {
+      margin-top: 2px;
+
+      font-size: 12px;
+
+      font-weight: 800;
+    }
+
+
+    .po-company-line {
+      margin-top: 3px;
+
+      font-size: 10px;
+
+      line-height: 1.3;
+    }
+
+
+    .po-right-header {
+      width: 100%;
+    }
+
+
+    .po-title {
+      min-height: 32px;
+
+      background:
+        var(--azul-claro);
+
+      color: #111;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 14px;
+
+      font-weight: 900;
+    }
+
+
+    .po-number-bar {
+      min-height: 32px;
+
+      background:
+        var(--azul);
+
+      color: #fff;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 17px;
+
+      font-weight: 900;
+
+      margin-bottom: 6px;
+    }
+
+
+    .po-meta-row {
+      display: grid;
+
+      grid-template-columns:
+        145px 1fr;
+
+      min-height: 21px;
+
+      align-items: center;
+
+      font-size: 10px;
+    }
+
+
+    .po-meta-label {
+      color: #153d5c;
+
+      font-weight: 800;
+    }
+
+
+    .po-meta-value {
+      text-align: right;
+    }
+
+
+    .po-state {
+      background:
+        #e9f9e8;
+
+      color: #08783f;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      padding: 5px 6px;
+    }
+
+
+    /* =========================================================
+       PROVEEDOR
+       ========================================================= */
+
+    .po-supplier-row {
+      margin-top: 13px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1.38fr;
+
+      gap: 10px;
+    }
+
+
+    .po-section-title {
+      padding: 5px 7px;
+
+      background:
+        var(--azul-claro);
+
+      color: #153d5c;
+
+      font-size: 10px;
+
+      font-weight: 900;
+    }
+
+
+    .po-provider-name {
+      margin-top: 5px;
+
+      font-size: 11px;
+
+      font-weight: 700;
+    }
+
+
+    .po-provider-line {
+      margin-top: 3px;
+
+      font-size: 9px;
+
+      line-height: 1.3;
+    }
+
+
+    .po-oc-reminder {
+      border:
+        1px solid
+        var(--azul-linea);
+    }
+
+
+    .po-reminder-text {
+      min-height: 50px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 7px 15px;
+
+      font-size: 9px;
+
+      font-weight: 700;
+
+      text-align: center;
+
+      line-height: 1.25;
+    }
+
+
+    .po-reminder-number {
+      min-height: 32px;
+
+      background:
+        var(--azul);
+
+      color: #fff;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 15px;
+
+      font-weight: 900;
+    }
+
+
+    /* =========================================================
+       TABLA
+       ========================================================= */
+
+    .po-table-wrap {
+      margin-top: 10px;
+
+      overflow-x: auto;
+    }
+
+
+    .po-table {
+      width: 100%;
+
+      border-collapse:
+        collapse;
+
+      table-layout: fixed;
+
+      font-size: 8px;
+    }
+
+
+    .po-table th {
+      height: 30px;
+
+      padding: 5px 3px;
+
+      color: #fff;
+
+      background:
+        #4a7da2;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      border-right:
+        1px solid #acc4d5;
+    }
+
+
+    .po-table td {
+      min-height: 23px;
+
+      padding: 5px 4px;
+
+      border-right:
+        1px solid #d2e2ed;
+
+      border-bottom:
+        1px solid #d2e2ed;
+
+      vertical-align: middle;
+    }
+
+
+    .po-table td.center {
+      text-align: center;
+    }
+
+
+    .po-table td.money {
+      text-align: right;
+    }
+
+
+    .col-num {
+      width: 7%;
+    }
+
+
+    .col-codigo {
+      width: 13%;
+    }
+
+
+    .col-producto {
+      width: 27%;
+    }
+
+
+    .col-cantidad {
+      width: 13%;
+    }
+
+
+    .col-unidad {
+      width: 15%;
+    }
+
+
+    .col-precio {
+      width: 14%;
+    }
+
+
+    .col-total {
+      width: 11%;
+    }
+
+
+    .po-empty-row td {
+      height: 18px;
+    }
+
+
+    /* =========================================================
+       TOTALES
+       ========================================================= */
+
+    .po-totals-area {
+      display: flex;
+
+      justify-content:
+        flex-end;
+
+      margin-top: 2px;
+    }
+
+
+    .po-totals {
+      width: 44%;
+
+      border-collapse:
+        collapse;
+
+      font-size: 9px;
+    }
+
+
+    .po-totals td {
+      padding: 4px 6px;
+    }
+
+
+    .po-totals td:first-child {
+      font-weight: 900;
+    }
+
+
+    .po-totals td:last-child {
+      text-align: right;
+
+      font-weight: 900;
+    }
+
+
+    .po-total-final {
+      background:
+        #4a7da2;
+
+      color: #fff;
+
+      font-weight: 900;
+    }
+
+
+    /* =========================================================
+       CONDICIONES
+       ========================================================= */
+
+    .po-conditions {
+      margin-top: 8px;
+    }
+
+
+    .po-conditions-title {
+      padding: 6px 7px;
+
+      background:
+        var(--azul-claro);
+
+      color: #153d5c;
+
+      font-size: 9px;
+
+      font-weight: 900;
+    }
+
+
+    .po-conditions ol {
+      margin:
+        7px 0 10px 18px;
+
+      padding: 0;
+
+      font-size: 8px;
+
+      line-height: 1.45;
+    }
+
+
+    .po-conditions li {
+      margin-bottom: 1px;
+    }
+
+
+    /* =========================================================
+       PIE
+       ========================================================= */
+
+    .po-footer-bar {
+      margin:
+        10px -24px 0;
+
+      min-height: 48px;
+
+      padding: 8px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
+      background:
+        var(--azul);
+
+      color: #fff;
+
+      text-align: center;
+    }
+
+
+    .po-footer-message {
+      font-size: 8px;
+
+      font-weight: 700;
+    }
+
+
+    .po-footer-company {
+      margin-top: 4px;
+
+      font-size: 8px;
+
+      font-weight: 900;
+    }
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    .toast {
+      position: fixed;
+
+      left: 50%;
+      bottom: 25px;
+
+      transform:
+        translate(-50%, 100px);
+
+      opacity: 0;
+
+      max-width:
+        calc(100vw - 30px);
+
+      padding: 13px 16px;
+
+      border-radius: 10px;
+
+      background: #101828;
+
+      color: #fff;
+
+      font-size: 13px;
+
+      z-index: 300;
+
+      transition: .2s;
+    }
+
+
+    .toast.visible {
+      transform:
+        translate(-50%, 0);
+
+      opacity: 1;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media
+      (max-width: 1050px) {
+
+      .cards {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+
+    @media
+      (max-width: 720px) {
+
+      .app-shell {
+        padding: 9px;
+      }
+
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+
+      .filters-bottom {
+        flex-direction: column;
+      }
+
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+
+      .modal-overlay {
+        padding: 0;
+      }
+
+
+      .modal {
+        min-height: 100vh;
+
+        margin: 0;
+
+        border-radius: 0;
+      }
+
+
+      .modal-body {
+        padding: 5px;
+      }
+
+
+      .purchase-order {
+        padding:
+          13px 9px 0;
+
+        box-shadow: none;
+      }
+
+
+      .po-header-top {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+      }
+
+
+      .po-supplier-row {
+        grid-template-columns: 1fr;
+      }
+
+
+      .po-logo-real {
+        width: 140px;
+      }
+
+
+      .po-meta-row {
+        grid-template-columns:
+          130px 1fr;
+      }
+
+
+      .po-footer-bar {
+        margin:
+          10px -9px 0;
+      }
+
+
+      .modal-footer {
+        position: sticky;
+
+        bottom: 0;
+
+        display: grid;
+
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+    }
+
+
+    @media print {
+
+      body * {
+        visibility: hidden;
+      }
+
+
+      #documentoOC,
+      #documentoOC * {
+        visibility: visible;
+      }
+
+
+      #documentoOC {
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        width: 100%;
+      }
+
+
+      .purchase-order {
+        width: 100%;
+
+        max-width: none;
+
+        box-shadow: none;
+      }
+
+    }
+
+  
+
+    /* =========================================================
+       GESTION DE EXCEPCION · HOJA OPERATIVA
+       ========================================================= */
+
+    .gestion-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 12000;
+      background: #f2f4f7;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .gestion-sheet-overlay.visible {
+      display: block;
+    }
+
+    .gestion-sheet-shell {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 20px 18px 48px;
+    }
+
+    .gestion-sheet-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: rgba(242, 244, 247, .96);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0 18px;
+      border-bottom: 1px solid #e4e7ec;
+      margin-bottom: 18px;
+    }
+
+    .gestion-sheet-title h2 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .gestion-sheet-title p {
+      margin: 5px 0 0;
+      color: #667085;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .gestion-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .gestion-card {
+      background: #fff;
+      border: 1px solid #e4e7ec;
+      border-radius: 16px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+      padding: 18px;
+    }
+
+    .gestion-card h3 {
+      margin: 0 0 14px;
+      font-size: 16px;
+    }
+
+    .gestion-span-12 { grid-column: span 12; }
+    .gestion-span-8 { grid-column: span 8; }
+    .gestion-span-6 { grid-column: span 6; }
+    .gestion-span-4 { grid-column: span 4; }
+
+    .gestion-kv-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 18px;
+    }
+
+    .gestion-kv {
+      min-width: 0;
+    }
+
+    .gestion-kv-label {
+      display: block;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      margin-bottom: 4px;
+    }
+
+    .gestion-kv-value {
+      display: block;
+      color: #101828;
+      font-size: 15px;
+      font-weight: 900;
+      word-break: break-word;
+    }
+
+    .gestion-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .gestion-field label {
+      display: block;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .gestion-field input,
+    .gestion-field select {
+      width: 100%;
+      min-height: 44px;
+      box-sizing: border-box;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
+      padding: 9px 11px;
+      font-size: 15px;
+      background: #fff;
+      color: #101828;
+    }
+
+    .gestion-field input[readonly] {
+      background: #f9fafb;
+      color: #475467;
+    }
+
+    .gestion-table-wrap {
+      overflow-x: auto;
+      border: 1px solid #e4e7ec;
+      border-radius: 12px;
+    }
+
+    .gestion-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    .gestion-table th {
+      text-align: left;
+      font-size: 12px;
+      color: #475467;
+      background: #f9fafb;
+      padding: 11px 10px;
+      border-bottom: 1px solid #e4e7ec;
+      white-space: nowrap;
+    }
+
+    .gestion-table td {
+      padding: 11px 10px;
+      border-bottom: 1px solid #eaecf0;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    .gestion-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .gestion-table input {
+      min-width: 120px;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 40px;
+      border: 1px solid #d0d5dd;
+      border-radius: 9px;
+      padding: 8px 10px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .gestion-num {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .gestion-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .gestion-summary-box {
+      border: 1px solid #e4e7ec;
+      border-radius: 12px;
+      padding: 14px;
+      background: #fcfcfd;
+    }
+
+    .gestion-summary-box span {
+      display: block;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .gestion-summary-box strong {
+      display: block;
+      font-size: 20px;
+      color: #101828;
+    }
+
+    .gestion-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .gestion-alert {
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.45;
+      background: #fff6ed;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
+    }
+
+    .gestion-danger {
+      color: #b42318;
+      font-weight: 900;
+    }
+
+    .gestion-positive {
+      color: #027a48;
+      font-weight: 900;
+    }
+
+    @media (max-width: 820px) {
+      .gestion-span-8,
+      .gestion-span-6,
+      .gestion-span-4 {
+        grid-column: span 12;
+      }
+
+      .gestion-kv-grid,
+      .gestion-form-grid,
+      .gestion-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .gestion-sheet-topbar {
+        align-items: flex-start;
+      }
+    }
+
+  </style>
+
 </head>
+
+
 <body>
-<header class="topbar">
-  <div class="topbar-left">
-    <div class="logo-box">📦</div>
-    <div class="titulo-principal">50 · RECEPCIÓN DE MERCADERÍA</div>
-    <div class="empresa-header">Grupo Fiorentini</div>
-  </div>
-  <div class="acciones-recepcion-header">
-    <button class="btn-header-cancelar" type="button" onclick="limpiarSeleccion()">CANCELAR</button>
-    <button id="btnConfirmar" class="btn-header-confirmar" type="button" onclick="confirmarRecepcion()" disabled>
-      ✓ CONFIRMAR RECEPCIÓN
-    </button>
-  </div>
-  <div class="header-derecha">
-    <div class="usuario-header">👤 Recepción</div>
-    <button class="btn-header" type="button" onclick="actualizarAplicacion(true)">🔄 ACTUALIZAR</button>
-    <button class="btn-clave" type="button" onclick="cambiarClaveApi()">🔑</button>
-  </div>
-</header>
 
-<div id="mensaje"></div>
 
-<main class="app">
-<div class="col-izquierda">
-<section class="panel">
-  <div class="panel-header">
-    <div class="numero">1</div>
-    <div>
-      <div class="panel-title">OC AUTORIZADAS</div>
-      <div class="panel-sub">Seleccione la orden de compra recibida</div>
-    </div>
-  </div>
-  <div class="lista-body">
-    <div class="filtros">
-      <select id="filtroEmpresa" onchange="renderLista()">
-        <option value="">TODAS LAS EMPRESAS</option>
-      </select>
-      <select id="filtroProveedor" onchange="renderLista()">
-        <option value="">TODOS LOS PROVEEDORES</option>
-      </select>
-      <input id="buscador" placeholder="Buscar OC, proveedor o producto..." oninput="renderLista()">
-    </div>
-    <div class="tabla-scroll">
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th>OC</th>
-            <th>Proveedor</th>
-            <th>Fecha</th>
-            <th>Prod.</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="tablaOC">
-          <tr><td colspan="5">Cargando...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+  <div class="app-shell">
 
-<section id="panelTipo" class="panel disabled-area">
-  <div class="tipo-titulo">
-    <div class="numero">3</div>
-    <div class="panel-title">TIPO DE RECEPCIÓN</div>
-  </div>
-  <div class="tipo-controles">
-    <label class="tipo-card">
-      <input type="radio" name="estado" value="COMPLETA" onchange="cambiarEstado()">
-      COMPLETA
-    </label>
-    <label class="tipo-card">
-      <input type="radio" name="estado" value="PARCIAL" onchange="cambiarEstado()">
-      PARCIAL
-    </label>
-    <label class="seleccionar-todos">
-      <input id="seleccionarTodo" type="checkbox" onchange="seleccionarTodos()">
-      Seleccionar todos
-    </label>
-  </div>
-</section>
-</div>
 
-<div class="col-derecha">
-<section id="panelProductos" class="panel disabled-area">
-  <div class="panel-header">
-    <div class="numero">4</div>
-    <div>
-      <div class="panel-title">PRODUCTOS</div>
-      <div class="panel-sub">Seleccione los productos de esta factura</div>
-    </div>
-  </div>
-  <div id="productosContenido" class="empty">Seleccione una OC.</div>
-</section>
+    <header class="topbar">
 
-<section id="panelFactura" class="panel disabled-area">
-  <div class="panel-header">
-    <div class="numero">5</div>
-    <div class="panel-title">DATOS DE LA FACTURA</div>
-  </div>
-  <div class="factura-body">
-    <div class="montos">
-      <div class="monto-box">
-        <small>Monto autorizado</small>
-        <strong id="montoAutorizado">$0</strong>
-      </div>
-      <div class="monto-box">
-        <small>Monto calculado</small>
-        <strong id="montoCalculado">$0</strong>
-      </div>
-      <div class="monto-box">
-        <small>Monto factura</small>
-        <input
-          id="montoFactura"
-          type="number"
-          step="0.01"
-          oninput="montoEditadoManual=true; revisarDiferenciaMonto();"
-        >
-      </div>
-      <div class="monto-box">
-        <small>Monto factura corresponde a</small>
-        <select id="tipoMontoFactura" onchange="revisarDiferenciaMonto()">
-          <option value="">SELECCIONAR</option>
-          <option value="NETO">NETO</option>
-          <option value="BRUTO">BRUTO</option>
-        </select>
-      </div>
-    </div>
+      <div>
 
-    <div class="datos-factura">
-      <div class="campo">
-        <label>N° factura</label>
-        <input id="numeroFactura">
-      </div>
-      <div class="campo">
-        <label>Fecha factura</label>
-        <input id="fechaFactura" type="date">
-      </div>
-      <div class="campo">
-        <label>Fecha vencimiento</label>
-        <input id="fechaVencimiento" type="date">
-      </div>
-    </div>
+        <h1>
+          Gestión de Compras
+        </h1>
 
-    <div class="campo">
-      <label>Motivo diferencia monto factura</label>
-      <textarea
-        id="motivoDiferenciaMonto"
-        class="sin-diferencia"
-        placeholder="Sin diferencia de monto"
-        disabled
-      ></textarea>
-    </div>
-  </div>
-</section>
+        <div class="topbar-sub">
+          Grupo Fiorentini · Panel operativo
+        </div>
 
-<section id="panelDocumentos" class="panel disabled-area">
-  <div class="panel-header">
-    <div class="numero">6</div>
-    <div class="panel-title">DOCUMENTOS</div>
-  </div>
-  <div class="documentos-body">
-    <div class="factura-doc">
-      <div class="doc-title">Factura · obligatoria</div>
-      <div class="acciones-doc">
-        <button type="button" class="btn-foto" onclick="abrirCamara('FACTURA')">
-          📷 TOMAR FOTO
-        </button>
-        <button
-          type="button"
-          class="btn-archivo"
-          onclick="document.getElementById('facturaArchivo').click()"
-        >
-          📎 SUBIR ARCHIVO
-        </button>
       </div>
-      <input
-        id="facturaArchivo"
-        class="input-oculto"
-        type="file"
-        accept="image/*,application/pdf"
-        onchange="seleccionarFacturaArchivo()"
+
+
+      <button
+        id="btnActualizar"
+        class="btn-refresh"
+        onclick="cargarDatos()"
       >
-      <div id="estadoFactura" class="archivo-estado">
-        Ninguna factura seleccionada
+        ↻ Actualizar
+      </button>
+
+    </header>
+
+
+    <section class="filters">
+
+
+      <div class="filters-grid">
+
+
+        <div class="filter">
+
+          <label>
+            Estado
+          </label>
+
+          <select
+            id="filtroEstado"
+            onchange="aplicarFiltros()"
+          >
+
+            <option value="">
+              Todos
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="filter">
+
+          <label>
+            Proveedor
+          </label>
+
+          <select
+            id="filtroProveedor"
+            onchange="aplicarFiltros()"
+          >
+
+            <option value="">
+              Todos
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="filter">
+
+          <label>
+            Empresa
+          </label>
+
+          <select
+            id="filtroEmpresa"
+            onchange="aplicarFiltros()"
+          >
+
+            <option value="">
+              Todas
+            </option>
+
+          </select>
+
+        </div>
+
+
       </div>
+
+
+      <div class="filters-bottom">
+
+        <span id="contadorResultados">
+          0 OC
+        </span>
+
+
+        <span id="ultimaActualizacion">
+          Sin actualizar
+        </span>
+
+      </div>
+
+
+    </section>
+
+
+    <div
+      id="loading"
+      class="loading"
+    >
+
+      <div class="spinner"></div>
+
+      Cargando órdenes de compra...
+
     </div>
 
-    <div class="docs-extra">
-      <div class="docs-extra-header">
-        <div class="docs-extra-title">Documentos adicionales · opcional</div>
-        <button type="button" class="btn-agregar" onclick="agregarDocumento()">
-          + AGREGAR DOCUMENTO
+
+    <div
+      id="errorBox"
+      class="error"
+      style="display:none;"
+    ></div>
+
+
+    <div
+      id="emptyBox"
+      class="empty"
+      style="display:none;"
+    >
+      No existen órdenes de compra para estos filtros.
+    </div>
+
+
+    <main
+      id="cardsContainer"
+      class="cards"
+    ></main>
+
+
+  </div>
+
+
+  <!-- =======================================================
+       MODAL OC
+       ======================================================= -->
+
+  <div
+    id="modalOC"
+    class="modal-overlay"
+    onclick="cerrarModalPorFondo(event)"
+  >
+
+
+    <div class="modal">
+
+
+      <div class="modal-head">
+
+        <h2>
+          Vista previa OC
+        </h2>
+
+
+        <button
+          class="modal-close"
+          onclick="cerrarOC()"
+        >
+          ×
         </button>
+
       </div>
-      <div id="listaDocumentos"></div>
+
+
+      <div class="modal-body">
+
+        <div id="documentoOC"></div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+
+        <button
+          class="btn btn-view"
+          onclick="window.print()"
+        >
+          Imprimir
+        </button>
+
+
+        <button
+          class="btn btn-view"
+          onclick="cerrarOC()"
+        >
+          Volver
+        </button>
+
+
+        <button
+          id="btnEnviarModal"
+          class="btn btn-whatsapp"
+          onclick="abrirWhatsAppDesdeModal()"
+        >
+          WhatsApp
+        </button>
+
+
+        <button
+          id="btnConfirmarEnvioModal"
+          class="btn btn-confirmar-envio"
+          onclick="confirmarEnvioDesdeModal()"
+          style="display:none;"
+        >
+          Confirmar envío
+        </button>
+
+
+      </div>
+
+
     </div>
+
+
   </div>
-</section>
-</div>
-</main>
 
-<div id="camaraFullscreen" class="camara-fullscreen">
-  <div class="camara-barra">
-    <button type="button" class="camara-cerrar" onclick="cerrarCamara()">✕ CANCELAR</button>
-    <div class="camara-titulo">TOMAR FOTO</div>
-    <div style="width:100px"></div>
+
+  <!-- =======================================================
+       GESTION DE EXCEPCION · HOJA OPERATIVA
+       ======================================================= -->
+
+  <div
+    id="gestionExcepcionHoja"
+    class="gestion-sheet-overlay"
+  >
+
+    <div class="gestion-sheet-shell">
+
+      <div class="gestion-sheet-topbar">
+
+        <div class="gestion-sheet-title">
+          <h2>Gestión de excepción</h2>
+          <p id="gestionExcepcionSubtitulo">Propuesta de proveedor alternativo</p>
+        </div>
+
+        <button
+          class="btn btn-view"
+          onclick="cerrarGestionExcepcion()"
+        >
+          Volver
+        </button>
+
+      </div>
+
+      <div class="gestion-grid">
+
+        <section class="gestion-card gestion-span-6">
+          <h3>1. Orden de compra</h3>
+          <div class="gestion-kv-grid">
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">OC</span>
+              <span class="gestion-kv-value" id="gxOc">-</span>
+            </div>
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">Empresa</span>
+              <span class="gestion-kv-value" id="gxEmpresa">-</span>
+            </div>
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">Lote</span>
+              <span class="gestion-kv-value" id="gxLote">-</span>
+            </div>
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">Estado</span>
+              <span class="gestion-kv-value gestion-danger" id="gxEstado">RECHAZO</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="gestion-card gestion-span-6">
+          <h3>2. Proveedor original</h3>
+          <div class="gestion-kv-grid">
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">Proveedor</span>
+              <span class="gestion-kv-value" id="gxProveedorOriginal">-</span>
+            </div>
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">Respuesta</span>
+              <span class="gestion-kv-value gestion-danger" id="gxRespuestaOriginal">-</span>
+            </div>
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">Motivo</span>
+              <span class="gestion-kv-value gestion-danger" id="gxIncidenciaOriginal">-</span>
+            </div>
+            <div class="gestion-kv">
+              <span class="gestion-kv-label">Acción</span>
+              <span class="gestion-kv-value">Buscar alternativa</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="gestion-card gestion-span-12">
+          <h3>3. Propuesta de proveedor alternativo</h3>
+
+          <div class="gestion-form-grid">
+            <div class="gestion-field">
+              <label for="gxProveedorAlternativo">Proveedor alternativo</label>
+              <input
+                id="gxProveedorAlternativo"
+                type="text"
+                autocomplete="off"
+                placeholder="Nombre del nuevo proveedor"
+              >
+            </div>
+
+            <div class="gestion-field">
+              <label for="gxResponsable">Responsable de la propuesta</label>
+              <input
+                id="gxResponsable"
+                type="text"
+                autocomplete="off"
+                placeholder="Nombre del responsable"
+              >
+            </div>
+
+            <div class="gestion-field">
+              <label for="gxMotivo">Motivo heredado</label>
+              <input
+                id="gxMotivo"
+                type="text"
+                readonly
+              >
+            </div>
+
+            <div class="gestion-field">
+              <label for="gxFechaPropuesta">Fecha propuesta</label>
+              <input
+                id="gxFechaPropuesta"
+                type="text"
+                value="Automática al enviar"
+                readonly
+              >
+            </div>
+          </div>
+        </section>
+
+        <section class="gestion-card gestion-span-12">
+          <h3>4. Productos y nuevos precios</h3>
+
+          <div class="gestion-alert" style="margin-bottom:14px;">
+            La cantidad autorizada no se modifica aquí. Compras propone proveedor y precio por línea; Jefatura decide la reautorización.
+          </div>
+
+          <div class="gestion-table-wrap">
+            <table class="gestion-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Producto</th>
+                  <th>Unidad</th>
+                  <th class="gestion-num">Cantidad</th>
+                  <th class="gestion-num">Precio autorizado</th>
+                  <th class="gestion-num">Nuevo precio</th>
+                  <th class="gestion-num">Diferencia</th>
+                  <th class="gestion-num">Total propuesto</th>
+                </tr>
+              </thead>
+              <tbody id="gxProductosBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="gestion-card gestion-span-12">
+          <h3>5. Resumen económico</h3>
+          <div class="gestion-summary">
+            <div class="gestion-summary-box">
+              <span>Neto autorizado</span>
+              <strong id="gxNetoAutorizado">$0</strong>
+            </div>
+            <div class="gestion-summary-box">
+              <span>Neto propuesto</span>
+              <strong id="gxNetoPropuesto">$0</strong>
+            </div>
+            <div class="gestion-summary-box">
+              <span>Diferencia neta</span>
+              <strong id="gxDiferenciaNeta">$0</strong>
+            </div>
+            <div class="gestion-summary-box">
+              <span>Total propuesto c/IVA</span>
+              <strong id="gxTotalPropuesto">$0</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="gestion-card gestion-span-12">
+          <div class="gestion-actions">
+            <button
+              class="btn btn-view"
+              onclick="cerrarGestionExcepcion()"
+            >
+              Cancelar
+            </button>
+
+            <button
+              id="gxBtnEnviar"
+              class="btn btn-blue"
+              onclick="enviarGestionExcepcionAReautorizacion()"
+            >
+              Enviar a reautorización
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
   </div>
-  <div class="camara-contenedor">
-    <video id="videoCamara" autoplay playsinline></video>
-    <canvas id="canvasCamara" style="display:none"></canvas>
-    <img id="previewCamara" alt="" style="display:none">
-  </div>
-  <div class="camara-acciones">
-    <button id="btnCapturarFoto" type="button" class="btn-capturar" onclick="capturarFoto()">
-      📷 TOMAR FOTO
-    </button>
-    <button id="btnRepetirFoto" type="button" class="btn-repetir" style="display:none" onclick="repetirFoto()">
-      REPETIR
-    </button>
-    <button id="btnUsarFoto" type="button" class="btn-usar" style="display:none" onclick="usarFoto()">
-      ✓ USAR FOTO
-    </button>
-  </div>
-</div>
 
-<iframe id="apiPostFrame" name="apiPostFrame" style="display:none"></iframe>
 
-<script>
-const API_URL =
-'https://script.google.com/macros/s/AKfycbw9R6d_OSSX4QIL-RM9P76Y4fk38Dvn0U3Qb5J2rBjHus2fcmR6v2C-cij_0JYF_5q1KQ/exec';
+  <div
+    id="toast"
+    class="toast"
+  ></div>
 
-const STORAGE_API_KEY =
-'GF_RECEPCION_API_KEY';
 
-let ocDisponibles = [];
-let ocActual = null;
-let montoEditadoManual = false;
-let contadorDocumentos = 0;
-let facturaSeleccionada = null;
-let postPendiente = null;
-let ultimaActualizacionAutomatica = 0;
-let streamCamara = null;
-let destinoCamara = null;
-let fotoCapturada = null;
-const fotosDocumentos = {};
+  <script>
 
-document.addEventListener(
-'DOMContentLoaded',
-async () => {
-  registrarServiceWorker();
-  await iniciarAplicacion();
-}
-);
 
-document.addEventListener(
-'visibilitychange',
-async () => {
-  if (
-    document.visibilityState === 'visible' &&
-    obtenerClaveApi(false)
-  ) {
-    const ahora = Date.now();
-    if (
-      ahora -
-      ultimaActualizacionAutomatica >
-      2000
-    ) {
-      ultimaActualizacionAutomatica = ahora;
-      await actualizarAplicacion(false);
-    }
-  }
-}
-);
+    /* =========================================================
+       CONFIG
+       ========================================================= */
 
-window.addEventListener(
-'focus',
-async () => {
-  if (!obtenerClaveApi(false)) {
-    return;
-  }
+    const CONFIG = {
 
-  const ahora = Date.now();
+      API_BASE_URL:
+        'https://script.google.com/macros/s/AKfycbyB-26Y-FVjiiD7-yVsQ8rKDZu81ZyVxdzcjd4oaj5fQgKi8MswBwdNR-zN7owVxwU84g/exec'
 
-  if (
-    ahora -
-    ultimaActualizacionAutomatica >
-    2000
-  ) {
-    ultimaActualizacionAutomatica = ahora;
-    await actualizarAplicacion(false);
-  }
-}
-);
+    };
 
-async function actualizarAplicacion(
-mostrarAviso=true
-) {
-  try {
-    await cargarOC();
 
-    if (mostrarAviso) {
-      mostrarMensaje(
-        'Información actualizada.',
-        'ok'
+    let PANEL = {
+
+      actualizado: '',
+
+      oc: [],
+
+      proveedores: [],
+
+      empresas: [],
+
+      estados: []
+
+    };
+
+
+    let OC_VISIBLE = [];
+
+
+    let OC_MODAL_ACTUAL =
+      null;
+
+
+    let GESTION_EXCEPCION_ACTUAL =
+      null;
+
+
+    /*
+     * Guarda solamente en esta sesión qué OC
+     * ya fueron abiertas en WhatsApp.
+     *
+     * IMPORTANTE:
+     * esto NO es trazabilidad oficial.
+     * MAESTRO sigue siendo la fuente de verdad.
+     */
+
+    const WHATSAPP_ABIERTO =
+      new Set();
+
+
+    const CONFIRMACION_ENVIO_EN_CURSO =
+      new Set();
+
+
+    const CONFIRMACION_RESPUESTA_EN_CURSO =
+      new Set();
+
+
+
+    /* =========================================================
+       INICIO
+       ========================================================= */
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      cargarDatos
+    );
+
+
+
+    /* =========================================================
+       API
+       ========================================================= */
+
+    async function cargarDatos() {
+
+      mostrarCarga(
+        true
       );
-    }
-  } catch (error) {
-    if (mostrarAviso) {
-      mostrarError(error);
-    }
-  }
-}
 
-async function iniciarAplicacion() {
-  const clave =
-  obtenerClaveApi();
 
-  if (!clave) {
-    mostrarMensaje(
-      'Debe ingresar la clave de Recepción.',
-      'error'
-    );
-    return;
-  }
+      ocultarError();
 
-  await cargarOC();
-}
 
-async function registrarServiceWorker() {
-  if (!('serviceWorker' in navigator)) {
-    return;
-  }
+      const boton =
+        document.getElementById(
+          'btnActualizar'
+        );
 
-  try {
-    const registro =
-    await navigator.serviceWorker.register(
-      './service-worker.js',
-      {
-        updateViaCache:'none'
+
+      boton.disabled =
+        true;
+
+
+      try {
+
+        const url =
+          CONFIG.API_BASE_URL
+          +
+          '?api=compras&accion=listar';
+
+
+        const respuesta =
+          await cargarJsonp(
+            url
+          );
+
+
+        if (
+          !respuesta ||
+          respuesta.ok !== true
+        ) {
+
+          throw new Error(
+
+            respuesta &&
+            respuesta.error
+
+              ? respuesta.error
+
+              : 'No fue posible cargar Compras.'
+
+          );
+
+        }
+
+
+        PANEL =
+          respuesta.data
+          ||
+          {
+
+            actualizado:
+              '',
+
+            oc:
+              [],
+
+            proveedores:
+              [],
+
+            empresas:
+              [],
+
+            estados:
+              []
+
+          };
+
+
+        cargarSelects();
+
+
+        aplicarFiltros();
+
+
+        document
+          .getElementById(
+            'ultimaActualizacion'
+          )
+          .textContent =
+            'Actualizado: '
+            +
+            (
+              PANEL.actualizado ||
+              '-'
+            );
+
+
+      } catch (
+        error
+      ) {
+
+        mostrarError(
+          error &&
+          error.message
+
+            ? error.message
+
+            : String(
+                error
+              )
+        );
+
+
+      } finally {
+
+        mostrarCarga(
+          false
+        );
+
+
+        boton.disabled =
+          false;
+
       }
-    );
 
-    registro.update();
-  } catch (error) {
-    console.error(
-      'Service Worker:',
-      error
-    );
-  }
-}
-
-function obtenerClaveApi(
-solicitar=true
-) {
-  let clave =
-  localStorage.getItem(
-    STORAGE_API_KEY
-  );
-
-  if (clave) {
-    return clave;
-  }
-
-  if (!solicitar) {
-    return '';
-  }
-
-  clave =
-  window.prompt(
-    'Ingrese la clave de Recepción de Mercadería:'
-  );
-
-  if (!clave) {
-    return '';
-  }
-
-  clave =
-  String(clave).trim();
-
-  if (!clave) {
-    return '';
-  }
-
-  localStorage.setItem(
-    STORAGE_API_KEY,
-    clave
-  );
-
-  return clave;
-}
-
-function cambiarClaveApi() {
-  const nuevaClave =
-  window.prompt(
-    'Ingrese la nueva clave de Recepción:'
-  );
-
-  if (!nuevaClave) {
-    return;
-  }
-
-  localStorage.setItem(
-    STORAGE_API_KEY,
-    String(nuevaClave).trim()
-  );
-
-  mostrarMensaje(
-    'Clave actualizada.',
-    'ok'
-  );
-
-  cargarOC();
-}
-
-function apiGet(accion, extras={}) {
-return new Promise(
-(resolve,reject) => {
-
-  const callback =
-  '__gfCallback_' +
-  Date.now() +
-  '_' +
-  Math.floor(
-    Math.random()*100000
-  );
-
-  const timeout =
-  setTimeout(
-  () => {
-    limpiar();
-
-    reject(
-      new Error(
-        'No hubo respuesta del servidor.'
-      )
-    );
-  },
-  30000
-  );
-
-  function limpiar() {
-    clearTimeout(timeout);
-
-    const script =
-    document.getElementById(
-      callback
-    );
-
-    if (script) {
-      script.remove();
     }
 
-    try {
-      delete window[
-        callback
-      ];
-    } catch(e) {
-      window[
-        callback
-      ] =
-      undefined;
-    }
-  }
 
-  window[
-    callback
-  ] =
-  respuesta => {
-    limpiar();
 
-    if (
-      !respuesta ||
-      respuesta.ok !== true
+    function cargarJsonp(
+      url
     ) {
-      reject(
-        new Error(
-          respuesta &&
-          respuesta.error
-          ? respuesta.error
-          : 'Error al consultar el servidor.'
+
+      return new Promise(
+        function(
+          resolve,
+          reject
+        ) {
+
+          const callback =
+            '__gfCompras_'
+            +
+            Date.now()
+            +
+            '_'
+            +
+            Math.floor(
+              Math.random()
+              *
+              100000
+            );
+
+
+          const script =
+            document.createElement(
+              'script'
+            );
+
+
+          const separador =
+            url.includes(
+              '?'
+            )
+              ? '&'
+              : '?';
+
+
+          const timeout =
+            window.setTimeout(
+              function() {
+
+                limpiar();
+
+
+                reject(
+                  new Error(
+                    'Tiempo de espera agotado consultando MAESTRO.'
+                  )
+                );
+
+              },
+              20000
+            );
+
+
+          function limpiar() {
+
+            window.clearTimeout(
+              timeout
+            );
+
+
+            if (
+              script.parentNode
+            ) {
+
+              script
+                .parentNode
+                .removeChild(
+                  script
+                );
+
+            }
+
+
+            try {
+
+              delete window[
+                callback
+              ];
+
+
+            } catch (
+              error
+            ) {
+
+              window[
+                callback
+              ] =
+                undefined;
+
+            }
+
+          }
+
+
+          window[
+            callback
+          ] =
+            function(
+              respuesta
+            ) {
+
+              limpiar();
+
+
+              resolve(
+                respuesta
+              );
+
+            };
+
+
+          script.onerror =
+            function() {
+
+              limpiar();
+
+
+              reject(
+                new Error(
+                  'No fue posible conectar con la API.'
+                )
+              );
+
+            };
+
+
+          script.src =
+            url
+            +
+            separador
+            +
+            'callback='
+            +
+            encodeURIComponent(
+              callback
+            );
+
+
+          document
+            .head
+            .appendChild(
+              script
+            );
+
+        }
+      );
+
+    }
+
+
+
+    /* =========================================================
+       FILTROS
+       ========================================================= */
+
+    function cargarSelects() {
+
+      llenarSelect(
+        'filtroEstado',
+        PANEL.estados || [],
+        'Todos'
+      );
+
+
+      llenarSelect(
+        'filtroProveedor',
+        PANEL.proveedores || [],
+        'Todos'
+      );
+
+
+      llenarSelect(
+        'filtroEmpresa',
+        PANEL.empresas || [],
+        'Todas'
+      );
+
+    }
+
+
+
+    function llenarSelect(
+      id,
+      valores,
+      textoTodos
+    ) {
+
+      const select =
+        document.getElementById(
+          id
+        );
+
+
+      const actual =
+        select.value;
+
+
+      select.innerHTML =
+        '';
+
+
+      const primero =
+        document.createElement(
+          'option'
+        );
+
+
+      primero.value =
+        '';
+
+
+      primero.textContent =
+        textoTodos;
+
+
+      select.appendChild(
+        primero
+      );
+
+
+      valores.forEach(
+        function(
+          valor
+        ) {
+
+          const option =
+            document.createElement(
+              'option'
+            );
+
+
+          option.value =
+            valor;
+
+
+          option.textContent =
+            valor;
+
+
+          select.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      if (
+        Array
+          .from(
+            select.options
+          )
+          .some(
+            function(
+              option
+            ) {
+
+              return (
+                option.value ===
+                actual
+              );
+
+            }
+          )
+      ) {
+
+        select.value =
+          actual;
+
+      }
+
+    }
+
+
+
+    function aplicarFiltros() {
+
+      const estado =
+        document
+          .getElementById(
+            'filtroEstado'
+          )
+          .value;
+
+
+      const proveedor =
+        document
+          .getElementById(
+            'filtroProveedor'
+          )
+          .value;
+
+
+      const empresa =
+        document
+          .getElementById(
+            'filtroEmpresa'
+          )
+          .value;
+
+
+      OC_VISIBLE =
+        (
+          PANEL.oc ||
+          []
         )
+        .filter(
+          function(
+            item
+          ) {
+
+            return (
+              (
+                !estado ||
+                item.estado ===
+                  estado
+              )
+              &&
+              (
+                !proveedor ||
+                item.proveedor ===
+                  proveedor
+              )
+              &&
+              (
+                !empresa ||
+                item.empresa ===
+                  empresa
+              )
+            );
+
+          }
+        );
+
+
+      renderTarjetas(
+        OC_VISIBLE
       );
 
-      return;
     }
 
-    resolve(respuesta);
-  };
 
-  const clave =
-  obtenerClaveApi();
 
-  const extrasQuery =
-  Object.entries(extras || {})
-  .filter(([,valor]) => valor !== undefined && valor !== null)
-  .map(([nombre,valor]) =>
-    '&' +
-    encodeURIComponent(nombre) +
-    '=' +
-    encodeURIComponent(String(valor))
-  )
-  .join('');
+    /* =========================================================
+       TARJETAS
+       ========================================================= */
 
-  const url =
-  API_URL +
-  '?api=recepcion' +
-  '&accion=' +
-  encodeURIComponent(accion) +
-  '&key=' +
-  encodeURIComponent(clave) +
-  '&callback=' +
-  encodeURIComponent(callback) +
-  extrasQuery +
-  '&_=' +
-  Date.now();
+    function renderTarjetas(
+      lista
+    ) {
 
-  const script =
-  document.createElement(
-    'script'
-  );
+      const contenedor =
+        document
+          .getElementById(
+            'cardsContainer'
+          );
 
-  script.id =
-  callback;
 
-  script.src =
-  url;
+      const empty =
+        document
+          .getElementById(
+            'emptyBox'
+          );
 
-  script.onerror =
-  () => {
-    limpiar();
 
-    reject(
-      new Error(
-        'No fue posible conectar con el servidor.'
-      )
-    );
-  };
+      contenedor.innerHTML =
+        '';
 
-  document.body.appendChild(
-    script
-  );
-}
-);
-}
 
-async function cargarOC() {
-  const tbody =
-  document.getElementById(
-    'tablaOC'
-  );
+      document
+        .getElementById(
+          'contadorResultados'
+        )
+        .textContent =
+          lista.length
+          +
+          ' OC';
 
-  tbody.innerHTML =
-  '<tr><td colspan="5">Cargando...</td></tr>';
 
-  try {
-    const respuesta =
-    await apiGet(
-      'listar'
-    );
+      if (
+        !lista.length
+      ) {
 
-    ocDisponibles =
-    respuesta.data ||
-    [];
+        empty.style.display =
+          'block';
 
-    cargarFiltros();
-    renderLista();
 
-    if (ocActual) {
-      const actualizada =
-      ocDisponibles.find(
-        x =>
-        x.oc ===
-        ocActual.oc
+        return;
+
+      }
+
+
+      empty.style.display =
+        'none';
+
+
+      lista.forEach(
+        function(
+          item
+        ) {
+
+          const card =
+            document.createElement(
+              'article'
+            );
+
+
+          card.className =
+            'oc-card';
+
+
+          card.innerHTML = `
+
+            <div class="card-head">
+
+
+              <div class="card-check">
+
+                <input
+                  type="checkbox"
+                >
+
+              </div>
+
+
+              <div class="card-main">
+
+
+                <div class="card-title-row">
+
+
+                  <div class="oc-number">
+
+                    ${escapeHtml(item.oc)}
+
+                  </div>
+
+
+                  <span
+                    class="
+                      status
+                      status-${escapeHtml(item.color || 'GRIS')}
+                    "
+                  >
+
+                    ${escapeHtml(estadoVisibleTarjeta(item))}
+
+                  </span>
+
+                  ${
+                    motivoVisibleTarjeta(item)
+                      ? `
+                        <span
+                          class="
+                            status
+                            status-NARANJO
+                          "
+                        >
+                          ${escapeHtml(motivoVisibleTarjeta(item))}
+                        </span>
+                      `
+                      : ''
+                  }
+
+
+                </div>
+
+
+                <div class="provider">
+
+                  ${escapeHtml(
+                    item.proveedor ||
+                    'SIN PROVEEDOR'
+                  )}
+
+                </div>
+
+
+                <div class="meta">
+
+
+                  <div>
+
+                    <strong>
+                      Empresa:
+                    </strong>
+
+                    ${escapeHtml(item.empresa)}
+
+                  </div>
+
+
+                  <div>
+
+                    <strong>
+                      Lote:
+                    </strong>
+
+                    ${escapeHtml(item.lote || '-')}
+
+                  </div>
+
+
+                </div>
+
+
+                <div class="amount-row">
+
+
+                  <div class="line-count">
+
+                    ${item.cantidadLineas || 0}
+
+                    ${
+                      Number(
+                        item.cantidadLineas
+                      ) === 1
+
+                        ? 'producto'
+
+                        : 'productos'
+                    }
+
+                  </div>
+
+
+                  <div class="amount">
+
+                    ${formatoMoneda(item.bruto)}
+
+                  </div>
+
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+
+            <div class="actions">
+
+
+              <button
+                class="btn btn-view"
+                onclick="
+                  verOC(
+                    '${jsString(item.clave)}'
+                  )
+                "
+              >
+
+                Ver OC
+
+              </button>
+
+
+              ${botonAccionHTML(item)}
+
+
+            </div>
+
+          `;
+
+
+          contenedor.appendChild(
+            card
+          );
+
+        }
       );
 
-      if (actualizada) {
-        ocActual =
-        actualizada;
+    }
 
-        renderProductos();
-        recalcularMontos();
-      } else {
-        limpiarSeleccion();
+
+
+    function respuestaVigenteTarjeta(
+      item
+    ) {
+
+      return normalizar(
+        item.usaProveedorAlternativo === true
+          ? item.respuestaAlternativo
+          : item.respuestaOriginal
+      );
+
+    }
+
+
+    function motivoVisibleTarjeta(
+      item
+    ) {
+
+      const respuesta =
+        respuestaVigenteTarjeta(
+          item
+        );
+
+      if (
+        respuesta !==
+        'RECHAZO'
+      ) {
+        return '';
+      }
+
+      const motivo =
+        normalizar(
+          item.usaProveedorAlternativo === true
+            ? item.incidenciaAlternativo
+            : item.incidenciaOriginal
+        );
+
+      if (
+        motivo ===
+        'BLOQUEO POR PAGO'
+      ) {
+        return 'BLOQUEO';
+      }
+
+      if (
+        motivo ===
+        'CAMBIO RAZON SOCIAL'
+      ) {
+        return 'CAMBIO RAZÓN SOCIAL';
+      }
+
+      return motivo;
+
+    }
+
+
+    function estadoVisibleTarjeta(
+      item
+    ) {
+
+      const respuesta =
+        respuestaVigenteTarjeta(
+          item
+        );
+
+      if (
+        respuesta ===
+        'RECHAZO'
+      ) {
+        return 'RECHAZO';
+      }
+
+      if (
+        respuesta ===
+        'CONFIRMO' &&
+        normalizar(
+          item.estado
+        ) ===
+        'HABILITADA PARA RECEPCION'
+      ) {
+        return 'HABILITADA PARA RECEPCIÓN';
+      }
+
+      return item.estado || '';
+
+    }
+
+
+
+    function botonAccionHTML(
+      item
+    ) {
+
+      const estado =
+        normalizar(
+          item.estado
+        );
+
+
+      /*
+       * PENDIENTE DE ENVÍO
+       */
+
+      if (
+        estado ===
+        'PENDIENTE DE ENVIO'
+      ) {
+
+        const yaAbrioWhatsApp =
+          WHATSAPP_ABIERTO.has(
+            item.clave
+          );
+
+
+        if (
+          yaAbrioWhatsApp
+        ) {
+
+          return `
+
+            <button
+              class="btn btn-confirmar-envio"
+              data-confirmar-envio="${escapeHtml(item.clave)}"
+              onclick="
+                confirmarEnvio(
+                  '${jsString(item.clave)}'
+                )
+              "
+            >
+
+              Confirmar envío
+
+            </button>
+
+          `;
+
+        }
+
+
+        return `
+
+          <button
+            class="btn btn-whatsapp"
+            onclick="
+              abrirWhatsApp(
+                '${jsString(item.clave)}'
+              )
+            "
+          >
+
+            WhatsApp
+
+          </button>
+
+        `;
+
+      }
+
+
+      /*
+       * ESPERANDO RESPUESTA
+       */
+
+      if (
+        estado ===
+        'ESPERANDO RESPUESTA'
+      ) {
+
+        return `
+
+          <button
+            class="btn btn-blue"
+            data-confirmar-respuesta="${escapeHtml(item.clave)}"
+            onclick="
+              confirmarRespuestaProveedor(
+                '${jsString(item.clave)}'
+              )
+            "
+          >
+
+            Registrar respuesta
+
+          </button>
+
+        `;
+
+      }
+
+
+      /*
+       * PENDIENTE DE REAUTORIZACIÓN
+       */
+
+      if (
+        estado ===
+        'PENDIENTE DE REAUTORIZACION'
+      ) {
+
+        return `
+
+          <button
+            class="btn btn-blue"
+            onclick="
+              gestionarExcepcion(
+                '${jsString(item.clave)}'
+              )
+            "
+          >
+
+            Revisar propuesta
+
+          </button>
+
+        `;
+
+      }
+
+
+      /*
+       * EXCEPCIÓN
+       */
+
+      if (
+        estado ===
+        'EXCEPCION'
+      ) {
+
+        return `
+
+          <button
+            class="btn btn-blue"
+            onclick="
+              gestionarExcepcion(
+                '${jsString(item.clave)}'
+              )
+            "
+          >
+
+            Gestionar
+
+          </button>
+
+        `;
+
+      }
+
+
+      return `
+
+        <button
+          class="btn btn-blue"
+          onclick="
+            avisoMVP(
+              'La OC continúa en seguimiento.'
+            )
+          "
+        >
+
+          Seguimiento
+
+        </button>
+
+      `;
+
+    }
+
+
+
+    /* =========================================================
+       VER OC
+       ========================================================= */
+
+    function verOC(
+      clave
+    ) {
+
+      const item =
+        (
+          PANEL.oc ||
+          []
+        )
+        .find(
+          function(
+            oc
+          ) {
+
+            return (
+              oc.clave ===
+              clave
+            );
+
+          }
+        );
+
+
+      if (
+        !item
+      ) {
+
+        avisoMVP(
+          'No se pudo localizar la OC.'
+        );
+
+
+        return;
+
+      }
+
+
+      OC_MODAL_ACTUAL =
+        item;
+
+
+      document
+        .getElementById(
+          'documentoOC'
+        )
+        .innerHTML =
+          construirDocumentoOC(
+            item
+          );
+
+
+      actualizarBotonesModalEnvio(
+        item
+      );
+
+
+      document
+        .getElementById(
+          'modalOC'
+        )
+        .classList
+        .add(
+          'visible'
+        );
+
+
+      document.body.style.overflow =
+        'hidden';
+
+    }
+
+
+
+    /* =========================================================
+       DOCUMENTO OC
+       ========================================================= */
+
+    function construirDocumentoOC(
+      item
+    ) {
+
+      const lineas =
+        item.lineas ||
+        [];
+
+
+      const filas =
+        lineas
+          .map(
+            function(
+              linea,
+              index
+            ) {
+
+              return `
+
+                <tr>
+
+
+                  <td class="center">
+
+                    ${index + 1}
+
+                  </td>
+
+
+                  <td class="center">
+
+                    ${escapeHtml(linea.codigo || '')}
+
+                  </td>
+
+
+                  <td>
+
+                    ${escapeHtml(linea.producto)}
+
+                  </td>
+
+
+                  <td class="center">
+
+                    ${formatoNumero(linea.cantidad)}
+
+                  </td>
+
+
+                  <td class="center">
+
+                    ${escapeHtml(linea.unidad)}
+
+                  </td>
+
+
+                  <td class="money">
+
+                    ${formatoMoneda(linea.precio)}
+
+                  </td>
+
+
+                  <td class="money">
+
+                    ${formatoMoneda(linea.total)}
+
+                  </td>
+
+
+                </tr>
+
+              `;
+
+            }
+          )
+          .join('');
+
+
+      const cantidadFilasVacias =
+        Math.max(
+          0,
+          9 - lineas.length
+        );
+
+
+      let filasVacias =
+        '';
+
+
+      for (
+        let i = 0;
+        i < cantidadFilasVacias;
+        i++
+      ) {
+
+        filasVacias += `
+
+          <tr class="po-empty-row">
+
+            <td></td>
+
+            <td></td>
+
+            <td></td>
+
+            <td></td>
+
+            <td></td>
+
+            <td></td>
+
+            <td></td>
+
+          </tr>
+
+        `;
+
+      }
+
+
+      return `
+
+        <div class="purchase-order">
+
+
+          <div class="po-header-top">
+
+
+            <div class="po-brand">
+
+
+              <img
+                src="Logo-Cafe-de-la-P.jpeg"
+                alt="Café de la P"
+                class="po-logo-real"
+              >
+
+
+              <div class="po-company-name">
+
+                ${escapeHtml(
+                  item.empresaDocumento ||
+                  item.empresa
+                )}
+
+              </div>
+
+
+              ${lineaEmpresa(
+                'RUT',
+                item.rutEmpresa
+              )}
+
+
+              ${lineaEmpresa(
+                'Dirección',
+                item.direccionEmpresa
+              )}
+
+
+              ${lineaEmpresa(
+                'Correo',
+                item.correoEmpresa
+              )}
+
+
+            </div>
+
+
+            <div class="po-right-header">
+
+
+              <div class="po-title">
+
+                ORDEN DE COMPRA
+
+              </div>
+
+
+              <div class="po-number-bar">
+
+                N° ${escapeHtml(item.oc)}
+
+              </div>
+
+
+              ${
+                item.lote
+
+                  ? campoMeta(
+                      'LOTE:',
+                      item.lote
+                    )
+
+                  : ''
+              }
+
+
+              ${campoMeta(
+                'FECHA DE EMISIÓN:',
+                item.fechaEmision || '-'
+              )}
+
+
+              ${campoMeta(
+                'FECHA DE ENTREGA:',
+                item.fechaEntrega || ''
+              )}
+
+
+              <div class="po-meta-row">
+
+                <div class="po-meta-label">
+
+                  ESTADO:
+
+                </div>
+
+
+                <div class="po-state">
+
+                  APROBADO POR JEFATURA
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+
+          <div class="po-supplier-row">
+
+
+            <div>
+
+
+              <div class="po-section-title">
+
+                DATOS DEL PROVEEDOR
+
+              </div>
+
+
+              <div class="po-provider-name">
+
+                ${escapeHtml(
+                  item.proveedor ||
+                  '-'
+                )}
+
+              </div>
+
+
+              ${lineaProveedor(
+                'RUT',
+                item.rutProveedor
+              )}
+
+
+              ${lineaProveedor(
+                'Contacto',
+                item.contactoProveedor
+              )}
+
+
+              ${lineaProveedor(
+                'Correo',
+                item.correoProveedor
+              )}
+
+
+              ${lineaProveedor(
+                'Teléfono',
+                item.telefonoProveedor
+              )}
+
+
+            </div>
+
+
+            <div class="po-oc-reminder">
+
+
+              <div class="po-reminder-text">
+
+                Por favor, en todas sus facturas,
+                guías de despacho y demás documentos
+                tributarios, indique el número de esta
+                Orden de Compra:
+
+              </div>
+
+
+              <div class="po-reminder-number">
+
+                ${escapeHtml(item.oc)}
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+
+          <div class="po-table-wrap">
+
+
+            <table class="po-table">
+
+
+              <thead>
+
+
+                <tr>
+
+
+                  <th class="col-num">
+                    N°
+                  </th>
+
+
+                  <th class="col-codigo">
+                    CÓDIGO
+                  </th>
+
+
+                  <th class="col-producto">
+                    PRODUCTO
+                  </th>
+
+
+                  <th class="col-cantidad">
+                    CANTIDAD
+                  </th>
+
+
+                  <th class="col-unidad">
+                    UND. DE MEDIDA
+                  </th>
+
+
+                  <th class="col-precio">
+                    PRECIO UNITARIO
+                  </th>
+
+
+                  <th class="col-total">
+                    TOTAL
+                  </th>
+
+
+                </tr>
+
+
+              </thead>
+
+
+              <tbody>
+
+                ${filas}
+
+                ${filasVacias}
+
+              </tbody>
+
+
+            </table>
+
+
+          </div>
+
+
+          <div class="po-totals-area">
+
+
+            <table class="po-totals">
+
+
+              <tr>
+
+                <td>
+                  SUBTOTAL NETO
+                </td>
+
+                <td>
+                  ${formatoMoneda(item.neto)}
+                </td>
+
+              </tr>
+
+
+              <tr>
+
+                <td>
+                  IVA (19%)
+                </td>
+
+                <td>
+                  ${formatoMoneda(item.iva)}
+                </td>
+
+              </tr>
+
+
+              <tr class="po-total-final">
+
+                <td>
+                  TOTAL FINAL
+                </td>
+
+                <td>
+                  ${formatoMoneda(item.bruto)}
+                </td>
+
+              </tr>
+
+
+            </table>
+
+
+          </div>
+
+
+          <div class="po-conditions">
+
+
+            <div class="po-conditions-title">
+
+              CONDICIONES DE COMPRA
+
+            </div>
+
+
+            <ol>
+
+              <li>
+                Entrega de los productos en la dirección
+                indicada por la empresa emisora, en la fecha
+                y horario acordados.
+              </li>
+
+              <li>
+                Los productos deben ser de la calidad,
+                marca y presentación solicitada.
+              </li>
+
+              <li>
+                Cualquier cambio o sustitución debe ser
+                previamente autorizado por el área de compras.
+              </li>
+
+              <li>
+                Factura electrónica, guía de despacho y demás
+                documentos tributarios deben hacer referencia
+                al número de esta Orden de Compra (OC).
+              </li>
+
+              <li>
+                En caso de diferencias entre lo facturado y lo
+                recibido, éstas serán comunicadas al proveedor
+                para su regularización.
+              </li>
+
+              <li>
+                El incumplimiento de las condiciones acordadas
+                podrá derivar en la no recepción de la mercadería
+                y/o anulación de la Orden de Compra.
+              </li>
+
+              <li>
+                Los precios indicados en esta OC son fijos y no
+                podrán ser modificados sin autorización previa.
+              </li>
+
+              <li>
+                Cualquier duda respecto a esta OC debe ser
+                canalizada a través del área de compras.
+              </li>
+
+              <li>
+                Plazos de entrega y condiciones logísticas según
+                lo acordado con el proveedor.
+              </li>
+
+              <li>
+                El proveedor debe cumplir con toda la normativa
+                legal y sanitaria vigente aplicable a los
+                productos suministrados.
+              </li>
+
+              <li>
+                En caso de incumplimiento, la empresa emisora
+                podrá rechazar la mercadería y/o aplicar las
+                medidas correspondientes.
+              </li>
+
+              <li>
+                Esta Orden de Compra constituye un compromiso
+                formal de compra una vez aprobada.
+              </li>
+
+            </ol>
+
+
+          </div>
+
+
+          <div class="po-footer-bar">
+
+
+            <div class="po-footer-message">
+
+              Gracias por ser parte de nuestro camino
+
+            </div>
+
+
+            <div class="po-footer-company">
+
+              GRUPO FIORENTINI
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+      `;
+
+    }
+
+
+
+    function campoMeta(
+      etiqueta,
+      valor
+    ) {
+
+      return `
+
+        <div class="po-meta-row">
+
+
+          <div class="po-meta-label">
+
+            ${escapeHtml(etiqueta)}
+
+          </div>
+
+
+          <div class="po-meta-value">
+
+            ${escapeHtml(valor || '')}
+
+          </div>
+
+
+        </div>
+
+      `;
+
+    }
+
+
+
+    function lineaEmpresa(
+      etiqueta,
+      valor
+    ) {
+
+      if (
+        !valor
+      ) {
+
+        return '';
+
+      }
+
+
+      return `
+
+        <div class="po-company-line">
+
+          <strong>
+            ${escapeHtml(etiqueta)}:
+          </strong>
+
+          ${escapeHtml(valor)}
+
+        </div>
+
+      `;
+
+    }
+
+
+
+    function lineaProveedor(
+      etiqueta,
+      valor
+    ) {
+
+      if (
+        !valor
+      ) {
+
+        return '';
+
+      }
+
+
+      return `
+
+        <div class="po-provider-line">
+
+          <strong>
+            ${escapeHtml(etiqueta)}:
+          </strong>
+
+          ${escapeHtml(valor)}
+
+        </div>
+
+      `;
+
+    }
+
+
+
+    /* =========================================================
+       MODAL
+       ========================================================= */
+
+    function cerrarOC() {
+
+      document
+        .getElementById(
+          'modalOC'
+        )
+        .classList
+        .remove(
+          'visible'
+        );
+
+
+      document.body.style.overflow =
+        '';
+
+
+      OC_MODAL_ACTUAL =
+        null;
+
+    }
+
+
+
+    function cerrarModalPorFondo(
+      event
+    ) {
+
+      if (
+        event.target.id ===
+        'modalOC'
+      ) {
+
+        cerrarOC();
+
+      }
+
+    }
+
+
+
+    /* =========================================================
+       WHATSAPP
+       ========================================================= */
+
+    function gestionarExcepcion(
+      clave
+    ) {
+
+      const item =
+        (
+          PANEL.oc ||
+          []
+        ).find(
+          function(oc) {
+            return oc.clave === clave;
+          }
+        );
+
+      if (!item) {
+        avisoMVP(
+          'No se pudo localizar la OC.'
+        );
+        return;
+      }
+
+      if (
+        item.usaProveedorAlternativo === true
+      ) {
+        avisoMVP(
+          'Esta OC ya está operando con proveedor alternativo. La segunda alternativa se validará en otro hito.'
+        );
+        return;
+      }
+
+      const respuesta =
+        normalizar(
+          item.respuestaOriginal
+        );
+
+      const incidencia =
+        normalizar(
+          item.incidenciaOriginal ||
+          item.incidenciaCompra
+        );
+
+      const motivoElegible =
+        incidencia === 'SIN STOCK' ||
+        incidencia === 'BLOQUEO' ||
+        incidencia === 'BLOQUEO POR PAGO';
+
+      if (
+        respuesta !== 'RECHAZO' ||
+        !motivoElegible
+      ) {
+
+        if (
+          incidencia === 'CAMBIO RAZON SOCIAL'
+        ) {
+          avisoMVP(
+            'CAMBIO RAZÓN SOCIAL requiere cerrar la OC original y generar una nueva OC bajo la empresa correspondiente. No usa esta pantalla.'
+          );
+          return;
+        }
+
+        avisoMVP(
+          'La hoja de gestión de excepción está habilitada para RECHAZO por SIN STOCK o BLOQUEO.'
+        );
+        return;
+      }
+
+      const lineas =
+        Array.isArray(item.lineas)
+          ? item.lineas
+          : [];
+
+      if (!lineas.length) {
+        avisoMVP(
+          'La OC no tiene líneas disponibles para gestionar.'
+        );
+        return;
+      }
+
+      GESTION_EXCEPCION_ACTUAL =
+        item;
+
+      document.getElementById('gxOc').textContent =
+        item.oc || '-';
+
+      document.getElementById('gxEmpresa').textContent =
+        item.empresa || '-';
+
+      document.getElementById('gxLote').textContent =
+        item.lote || 'SIN LOTE';
+
+      document.getElementById('gxEstado').textContent =
+        'RECHAZO';
+
+      document.getElementById('gxProveedorOriginal').textContent =
+        item.proveedor || '-';
+
+      document.getElementById('gxRespuestaOriginal').textContent =
+        'RECHAZO';
+
+      document.getElementById('gxIncidenciaOriginal').textContent =
+        incidencia === 'BLOQUEO POR PAGO'
+          ? 'BLOQUEO'
+          : incidencia;
+
+      document.getElementById('gxMotivo').value =
+        incidencia;
+
+      document.getElementById('gxProveedorAlternativo').value =
+        item.proveedorAlternativo || '';
+
+      document.getElementById('gxResponsable').value =
+        item.responsablePropuestaAlternativa || '';
+
+      document.getElementById('gestionExcepcionSubtitulo').textContent =
+        item.oc + ' · ' +
+        (item.proveedor || '') +
+        ' · ' +
+        (incidencia === 'BLOQUEO POR PAGO' ? 'BLOQUEO' : incidencia) +
+        (item.proveedorAlternativo ? ' · PROPUESTA: ' + item.proveedorAlternativo : '');
+
+      renderGestionExcepcionProductos();
+      recalcularGestionExcepcion();
+
+      const hoja =
+        document.getElementById(
+          'gestionExcepcionHoja'
+        );
+
+      hoja.classList.add(
+        'visible'
+      );
+
+      window.scrollTo(
+        0,
+        0
+      );
+
+    }
+
+
+    function cerrarGestionExcepcion() {
+
+      const hoja =
+        document.getElementById(
+          'gestionExcepcionHoja'
+        );
+
+      if (hoja) {
+        hoja.classList.remove(
+          'visible'
+        );
+      }
+
+      GESTION_EXCEPCION_ACTUAL =
+        null;
+
+    }
+
+
+    function renderGestionExcepcionProductos() {
+
+      const body =
+        document.getElementById(
+          'gxProductosBody'
+        );
+
+      if (!body) {
+        return;
+      }
+
+      const item =
+        GESTION_EXCEPCION_ACTUAL;
+
+      const lineas =
+        item && Array.isArray(item.lineas)
+          ? item.lineas
+          : [];
+
+      body.innerHTML =
+        lineas.map(
+          function(linea, index) {
+
+            const precioAutorizado =
+              Number(
+                linea.precioAutorizado ||
+                linea.precio ||
+                0
+              );
+
+            const precioPropuesto =
+              Number(
+                linea.precioPropuesto ||
+                precioAutorizado ||
+                0
+              );
+
+            return `
+              <tr>
+                <td>${escapeHtml(linea.codigo || '')}</td>
+                <td>${escapeHtml(linea.producto || '')}</td>
+                <td>${escapeHtml(linea.unidad || '')}</td>
+                <td class="gestion-num">${escapeHtml(String(linea.cantidad || 0))}</td>
+                <td class="gestion-num">$${formatoNumero(precioAutorizado)}</td>
+                <td class="gestion-num">
+                  <input
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    value="${escapeHtml(String(precioPropuesto || ''))}"
+                    data-gx-precio="${index}"
+                    oninput="recalcularGestionExcepcion()"
+                  >
+                </td>
+                <td
+                  id="gxDif-${index}"
+                  class="gestion-num"
+                >
+                  $0
+                </td>
+                <td
+                  id="gxTotal-${index}"
+                  class="gestion-num"
+                >
+                  $0
+                </td>
+              </tr>
+            `;
+          }
+        ).join('');
+
+    }
+
+
+    function leerPrecioGestionExcepcion(
+      index
+    ) {
+
+      const input =
+        document.querySelector(
+          '[data-gx-precio="' +
+          index +
+          '"]'
+        );
+
+      if (!input) {
+        return 0;
+      }
+
+      return Number(
+        input.value ||
+        0
+      );
+
+    }
+
+
+    function recalcularGestionExcepcion() {
+
+      const item =
+        GESTION_EXCEPCION_ACTUAL;
+
+      if (!item) {
+        return;
+      }
+
+      const lineas =
+        Array.isArray(item.lineas)
+          ? item.lineas
+          : [];
+
+      let netoAutorizado = 0;
+      let netoPropuesto = 0;
+
+      lineas.forEach(
+        function(linea, index) {
+
+          const cantidad =
+            Number(linea.cantidad || 0);
+
+          const precioAutorizado =
+            Number(
+              linea.precioAutorizado ||
+              linea.precio ||
+              0
+            );
+
+          const precioNuevo =
+            leerPrecioGestionExcepcion(
+              index
+            );
+
+          const totalAutorizado =
+            cantidad * precioAutorizado;
+
+          const totalNuevo =
+            cantidad * precioNuevo;
+
+          const diferencia =
+            totalNuevo - totalAutorizado;
+
+          netoAutorizado +=
+            totalAutorizado;
+
+          netoPropuesto +=
+            totalNuevo;
+
+          const difCelda =
+            document.getElementById(
+              'gxDif-' + index
+            );
+
+          const totalCelda =
+            document.getElementById(
+              'gxTotal-' + index
+            );
+
+          if (difCelda) {
+            difCelda.textContent =
+              (diferencia < 0 ? '-$' : '$') +
+              formatoNumero(
+                Math.abs(diferencia)
+              );
+
+            difCelda.className =
+              'gestion-num ' +
+              (
+                diferencia > 0
+                  ? 'gestion-danger'
+                  : diferencia < 0
+                    ? 'gestion-positive'
+                    : ''
+              );
+          }
+
+          if (totalCelda) {
+            totalCelda.textContent =
+              '$' +
+              formatoNumero(
+                totalNuevo
+              );
+          }
+
+        }
+      );
+
+      const diferenciaNeta =
+        netoPropuesto - netoAutorizado;
+
+      const totalConIva =
+        netoPropuesto * 1.19;
+
+      document.getElementById('gxNetoAutorizado').textContent =
+        '$' + formatoNumero(netoAutorizado);
+
+      document.getElementById('gxNetoPropuesto').textContent =
+        '$' + formatoNumero(netoPropuesto);
+
+      const difResumen =
+        document.getElementById(
+          'gxDiferenciaNeta'
+        );
+
+      difResumen.textContent =
+        (diferenciaNeta < 0 ? '-$' : '$') +
+        formatoNumero(
+          Math.abs(diferenciaNeta)
+        );
+
+      difResumen.className =
+        diferenciaNeta > 0
+          ? 'gestion-danger'
+          : diferenciaNeta < 0
+            ? 'gestion-positive'
+            : '';
+
+      document.getElementById('gxTotalPropuesto').textContent =
+        '$' + formatoNumero(totalConIva);
+
+    }
+
+
+    async function enviarGestionExcepcionAReautorizacion() {
+
+      const item =
+        GESTION_EXCEPCION_ACTUAL;
+
+      if (!item) {
+        avisoMVP(
+          'No existe una OC activa en gestión.'
+        );
+        return;
+      }
+
+      const proveedorAlternativo =
+        String(
+          document.getElementById(
+            'gxProveedorAlternativo'
+          ).value ||
+          ''
+        ).trim();
+
+      const responsable =
+        String(
+          document.getElementById(
+            'gxResponsable'
+          ).value ||
+          ''
+        ).trim();
+
+      const incidencia =
+        normalizar(
+          document.getElementById(
+            'gxMotivo'
+          ).value
+        );
+
+      if (!proveedorAlternativo) {
+        avisoMVP(
+          'Debe indicar el proveedor alternativo.'
+        );
+        return;
+      }
+
+      if (
+        normalizar(proveedorAlternativo) ===
+        normalizar(item.proveedor || '')
+      ) {
+        avisoMVP(
+          'El proveedor alternativo debe ser distinto del proveedor original.'
+        );
+        return;
+      }
+
+      if (!responsable) {
+        avisoMVP(
+          'Debe indicar el responsable de la propuesta.'
+        );
+        return;
+      }
+
+      const lineas =
+        Array.isArray(item.lineas)
+          ? item.lineas
+          : [];
+
+      const preciosPorLinea = {};
+
+      for (
+        let index = 0;
+        index < lineas.length;
+        index++
+      ) {
+
+        const linea =
+          lineas[index] || {};
+
+        const idLinea =
+          String(
+            linea.idLinea ||
+            ''
+          ).trim();
+
+        const precio =
+          leerPrecioGestionExcepcion(
+            index
+          );
+
+        if (!idLinea) {
+          avisoMVP(
+            'Una línea no tiene ID de origen. No se puede enviar la propuesta.'
+          );
+          return;
+        }
+
+        if (!(precio > 0)) {
+          avisoMVP(
+            'Todos los productos deben tener un nuevo precio mayor que cero.'
+          );
+          return;
+        }
+
+        preciosPorLinea[idLinea] =
+          precio;
+      }
+
+      const confirmado =
+        window.confirm(
+          '¿Enviar ' +
+          item.oc +
+          ' a reautorización de Jefatura?\n\n' +
+          'Proveedor original: ' +
+          (item.proveedor || '') +
+          '\nProveedor alternativo: ' +
+          proveedorAlternativo +
+          '\nMotivo: ' +
+          incidencia +
+          '\nProductos: ' +
+          lineas.length +
+          '\n\nEsta acción registrará la propuesta en MAESTRO sin reemplazar la autorización original.'
+        );
+
+      if (!confirmado) {
+        return;
+      }
+
+      const boton =
+        document.getElementById(
+          'gxBtnEnviar'
+        );
+
+      if (boton) {
+        boton.disabled = true;
+        boton.textContent =
+          'Enviando...';
+      }
+
+      try {
+
+        const url =
+          CONFIG.API_BASE_URL +
+          '?api=compras' +
+          '&accion=proponerAlternativa' +
+          '&empresa=' +
+          encodeURIComponent(item.empresa) +
+          '&oc=' +
+          encodeURIComponent(item.oc) +
+          '&proveedorAlternativo=' +
+          encodeURIComponent(proveedorAlternativo) +
+          '&preciosPorLinea=' +
+          encodeURIComponent(
+            JSON.stringify(
+              preciosPorLinea
+            )
+          ) +
+          '&responsable=' +
+          encodeURIComponent(responsable) +
+          '&incidencia=' +
+          encodeURIComponent(incidencia) +
+          '&confirmar=SI';
+
+        const respuesta =
+          await cargarJsonp(
+            url
+          );
+
+        if (
+          !respuesta ||
+          respuesta.ok !== true
+        ) {
+          throw new Error(
+            respuesta && respuesta.error
+              ? respuesta.error
+              : 'No fue posible registrar la propuesta alternativa en MAESTRO.'
+          );
+        }
+
+        cerrarGestionExcepcion();
+
+        avisoMVP(
+          item.oc +
+          ' · propuesta verificada en MAESTRO. Queda PENDIENTE DE REAUTORIZACIÓN.'
+        );
+
+        await cargarDatos();
+
+      } catch (error) {
+
+        avisoMVP(
+          error && error.message
+            ? error.message
+            : String(error)
+        );
+
+      } finally {
+
+        if (boton) {
+          boton.disabled = false;
+          boton.textContent =
+            'Enviar a reautorización';
+        }
+
+      }
+
+    }
+
+
+    function abrirWhatsApp(
+      clave
+    ) {
+
+      const item =
+        (
+          PANEL.oc ||
+          []
+        )
+        .find(
+          function(
+            oc
+          ) {
+
+            return (
+              oc.clave ===
+              clave
+            );
+
+          }
+        );
+
+
+      if (
+        !item
+      ) {
+
+        avisoMVP(
+          'No se pudo localizar la OC.'
+        );
+
+
+        return;
+
+      }
+
+
+      const mensaje =
+        construirMensajeWhatsApp(
+          item
+        );
+
+
+      const urlWhatsApp =
+        'https://wa.me/?text='
+        +
+        encodeURIComponent(
+          mensaje
+        );
+
+
+      const ventana =
+        window.open(
+          urlWhatsApp,
+          '_blank',
+          'noopener,noreferrer'
+        );
+
+
+      WHATSAPP_ABIERTO.add(
+        clave
+      );
+
+
+      aplicarFiltros();
+
+
+      if (
+        OC_MODAL_ACTUAL &&
+        OC_MODAL_ACTUAL.clave ===
+          clave
+      ) {
+
+        actualizarBotonesModalEnvio(
+          OC_MODAL_ACTUAL
+        );
+
+      }
+
+
+      if (
+        !ventana
+      ) {
+
+        avisoMVP(
+          'El navegador pudo bloquear la apertura de WhatsApp. '
+          +
+          'Habilita las ventanas emergentes e inténtalo nuevamente.'
+        );
+
+
+        return;
+
+      }
+
+
+      avisoMVP(
+        item.oc
+        +
+        ' abierta en WhatsApp. '
+        +
+        'Después de enviarla realmente, vuelve y presiona CONFIRMAR ENVÍO.'
+      );
+
+    }
+
+
+
+    function construirMensajeWhatsApp(
+      item
+    ) {
+
+      const partes =
+        [];
+
+
+      partes.push(
+        'Hola.'
+      );
+
+
+      partes.push(
+        ''
+      );
+
+
+      partes.push(
+        'Compartimos la Orden de Compra '
+        +
+        item.oc
+        +
+        ' de Grupo Fiorentini.'
+      );
+
+
+      if (
+        item.proveedor
+      ) {
+
+        partes.push(
+          'Proveedor: '
+          +
+          item.proveedor
+          +
+          '.'
+        );
+
+      }
+
+
+      if (
+        item.lote
+      ) {
+
+        partes.push(
+          'Lote: '
+          +
+          item.lote
+          +
+          '.'
+        );
+
+      }
+
+
+      partes.push(
+        'Total: '
+        +
+        formatoMoneda(
+          item.bruto
+        )
+        +
+        '.'
+      );
+
+
+      partes.push(
+        ''
+      );
+
+
+      partes.push(
+        'Por favor confirmar recepción y disponibilidad del pedido.'
+      );
+
+
+      partes.push(
+        ''
+      );
+
+
+      partes.push(
+        'Gracias.'
+      );
+
+
+      partes.push(
+        'Grupo Fiorentini'
+      );
+
+
+      return partes.join(
+        '\n'
+      );
+
+    }
+
+
+
+    /* =========================================================
+       CONFIRMAR ENVÍO
+       ========================================================= */
+
+    async function confirmarEnvio(
+      clave
+    ) {
+
+      const item =
+        (
+          PANEL.oc ||
+          []
+        )
+        .find(
+          function(
+            oc
+          ) {
+
+            return (
+              oc.clave ===
+              clave
+            );
+
+          }
+        );
+
+
+      if (
+        !item
+      ) {
+
+        avisoMVP(
+          'No se pudo localizar la OC.'
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        !WHATSAPP_ABIERTO.has(
+          clave
+        )
+      ) {
+
+        avisoMVP(
+          'Primero abre WhatsApp para esta OC.'
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        CONFIRMACION_ENVIO_EN_CURSO.has(
+          clave
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      const etapaProveedor =
+        item.usaProveedorAlternativo === true
+          ? 'proveedor alternativo'
+          : 'proveedor original';
+
+
+      const confirmado =
+        window.confirm(
+          '¿Confirmas que la '
+          +
+          item.oc
+          +
+          ' fue enviada realmente al '
+          +
+          etapaProveedor
+          +
+          ' '
+          +
+          (
+            item.proveedor ||
+            ''
+          )
+          +
+          ' por WhatsApp?\n\n'
+          +
+          'Al confirmar, MAESTRO registrará este envío sin sobrescribir el histórico anterior.'
+        );
+
+
+      if (
+        !confirmado
+      ) {
+
+        return;
+
+      }
+
+
+      CONFIRMACION_ENVIO_EN_CURSO.add(
+        clave
+      );
+
+
+      actualizarEstadoBotonesConfirmacion(
+        clave,
+        true
+      );
+
+
+      try {
+
+        const accionEnvio =
+          item.usaProveedorAlternativo === true
+            ? 'confirmarEnvioAlternativo'
+            : 'confirmarEnvio';
+
+
+        const url =
+          CONFIG.API_BASE_URL
+          +
+          '?api=compras'
+          +
+          '&accion='
+          +
+          accionEnvio
+          +
+          '&empresa='
+          +
+          encodeURIComponent(
+            item.empresa
+          )
+          +
+          '&oc='
+          +
+          encodeURIComponent(
+            item.oc
+          )
+          +
+          '&confirmar=SI';
+
+
+        const respuesta =
+          await cargarJsonp(
+            url
+          );
+
+
+        if (
+          !respuesta ||
+          respuesta.ok !== true
+        ) {
+
+          throw new Error(
+
+            respuesta &&
+            respuesta.error
+
+              ? respuesta.error
+
+              : 'No fue posible confirmar el envío en MAESTRO.'
+
+          );
+
+        }
+
+
+        const data =
+          respuesta.data ||
+          {};
+
+
+        WHATSAPP_ABIERTO.delete(
+          clave
+        );
+
+
+        avisoMVP(
+          data.yaConfirmada
+
+            ? item.oc
+              +
+              ' ya estaba registrada como ENVIADA.'
+
+            : item.oc
+              +
+              ' confirmada como ENVIADA. '
+              +
+              'Ahora queda ESPERANDO RESPUESTA.'
+        );
+
+
+        if (
+          OC_MODAL_ACTUAL &&
+          OC_MODAL_ACTUAL.clave ===
+            clave
+        ) {
+
+          cerrarOC();
+
+        }
+
+
+        await cargarDatos();
+
+
+      } catch (
+        error
+      ) {
+
+        avisoMVP(
+          error &&
+          error.message
+
+            ? error.message
+
+            : String(
+                error
+              )
+        );
+
+
+      } finally {
+
+        CONFIRMACION_ENVIO_EN_CURSO.delete(
+          clave
+        );
+
+
+        actualizarEstadoBotonesConfirmacion(
+          clave,
+          false
+        );
+
+      }
+
+    }
+
+
+
+    /* =========================================================
+       REGISTRAR RESPUESTA DEL PROVEEDOR
+       PRIMER HITO: CONFIRMO
+       ========================================================= */
+
+    async function confirmarRespuestaProveedor(
+      clave
+    ) {
+
+      const item =
+        (
+          PANEL.oc ||
+          []
+        )
+        .find(
+          function(oc) {
+            return oc.clave === clave;
+          }
+        );
+
+      if (!item) {
+        avisoMVP('No se pudo localizar la OC.');
+        return;
+      }
+
+      if (
+        normalizar(item.estado) !==
+        'ESPERANDO RESPUESTA'
+      ) {
+        avisoMVP(
+          'Esta OC ya no está esperando respuesta del proveedor.'
+        );
+        await cargarDatos();
+        return;
+      }
+
+      if (
+        CONFIRMACION_RESPUESTA_EN_CURSO.has(clave)
+      ) {
+        return;
+      }
+
+      const elegida = window.prompt(
+        'RESPUESTA DEL PROVEEDOR\n\n' +
+        item.oc + ' · ' + (item.proveedor || '') + '\n\n' +
+        'Escribe una de estas opciones:\n' +
+        'CONFIRMO\n' +
+        'RECHAZO'
+      );
+
+      if (elegida === null) {
+        return;
+      }
+
+      const respuestaElegida = normalizar(elegida);
+
+      if (
+        respuestaElegida !== 'CONFIRMO' &&
+        respuestaElegida !== 'RECHAZO'
+      ) {
+        avisoMVP(
+          'Respuesta no válida. Debe escribir CONFIRMO o RECHAZO.'
+        );
+        return;
+      }
+
+      let motivo = '';
+
+      if (respuestaElegida === 'RECHAZO') {
+        const motivoIngresado = window.prompt(
+          'MOTIVO DEL RECHAZO\n\n' +
+          'Escribe una de estas opciones:\n' +
+          'SIN STOCK\n' +
+          'BLOQUEO\n' +
+          'CAMBIO RAZON SOCIAL'
+        );
+
+        if (motivoIngresado === null) {
+          return;
+        }
+
+        motivo = normalizar(motivoIngresado);
+
+        if (motivo === 'BLOQUEO') {
+          motivo = 'BLOQUEO POR PAGO';
+        }
+
+        if (
+          ['SIN STOCK', 'BLOQUEO POR PAGO', 'CAMBIO RAZON SOCIAL'].indexOf(motivo) < 0
+        ) {
+          avisoMVP(
+            'Motivo no válido. Use SIN STOCK, BLOQUEO o CAMBIO RAZON SOCIAL.'
+          );
+          return;
+        }
+      }
+
+      const etapaProveedor =
+        item.usaProveedorAlternativo === true
+          ? 'proveedor alternativo'
+          : 'proveedor original';
+
+      const textoConfirmacion =
+        respuestaElegida === 'CONFIRMO'
+          ? (
+              '¿Confirmas que el ' +
+              etapaProveedor +
+              ' ' +
+              (item.proveedor || '') +
+              ' CONFIRMÓ la ' +
+              item.oc +
+              '?'
+            )
+          : (
+              '¿Confirmas que el ' +
+              etapaProveedor +
+              ' ' +
+              (item.proveedor || '') +
+              ' RECHAZÓ la ' +
+              item.oc +
+              ' por ' +
+              motivo +
+              '?'
+            );
+
+      if (!window.confirm(textoConfirmacion)) {
+        return;
+      }
+
+      CONFIRMACION_RESPUESTA_EN_CURSO.add(clave);
+      actualizarEstadoBotonesRespuesta(clave, true);
+
+      try {
+        const accionRespuesta =
+          item.usaProveedorAlternativo === true
+            ? 'confirmarRespuestaAlternativo'
+            : 'confirmarRespuesta';
+
+        let url =
+          CONFIG.API_BASE_URL +
+          '?api=compras' +
+          '&accion=' + accionRespuesta +
+          '&empresa=' + encodeURIComponent(item.empresa) +
+          '&oc=' + encodeURIComponent(item.oc) +
+          '&respuesta=' + encodeURIComponent(respuestaElegida) +
+          '&confirmar=SI';
+
+        if (motivo) {
+          url += '&motivo=' + encodeURIComponent(motivo);
+        }
+
+        const respuestaApi = await cargarJsonp(url);
+
+        if (!respuestaApi || respuestaApi.ok !== true) {
+          throw new Error(
+            respuestaApi && respuestaApi.error
+              ? respuestaApi.error
+              : 'No fue posible registrar la respuesta en MAESTRO.'
+          );
+        }
+
+        if (respuestaElegida === 'CONFIRMO') {
+          avisoMVP(
+            item.oc +
+            ' registrada como CONFIRMO. Ahora queda HABILITADA PARA RECEPCIÓN.'
+          );
+        } else {
+          avisoMVP(
+            item.oc +
+            ' registrada como RECHAZO por ' +
+            motivo +
+            '. La OC queda en EXCEPCIÓN.'
+          );
+        }
+
+        if (
+          OC_MODAL_ACTUAL &&
+          OC_MODAL_ACTUAL.clave === clave
+        ) {
+          cerrarOC();
+        }
+
+        await cargarDatos();
+
+      } catch (error) {
+        avisoMVP(
+          error && error.message
+            ? error.message
+            : String(error)
+        );
+
+      } finally {
+        CONFIRMACION_RESPUESTA_EN_CURSO.delete(clave);
+        actualizarEstadoBotonesRespuesta(clave, false);
       }
     }
-  } catch(error) {
-    tbody.innerHTML =
-    '<tr><td colspan="5">No fue posible cargar las OC.</td></tr>';
 
-    mostrarError(error);
 
-    throw error;
-  }
-}
+    /* =========================================================
+       ESTADO BOTÓN CONFIRMAR ENVÍO
+       ========================================================= */
 
-function cargarFiltros() {
-const filtroEmpresa =
-document.getElementById(
-'filtroEmpresa'
-);
-
-const filtroProveedor =
-document.getElementById(
-'filtroProveedor'
-);
-
-const empresaActual =
-filtroEmpresa.value;
-
-const proveedorActual =
-filtroProveedor.value;
-
-const empresas = [
-...new Set(
-  ocDisponibles
-  .map(x=>x.empresa)
-  .filter(Boolean)
-)
-].sort();
-
-const proveedores = [
-...new Set(
-  ocDisponibles
-  .map(x=>x.proveedor)
-  .filter(Boolean)
-)
-].sort();
-
-filtroEmpresa.innerHTML =
-'<option value="">TODAS LAS EMPRESAS</option>' +
-empresas
-.map(
-x =>
-`<option value="${esc(x)}">${esc(x)}</option>`
-)
-.join('');
-
-filtroProveedor.innerHTML =
-'<option value="">TODOS LOS PROVEEDORES</option>' +
-proveedores
-.map(
-x =>
-`<option value="${esc(x)}">${esc(x)}</option>`
-)
-.join('');
-
-if (
-  empresas.includes(
-    empresaActual
-  )
-) {
-  filtroEmpresa.value =
-  empresaActual;
-}
-
-if (
-  proveedores.includes(
-    proveedorActual
-  )
-) {
-  filtroProveedor.value =
-  proveedorActual;
-}
-}
-
-function renderLista() {
-const texto =
-document
-.getElementById(
-'buscador'
-)
-.value
-.trim()
-.toLowerCase();
-
-const empresa =
-document
-.getElementById(
-'filtroEmpresa'
-)
-.value;
-
-const proveedor =
-document
-.getElementById(
-'filtroProveedor'
-)
-.value;
-
-const filtradas =
-ocDisponibles.filter(
-oc => {
-  if (
-    empresa &&
-    oc.empresa !== empresa
-  ) {
-    return false;
-  }
-
-  if (
-    proveedor &&
-    oc.proveedor !== proveedor
-  ) {
-    return false;
-  }
-
-  if (texto) {
-    const productos =
-    (
-      oc.productos ||
-      []
-    )
-    .map(
-      p =>
-      `${p.codigo} ${p.producto}`
-    )
-    .join(' ');
-
-    const cadena = [
-      oc.oc,
-      oc.empresa,
-      oc.proveedor,
-      productos
-    ]
-    .join(' ')
-    .toLowerCase();
-
-    if (
-      !cadena.includes(
-        texto
-      )
+    function actualizarEstadoBotonesConfirmacion(
+      clave,
+      cargando
     ) {
-      return false;
+
+      const botones =
+        document.querySelectorAll(
+          '[data-confirmar-envio="' +
+          cssEscapeSeguro(
+            clave
+          ) +
+          '"]'
+        );
+
+
+      botones.forEach(
+        function(
+          boton
+        ) {
+
+          boton.disabled =
+            cargando;
+
+
+          boton.textContent =
+            cargando
+
+              ? 'Confirmando...'
+
+              : 'Confirmar envío';
+
+        }
+      );
+
+
+      const botonModal =
+        document.getElementById(
+          'btnConfirmarEnvioModal'
+        );
+
+
+      if (
+        botonModal &&
+        OC_MODAL_ACTUAL &&
+        OC_MODAL_ACTUAL.clave ===
+          clave
+      ) {
+
+        botonModal.disabled =
+          cargando;
+
+
+        botonModal.textContent =
+          cargando
+
+            ? 'Confirmando...'
+
+            : 'Confirmar envío';
+
+      }
+
     }
-  }
 
-  return true;
-}
-);
 
-const tbody =
-document.getElementById(
-'tablaOC'
-);
 
-if (!filtradas.length) {
-tbody.innerHTML =
-'<tr><td colspan="5">No hay OC habilitadas.</td></tr>';
-return;
-}
+    function actualizarEstadoBotonesRespuesta(
+      clave,
+      cargando
+    ) {
 
-tbody.innerHTML =
-filtradas
-.map(
-oc => `
-<tr
-class="${
-  ocActual &&
-  ocActual.oc === oc.oc
-  ? 'oc-activa'
-  : ''
-}"
->
-<td>
-<strong>
-${esc(oc.oc)}
-</strong>
-</td>
-<td>
-${esc(oc.proveedor)}
-</td>
-<td>
-${esc(oc.fechaOC || '')}
-</td>
-<td>
-${oc.cantidadProductos}
-</td>
-<td>
-<button
-class="btn-recepcionar"
-onclick='abrirOC(${JSON.stringify(oc.oc)})'
->
-RECEPCIONAR
-</button>
-</td>
-</tr>
-`
-)
-.join('');
-}
+      const botones =
+        document.querySelectorAll(
+          '[data-confirmar-respuesta="'
+          +
+          cssEscapeSeguro(
+            clave
+          )
+          +
+          '"]'
+        );
 
-function abrirOC(numeroOC) {
-ocActual =
-ocDisponibles.find(
-x =>
-x.oc === numeroOC
-);
 
-if (!ocActual) {
-return;
-}
+      botones.forEach(
+        function(
+          boton
+        ) {
 
-montoEditadoManual =
-false;
+          boton.disabled =
+            cargando;
 
-contadorDocumentos =
-0;
 
-facturaSeleccionada =
-null;
+          boton.textContent =
+            cargando
 
-Object.keys(
-fotosDocumentos
-)
-.forEach(
-key => delete fotosDocumentos[key]
-);
+              ? 'Registrando...'
 
-renderLista();
-renderProductos();
-habilitarFormulario();
-limpiarDatosFactura();
-recalcularMontos();
-}
+              : 'Registrar respuesta';
 
-function renderProductos() {
-if (!ocActual) {
-return;
-}
+        }
+      );
 
-const contenedor =
-document.getElementById(
-'productosContenido'
-);
-
-contenedor.className =
-'productos-scroll';
-
-contenedor.innerHTML = `
-<table class="tabla productos-table">
-<thead>
-<tr>
-<th></th>
-<th>Código</th>
-<th>Producto</th>
-<th>Und</th>
-<th>Cant. OC</th>
-<th>Cant. recibir</th>
-<th>Precio autorizado</th>
-<th>Precio factura</th>
-<th>Total</th>
-</tr>
-</thead>
-<tbody>
-${
-(
-ocActual.productos ||
-[]
-)
-.map(
-(p,i) => `
-<tr>
-<td>
-<input
-id="sel_${i}"
-class="check-producto"
-type="checkbox"
-onchange="cambiarSeleccionProducto(${i})"
->
-</td>
-<td>
-${esc(p.codigo)}
-</td>
-<td>
-<strong>
-${esc(p.producto)}
-</strong>
-</td>
-<td>
-${esc(p.unidad)}
-</td>
-<td>
-${formatNumero(
-p.cantidadAutorizada
-)}
-</td>
-<td>
-<input
-id="cantidad_${i}"
-type="number"
-step="0.001"
-disabled
-oninput="recalcularMontos()"
->
-</td>
-<td class="precio-ref">
-$
-${formatDinero(
-p.precioAutorizado
-)}
-</td>
-<td>
-<input
-id="precio_${i}"
-type="number"
-step="0.01"
-min="0"
-value="${p.precioAutorizado}"
-disabled
-oninput="recalcularMontos()"
->
-</td>
-<td
-id="total_${i}"
-class="total-real"
->
-$0
-</td>
-</tr>
-`
-)
-.join('')
-}
-</tbody>
-</table>
-`;
-}
-
-function seleccionarTodos() {
-if (!ocActual) {
-return;
-}
-
-const valor =
-document
-.getElementById(
-'seleccionarTodo'
-)
-.checked;
-
-ocActual.productos
-.forEach(
-(p,i) => {
-document
-.getElementById(
-'sel_'+i
-)
-.checked =
-valor;
-
-cambiarSeleccionProducto(
-i,
-false
-);
-}
-);
-
-recalcularMontos();
-}
-
-function cambiarSeleccionProducto(
-i,
-recalcular=true
-) {
-const seleccionado =
-document
-.getElementById(
-'sel_'+i
-)
-.checked;
-
-const cantidad =
-document.getElementById(
-'cantidad_'+i
-);
-
-const precio =
-document.getElementById(
-'precio_'+i
-);
-
-if (!seleccionado) {
-cantidad.value =
-'';
-
-cantidad.disabled =
-true;
-
-precio.disabled =
-true;
-
-document
-.getElementById(
-'total_'+i
-)
-.textContent =
-'$0';
-} else {
-precio.disabled =
-false;
-
-const estado =
-estadoSeleccionado();
-
-if (
-estado === 'COMPLETA'
-) {
-cantidad.value =
-ocActual
-.productos[i]
-.cantidadAutorizada;
-
-cantidad.disabled =
-true;
-} else if (
-estado === 'PARCIAL'
-) {
-if (!cantidad.value) {
-cantidad.value =
-ocActual
-.productos[i]
-.cantidadAutorizada;
-}
-
-cantidad.disabled =
-false;
-} else {
-cantidad.value =
-'';
-
-cantidad.disabled =
-true;
-}
-}
-
-if (recalcular) {
-recalcularMontos();
-}
-}
-
-function estadoSeleccionado() {
-return (
-document.querySelector(
-'input[name="estado"]:checked'
-)?.value
-||
-''
-);
-}
-
-function cambiarEstado() {
-if (!ocActual) {
-return;
-}
-
-const estado =
-estadoSeleccionado();
-
-ocActual.productos
-.forEach(
-(p,i) => {
-const seleccionado =
-document
-.getElementById(
-'sel_'+i
-)
-.checked;
-
-if (!seleccionado) {
-return;
-}
-
-const cantidad =
-document.getElementById(
-'cantidad_'+i
-);
-
-if (
-estado === 'COMPLETA'
-) {
-cantidad.value =
-p.cantidadAutorizada;
-
-cantidad.disabled =
-true;
-}
-
-if (
-estado === 'PARCIAL'
-) {
-if (!cantidad.value) {
-cantidad.value =
-p.cantidadAutorizada;
-}
-
-cantidad.disabled =
-false;
-}
-}
-);
-
-recalcularMontos();
-}
-
-function recalcularMontos() {
-if (!ocActual) {
-return;
-}
-
-let autorizado =
-0;
-
-let calculado =
-0;
-
-ocActual.productos
-.forEach(
-(p,i) => {
-const seleccionado =
-document
-.getElementById(
-'sel_'+i
-)
-?.checked;
-
-if (!seleccionado) {
-const total =
-document.getElementById(
-'total_'+i
-);
-
-if (total) {
-total.textContent='$0';
-}
-
-return;
-}
-
-autorizado +=
-Number(
-p.cantidadAutorizada || 0
-)
-*
-Number(
-p.precioAutorizado || 0
-);
-
-const cantidad =
-Number(
-document
-.getElementById(
-'cantidad_'+i
-)
-.value
-||
-0
-);
-
-const precio =
-Number(
-document
-.getElementById(
-'precio_'+i
-)
-.value
-||
-0
-);
-
-const totalReal =
-cantidad *
-precio;
-
-calculado +=
-totalReal;
-
-document
-.getElementById(
-'total_'+i
-)
-.textContent =
-'$'+
-formatDinero(
-totalReal
-);
-}
-);
-
-document
-.getElementById(
-'montoAutorizado'
-)
-.textContent =
-'$'+
-formatDinero(
-autorizado
-);
-
-document
-.getElementById(
-'montoCalculado'
-)
-.textContent =
-'$'+
-formatDinero(
-calculado
-);
-
-if (!montoEditadoManual) {
-document
-.getElementById(
-'montoFactura'
-)
-.value =
-redondearMonto(
-calculado
-);
-}
-
-revisarDiferenciaMonto();
-}
-
-function obtenerMontoCalculadoActual() {
-if (!ocActual) {
-return 0;
-}
-
-let total =
-0;
-
-ocActual.productos
-.forEach(
-(p,i) => {
-const seleccionado =
-document
-.getElementById(
-'sel_'+i
-)
-?.checked;
-
-if (!seleccionado) {
-return;
-}
-
-const cantidad =
-Number(
-document
-.getElementById(
-'cantidad_'+i
-)
-?.value
-||
-0
-);
-
-const precio =
-Number(
-document
-.getElementById(
-'precio_'+i
-)
-?.value
-||
-0
-);
-
-total +=
-cantidad *
-precio;
-}
-);
-
-return redondearMonto(
-total
-);
-}
-
-function revisarDiferenciaMonto() {
-const campo =
-document.getElementById(
-'motivoDiferenciaMonto'
-);
-
-if (!campo) {
-return;
-}
-
-const montoFactura =
-Number(
-document
-.getElementById(
-'montoFactura'
-)
-?.value
-);
-
-let montoAutorizado = 0;
-
-if (ocActual) {
-montoAutorizado =
-redondearMonto(
-(ocActual.productos || [])
-.reduce(
-(total,p) =>
-total +
-Number(p.cantidadAutorizada || 0) *
-Number(p.precioAutorizado || 0),
-0
-)
-);
-}
-
-const diferencia =
-Number.isFinite(
-montoFactura
-)
-&&
-Math.abs(
-montoFactura -
-montoAutorizado
-) > 0.01;
-
-if (diferencia) {
-campo.disabled =
-false;
-
-campo.classList.remove(
-'sin-diferencia'
-);
-
-campo.placeholder =
-'Explique la diferencia del monto de la factura';
-} else {
-campo.disabled =
-true;
-
-campo.value =
-'';
-
-campo.classList.add(
-'sin-diferencia'
-);
-
-campo.placeholder =
-'Sin diferencia de monto';
-}
-}
-
-async function abrirCamara(
-destino
-) {
-destinoCamara =
-destino;
-
-fotoCapturada =
-null;
-
-const modal =
-document.getElementById(
-'camaraFullscreen'
-);
-
-const video =
-document.getElementById(
-'videoCamara'
-);
-
-const preview =
-document.getElementById(
-'previewCamara'
-);
-
-preview.style.display =
-'none';
-
-video.style.display =
-'block';
-
-document
-.getElementById(
-'btnCapturarFoto'
-)
-.style.display =
-'inline-block';
-
-document
-.getElementById(
-'btnRepetirFoto'
-)
-.style.display =
-'none';
-
-document
-.getElementById(
-'btnUsarFoto'
-)
-.style.display =
-'none';
-
-modal.style.display =
-'flex';
-
-try {
-streamCamara =
-await navigator.mediaDevices
-.getUserMedia({
-video: {
-facingMode: {
-ideal:'environment'
-},
-width: {
-ideal:1920
-},
-height: {
-ideal:1440
-},
-aspectRatio: {
-ideal:4/3
-}
-},
-audio:false
-});
-
-video.srcObject =
-streamCamara;
-
-await video.play();
-} catch(error) {
-cerrarCamara();
-
-mostrarMensaje(
-'No fue posible abrir la cámara. Revise el permiso de cámara.',
-'error'
-);
-}
-}
-
-function capturarFoto() {
-const video =
-document.getElementById(
-'videoCamara'
-);
-
-const canvas =
-document.getElementById(
-'canvasCamara'
-);
-
-const preview =
-document.getElementById(
-'previewCamara'
-);
-
-const ancho =
-video.videoWidth;
-
-const alto =
-video.videoHeight;
-
-if (
-!ancho ||
-!alto
-) {
-return;
-}
-
-const proporcion =
-4/3;
-
-let sx=0;
-let sy=0;
-let sw=ancho;
-let sh=alto;
-
-if (
-ancho / alto >
-proporcion
-) {
-sw =
-alto *
-proporcion;
-
-sx =
-(ancho-sw)/2;
-} else {
-sh =
-ancho /
-proporcion;
-
-sy =
-(alto-sh)/2;
-}
-
-canvas.width =
-1600;
-
-canvas.height =
-1200;
-
-const ctx =
-canvas.getContext(
-'2d'
-);
-
-ctx.drawImage(
-video,
-sx,
-sy,
-sw,
-sh,
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-const dataUrl =
-canvas.toDataURL(
-'image/jpeg',
-0.90
-);
-
-preview.src =
-dataUrl;
-
-preview.style.display =
-'block';
-
-video.style.display =
-'none';
-
-canvas.toBlob(
-blob => {
-if (!blob) {
-return;
-}
-
-fotoCapturada =
-new File(
-[blob],
-'foto_'+Date.now()+'.jpg',
-{
-type:'image/jpeg'
-}
-);
-},
-'image/jpeg',
-0.90
-);
-
-document
-.getElementById(
-'btnCapturarFoto'
-)
-.style.display =
-'none';
-
-document
-.getElementById(
-'btnRepetirFoto'
-)
-.style.display =
-'inline-block';
-
-document
-.getElementById(
-'btnUsarFoto'
-)
-.style.display =
-'inline-block';
-}
-
-function repetirFoto() {
-fotoCapturada =
-null;
-
-const video =
-document.getElementById(
-'videoCamara'
-);
-
-const preview =
-document.getElementById(
-'previewCamara'
-);
-
-preview.style.display =
-'none';
-
-video.style.display =
-'block';
-
-document
-.getElementById(
-'btnCapturarFoto'
-)
-.style.display =
-'inline-block';
-
-document
-.getElementById(
-'btnRepetirFoto'
-)
-.style.display =
-'none';
-
-document
-.getElementById(
-'btnUsarFoto'
-)
-.style.display =
-'none';
-}
-
-function usarFoto() {
-if (!fotoCapturada) {
-mostrarMensaje(
-'Espere un momento y vuelva a presionar USAR FOTO.',
-'error'
-);
-
-return;
-}
-
-if (
-destinoCamara ===
-'FACTURA'
-) {
-facturaSeleccionada =
-fotoCapturada;
-
-renderEstadoFactura();
-}
-
-if (
-destinoCamara &&
-destinoCamara
-.startsWith(
-'DOC_'
-)
-) {
-const id =
-destinoCamara.replace(
-'DOC_',
-''
-);
-
-fotosDocumentos[
-id
-] =
-fotoCapturada;
-
-const inputArchivo =
-document.getElementById(
-'docArchivo_'+id
-);
-
-if (inputArchivo) {
-inputArchivo.value='';
-}
-
-renderEstadoDocumento(
-id,
-fotoCapturada
-);
-}
-
-cerrarCamara();
-}
-
-function cerrarCamara() {
-if (streamCamara) {
-streamCamara
-.getTracks()
-.forEach(
-track =>
-track.stop()
-);
-}
-
-streamCamara =
-null;
-
-const video =
-document.getElementById(
-'videoCamara'
-);
-
-if (video) {
-video.srcObject=null;
-}
-
-document
-.getElementById(
-'camaraFullscreen'
-)
-.style.display =
-'none';
-
-fotoCapturada =
-null;
-
-destinoCamara =
-null;
-}
-
-function seleccionarFacturaArchivo() {
-const archivo =
-document
-.getElementById(
-'facturaArchivo'
-)
-.files[0];
-
-facturaSeleccionada =
-archivo ||
-null;
-
-renderEstadoFactura();
-}
-
-function renderEstadoFactura() {
-const box =
-document.getElementById(
-'estadoFactura'
-);
-
-if (!facturaSeleccionada) {
-box.innerHTML =
-'Ninguna factura seleccionada';
-
-return;
-}
-
-box.innerHTML = `
-<span class="archivo-ok">
-✓ ${esc(
-facturaSeleccionada.name
-)}
-</span>
-<button
-type="button"
-class="btn-quitar"
-onclick="quitarFactura()"
->
-×
-</button>
-`;
-}
-
-function quitarFactura() {
-facturaSeleccionada =
-null;
-
-const archivo =
-document.getElementById(
-'facturaArchivo'
-);
-
-if (archivo) {
-archivo.value='';
-}
-
-renderEstadoFactura();
-}
-
-function agregarDocumento() {
-contadorDocumentos++;
-
-const id =
-contadorDocumentos;
-
-const fila =
-document.createElement(
-'div'
-);
-
-fila.className =
-'doc-row';
-
-fila.id =
-'docRow_'+id;
-
-fila.innerHTML = `
-<div class="doc-superior">
-<select id="docTipo_${id}">
-<option value="GUIA DE DESPACHO">
-GUÍA DESPACHO
-</option>
-<option value="ENCOMIENDA">
-ENCOMIENDA
-</option>
-<option value="CHEQUE">
-CHEQUE
-</option>
-<option value="VOUCHER DE PAGO">
-VOUCHER
-</option>
-<option value="OTRO">
-OTRO
-</option>
-</select>
-
-<button
-type="button"
-class="btn-foto"
-onclick="abrirCamara('DOC_${id}')"
->
-📷 TOMAR FOTO
-</button>
-
-<button
-type="button"
-class="btn-archivo"
-onclick="
-document
-.getElementById('docArchivo_${id}')
-.click()
-"
->
-📎 SUBIR ARCHIVO
-</button>
-
-<div
-id="docEstado_${id}"
-class="doc-estado"
->
-Sin archivo
-</div>
-
-<button
-type="button"
-class="btn-eliminar"
-onclick="eliminarDocumento(${id})"
->
-×
-</button>
-</div>
-
-<input
-id="docArchivo_${id}"
-class="input-oculto"
-type="file"
-accept="image/*,application/pdf"
-onchange="seleccionarDocumentoArchivo(${id})"
->
-`;
-
-document
-.getElementById(
-'listaDocumentos'
-)
-.appendChild(
-fila
-);
-}
-
-function seleccionarDocumentoArchivo(
-id
-) {
-const input =
-document.getElementById(
-'docArchivo_'+id
-);
-
-const archivo =
-input.files[0] ||
-null;
-
-delete fotosDocumentos[
-id
-];
-
-renderEstadoDocumento(
-id,
-archivo
-);
-}
-
-function renderEstadoDocumento(
-id,
-archivo
-) {
-const estado =
-document.getElementById(
-'docEstado_'+id
-);
-
-if (!estado) {
-return;
-}
-
-if (!archivo) {
-estado.textContent =
-'Sin archivo';
-
-estado.style.color =
-'#60707c';
-
-estado.style.fontWeight =
-'normal';
-
-return;
-}
-
-estado.textContent =
-'✓ '+archivo.name;
-
-estado.style.color =
-'#15713e';
-
-estado.style.fontWeight =
-'800';
-}
-
-function eliminarDocumento(
-id
-) {
-delete fotosDocumentos[
-id
-];
-
-document
-.getElementById(
-'docRow_'+id
-)
-?.remove();
-}
-
-function habilitarFormulario() {
-[
-'panelTipo',
-'panelProductos',
-'panelFactura',
-'panelDocumentos'
-]
-.forEach(
-id => {
-document
-.getElementById(
-id
-)
-.classList
-.remove(
-'disabled-area'
-);
-}
-);
-
-document
-.getElementById(
-'btnConfirmar'
-)
-.disabled =
-false;
-}
-
-function limpiarDatosFactura() {
-montoEditadoManual =
-false;
-
-[
-'montoFactura',
-'numeroFactura',
-'fechaFactura',
-'fechaVencimiento',
-'tipoMontoFactura',
-'motivoDiferenciaMonto'
-]
-.forEach(
-id => {
-const el =
-document.getElementById(
-id
-);
-
-if (el) {
-el.value='';
-}
-}
-);
-
-facturaSeleccionada =
-null;
-
-const facturaArchivo =
-document.getElementById(
-'facturaArchivo'
-);
-
-if (facturaArchivo) {
-facturaArchivo.value='';
-}
-
-renderEstadoFactura();
-
-document
-.getElementById(
-'listaDocumentos'
-)
-.innerHTML =
-'';
-
-Object.keys(
-fotosDocumentos
-)
-.forEach(
-key =>
-delete fotosDocumentos[key]
-);
-
-document
-.querySelectorAll(
-'input[name="estado"]'
-)
-.forEach(
-x =>
-x.checked=false
-);
-
-document
-.getElementById(
-'seleccionarTodo'
-)
-.checked =
-false;
-
-revisarDiferenciaMonto();
-}
-
-function limpiarSeleccion() {
-ocActual =
-null;
-
-renderLista();
-
-const productos =
-document.getElementById(
-'productosContenido'
-);
-
-productos.className =
-'empty';
-
-productos.innerHTML =
-'Seleccione una OC.';
-
-[
-'panelTipo',
-'panelProductos',
-'panelFactura',
-'panelDocumentos'
-]
-.forEach(
-id => {
-document
-.getElementById(
-id
-)
-.classList
-.add(
-'disabled-area'
-);
-}
-);
-
-document
-.getElementById(
-'btnConfirmar'
-)
-.disabled =
-true;
-
-limpiarDatosFactura();
-}
-
-function esperar(ms) {
-return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function verificarGuardadoTrasPost(payload) {
-const ids =
-(payload.productos || [])
-.map(p => String(p.idLinea || '').trim())
-.filter(Boolean);
-
-if (!payload.oc || !payload.numeroFactura || !ids.length) {
-return;
-}
-
-for (let intento = 0; intento < 30; intento++) {
-if (!postPendiente) {
-return;
-}
-
-await esperar(2000);
-
-if (!postPendiente) {
-return;
-}
-
-try {
-const respuesta =
-await apiGet(
-  'verificar_guardado',
-  {
-    oc: payload.oc,
-    numeroFactura: payload.numeroFactura,
-    ids: JSON.stringify(ids)
-  }
-);
-
-if (
-  respuesta &&
-  respuesta.data &&
-  respuesta.data.guardada === true
-) {
-  clearTimeout(postPendiente.timeout);
-
-  const pendiente = postPendiente;
-  postPendiente = null;
-
-  pendiente.resolve({
-    ok: true,
-    accion: 'guardar',
-    data: {
-      mensaje: 'Recepción registrada correctamente.',
-      idRecepcion: respuesta.data.idRecepcion || '',
-      verificadaEnMaestro: true
     }
-  });
-
-  return;
-}
-} catch (error) {
-  // La respuesta POST todavía puede llegar por postMessage.
-}
-}
-}
-
-function guardarRecepcionApi(
-payload
-) {
-return new Promise(
-(resolve,reject) => {
-if (postPendiente) {
-reject(
-new Error(
-'Ya existe una recepción en proceso.'
-)
-);
-
-return;
-}
-
-const timeout =
-setTimeout(
-() => {
-postPendiente =
-null;
-
-reject(
-new Error(
-'El servidor demoró demasiado en responder.'
-)
-);
-},
-120000
-);
-
-postPendiente = {
-resolve,
-reject,
-timeout
-};
-
-const form =
-document.createElement(
-'form'
-);
-
-form.method =
-'POST';
-
-form.action =
-API_URL;
-
-form.target =
-'apiPostFrame';
-
-form.style.display =
-'none';
-
-const datos = {
-api:'recepcion',
-accion:'guardar',
-key:
-obtenerClaveApi(),
-payload:
-JSON.stringify(
-payload
-)
-};
-
-Object.entries(
-datos
-)
-.forEach(
-([nombre,valor]) => {
-const campo =
-document.createElement(
-'textarea'
-);
-
-campo.name =
-nombre;
-
-campo.value =
-valor;
-
-form.appendChild(
-campo
-);
-}
-);
-
-document.body.appendChild(
-form
-);
-
-form.submit();
-
-verificarGuardadoTrasPost(payload);
-
-setTimeout(
-() => form.remove(),
-1000
-);
-}
-);
-}
-
-window.addEventListener(
-'message',
-event => {
-if (!postPendiente) {
-return;
-}
-
-const respuesta =
-event.data;
-
-if (
-!respuesta ||
-typeof respuesta !==
-'object'
-) {
-return;
-}
-
-if (
-respuesta.accion !==
-'guardar'
-) {
-return;
-}
-
-clearTimeout(
-postPendiente.timeout
-);
-
-const pendiente =
-postPendiente;
-
-postPendiente =
-null;
-
-if (
-respuesta.ok === true
-) {
-pendiente.resolve(
-respuesta
-);
-} else {
-pendiente.reject(
-new Error(
-respuesta.error ||
-'No fue posible guardar la recepción.'
-)
-);
-}
-}
-);
-
-async function confirmarRecepcion() {
-limpiarMensaje();
-
-if (!ocActual) {
-return mostrarMensaje(
-'Seleccione una OC.',
-'error'
-);
-}
-
-const estado =
-estadoSeleccionado();
-
-if (!estado) {
-return mostrarMensaje(
-'Seleccione COMPLETA o PARCIAL.',
-'error'
-);
-}
-
-const productos =
-[];
-
-ocActual.productos
-.forEach(
-(p,i) => {
-const seleccionado =
-document
-.getElementById(
-'sel_'+i
-)
-.checked;
-
-if (!seleccionado) {
-return;
-}
-
-const cantidad =
-Number(
-document
-.getElementById(
-'cantidad_'+i
-)
-.value
-);
-
-const precio =
-Number(
-document
-.getElementById(
-'precio_'+i
-)
-.value
-);
-
-productos.push({
-idLinea:
-p.idLinea,
-producto:
-p.producto,
-cantidadRecepcionada:
-estado ===
-'COMPLETA'
-? p.cantidadAutorizada
-: cantidad,
-precioFactura:
-precio
-});
-}
-);
-
-if (!productos.length) {
-return mostrarMensaje(
-'Seleccione al menos un producto.',
-'error'
-);
-}
-
-for (
-const p
-of productos
-) {
-if (
-!Number.isFinite(
-p.cantidadRecepcionada
-)
-||
-p.cantidadRecepcionada <= 0
-) {
-return mostrarMensaje(
-'Revise las cantidades recepcionadas.',
-'error'
-);
-}
-
-if (
-!Number.isFinite(
-p.precioFactura
-)
-||
-p.precioFactura < 0
-) {
-return mostrarMensaje(
-'Revise los precios.',
-'error'
-);
-}
-}
-
-const montoFactura =
-Number(
-document
-.getElementById(
-'montoFactura'
-)
-.value
-);
-
-const tipoMontoFactura =
-document
-.getElementById(
-'tipoMontoFactura'
-)
-.value;
-
-const motivoDiferenciaMonto =
-document
-.getElementById(
-'motivoDiferenciaMonto'
-)
-.value
-.trim();
-
-const numeroFactura =
-document
-.getElementById(
-'numeroFactura'
-)
-.value
-.trim();
-
-const fechaFactura =
-document
-.getElementById(
-'fechaFactura'
-)
-.value;
-
-const fechaVencimiento =
-document
-.getElementById(
-'fechaVencimiento'
-)
-.value;
-
-if (
-!numeroFactura ||
-!fechaFactura ||
-!fechaVencimiento ||
-!tipoMontoFactura
-) {
-return mostrarMensaje(
-'Complete los datos de la factura y seleccione NETO o BRUTO.',
-'error'
-);
-}
-
-if (!facturaSeleccionada) {
-return mostrarMensaje(
-'Debe tomar una foto o adjuntar la factura.',
-'error'
-);
-}
-
-if (
-!Number.isFinite(
-montoFactura
-)
-||
-montoFactura < 0
-) {
-return mostrarMensaje(
-'Revise el monto de factura.',
-'error'
-);
-}
-
-const montoAutorizado =
-redondearMonto(
-(ocActual.productos || [])
-.reduce(
-(total,p) =>
-total +
-Number(p.cantidadAutorizada || 0) *
-Number(p.precioAutorizado || 0),
-0
-)
-);
-
-const existeDiferencia =
-Math.abs(
-montoFactura -
-montoAutorizado
-) >
-0.01;
-
-if (
-existeDiferencia &&
-!motivoDiferenciaMonto
-) {
-return mostrarMensaje(
-'Explique el motivo de la diferencia del monto de la factura.',
-'error'
-);
-}
-
-const documentos =
-[];
-
-const filasDocs =
-document.querySelectorAll(
-'.doc-row'
-);
-
-for (
-const fila
-of filasDocs
-) {
-const id =
-fila.id.replace(
-'docRow_',
-''
-);
-
-const archivoSubido =
-document
-.getElementById(
-'docArchivo_'+id
-)
-?.files[0];
-
-const fotoInterna =
-fotosDocumentos[
-id
-];
-
-const file =
-fotoInterna ||
-archivoSubido;
-
-if (!file) {
-return mostrarMensaje(
-'Hay un documento adicional sin archivo.',
-'error'
-);
-}
-
-documentos.push({
-tipo:
-document
-.getElementById(
-'docTipo_'+id
-)
-.value,
-archivo:
-await archivoABase64(
-file
-)
-});
-}
-
-const payload = {
-oc:
-ocActual.oc,
-estadoRecepcion:
-estado,
-productos:
-productos,
-montoFactura:
-montoFactura,
-tipoMontoFactura:
-tipoMontoFactura,
-motivoDiferenciaMonto:
-existeDiferencia
-? motivoDiferenciaMonto
-: '',
-numeroFactura:
-numeroFactura,
-fechaFactura:
-fechaFactura,
-fechaVencimiento:
-fechaVencimiento,
-factura:
-await archivoABase64(
-facturaSeleccionada
-),
-documentosAdicionales:
-documentos
-};
-
-const btn =
-document.getElementById(
-'btnConfirmar'
-);
-
-btn.disabled =
-true;
-
-btn.textContent =
-'GUARDANDO...';
-
-try {
-const respuesta =
-await guardarRecepcionApi(
-payload
-);
-
-const resultado =
-respuesta.data ||
-{};
-
-mostrarMensaje(
-resultado.mensaje ||
-'Recepción registrada correctamente.',
-'ok'
-);
-
-btn.textContent =
-'✓ CONFIRMAR RECEPCIÓN';
-
-limpiarSeleccion();
-
-await cargarOC();
-} catch(error) {
-btn.disabled =
-false;
-
-btn.textContent =
-'✓ CONFIRMAR RECEPCIÓN';
-
-mostrarError(
-error
-);
-}
-}
-
-function archivoABase64(
-file
-) {
-return new Promise(
-(resolve,reject) => {
-const reader =
-new FileReader();
-
-reader.onload =
-() => {
-resolve({
-name:
-file.name,
-mimeType:
-file.type,
-data:
-reader
-.result
-.split(',')[1]
-});
-};
-
-reader.onerror =
-reject;
-
-reader.readAsDataURL(
-file
-);
-}
-);
-}
-
-function mostrarMensaje(
-texto,
-tipo
-) {
-const contenedor =
-document.getElementById(
-'mensaje'
-);
-
-contenedor.innerHTML = `
-<div class="mensaje ${tipo}">
-${esc(texto)}
-</div>
-`;
-
-setTimeout(
-() => {
-contenedor.innerHTML =
-'';
-},
-5000
-);
-}
-
-function mostrarError(
-error
-) {
-mostrarMensaje(
-error?.message ||
-String(error) ||
-'Ocurrió un error.',
-'error'
-);
-}
-
-function limpiarMensaje() {
-document
-.getElementById(
-'mensaje'
-)
-.innerHTML =
-'';
-}
-
-function formatNumero(
-valor
-) {
-return Number(
-valor ||
-0
-)
-.toLocaleString(
-'es-CL',
-{
-maximumFractionDigits:3
-}
-);
-}
-
-function formatDinero(
-valor
-) {
-return Number(
-valor ||
-0
-)
-.toLocaleString(
-'es-CL',
-{
-maximumFractionDigits:2
-}
-);
-}
-
-function redondearMonto(
-valor
-) {
-return Math.round(
-Number(
-valor ||
-0
-)
-*
-100
-)
-/100;
-}
-
-function esc(
-valor
-) {
-return String(
-valor ??
-''
-)
-.replace(
-/&/g,
-'&amp;'
-)
-.replace(
-/</g,
-'&lt;'
-)
-.replace(
-/>/g,
-'&gt;'
-)
-.replace(
-/"/g,
-'&quot;'
-)
-.replace(
-/'/g,
-'&#039;'
-);
-}
-</script>
+
+
+
+    /* =========================================================
+       MODAL ENVÍO
+       ========================================================= */
+
+    function abrirWhatsAppDesdeModal() {
+
+      if (
+        !OC_MODAL_ACTUAL
+      ) {
+
+        return;
+
+      }
+
+
+      abrirWhatsApp(
+        OC_MODAL_ACTUAL.clave
+      );
+
+    }
+
+
+
+    function confirmarEnvioDesdeModal() {
+
+      if (
+        !OC_MODAL_ACTUAL
+      ) {
+
+        return;
+
+      }
+
+
+      confirmarEnvio(
+        OC_MODAL_ACTUAL.clave
+      );
+
+    }
+
+
+
+    function actualizarBotonesModalEnvio(
+      item
+    ) {
+
+      const botonWhatsApp =
+        document.getElementById(
+          'btnEnviarModal'
+        );
+
+
+      const botonConfirmar =
+        document.getElementById(
+          'btnConfirmarEnvioModal'
+        );
+
+
+      if (
+        !botonWhatsApp ||
+        !botonConfirmar
+      ) {
+
+        return;
+
+      }
+
+
+      const pendiente =
+        normalizar(
+          item.estado
+        ) ===
+        'PENDIENTE DE ENVIO';
+
+
+      if (
+        !pendiente
+      ) {
+
+        botonWhatsApp.style.display =
+          'none';
+
+
+        botonConfirmar.style.display =
+          'none';
+
+
+        return;
+
+      }
+
+
+      const yaAbrioWhatsApp =
+        WHATSAPP_ABIERTO.has(
+          item.clave
+        );
+
+
+      botonWhatsApp.style.display =
+        yaAbrioWhatsApp
+
+          ? 'none'
+
+          : 'block';
+
+
+      botonConfirmar.style.display =
+        yaAbrioWhatsApp
+
+          ? 'block'
+
+          : 'none';
+
+    }
+
+
+
+    /* =========================================================
+       SELECTORES
+       ========================================================= */
+
+    function cssEscapeSeguro(
+      valor
+    ) {
+
+      if (
+        window.CSS &&
+        typeof window.CSS.escape ===
+          'function'
+      ) {
+
+        return window.CSS.escape(
+          String(
+            valor ||
+            ''
+          )
+        );
+
+      }
+
+
+      return String(
+        valor ||
+        ''
+      )
+      .replace(
+        /\\/g,
+        '\\\\'
+      )
+      .replace(
+        /"/g,
+        '\\"'
+      );
+
+    }
+
+
+
+    /* =========================================================
+       UI
+       ========================================================= */
+
+    function mostrarCarga(
+      mostrar
+    ) {
+
+      document
+        .getElementById(
+          'loading'
+        )
+        .style
+        .display =
+
+          mostrar
+
+            ? 'block'
+
+            : 'none';
+
+    }
+
+
+
+    function mostrarError(
+      mensaje
+    ) {
+
+      const box =
+        document
+          .getElementById(
+            'errorBox'
+          );
+
+
+      box.textContent =
+        mensaje;
+
+
+      box.style.display =
+        'block';
+
+    }
+
+
+
+    function ocultarError() {
+
+      document
+        .getElementById(
+          'errorBox'
+        )
+        .style
+        .display =
+          'none';
+
+    }
+
+
+
+    function avisoMVP(
+      mensaje
+    ) {
+
+      const toast =
+        document
+          .getElementById(
+            'toast'
+          );
+
+
+      toast.textContent =
+        mensaje;
+
+
+      toast
+        .classList
+        .add(
+          'visible'
+        );
+
+
+      window.clearTimeout(
+        avisoMVP.timeout
+      );
+
+
+      avisoMVP.timeout =
+        window.setTimeout(
+          function() {
+
+            toast
+              .classList
+              .remove(
+                'visible'
+              );
+
+          },
+          4000
+        );
+
+    }
+
+
+
+    /* =========================================================
+       FORMATO
+       ========================================================= */
+
+    function formatoMoneda(
+      valor
+    ) {
+
+      return new Intl
+        .NumberFormat(
+          'es-CL',
+          {
+
+            style:
+              'currency',
+
+            currency:
+              'CLP',
+
+            maximumFractionDigits:
+              0
+
+          }
+        )
+        .format(
+          Number(
+            valor ||
+            0
+          )
+        );
+
+    }
+
+
+
+    function formatoNumero(
+      valor
+    ) {
+
+      return new Intl
+        .NumberFormat(
+          'es-CL',
+          {
+
+            maximumFractionDigits:
+              3
+
+          }
+        )
+        .format(
+          Number(
+            valor ||
+            0
+          )
+        );
+
+    }
+
+
+
+    /* =========================================================
+       SEGURIDAD
+       ========================================================= */
+
+    function escapeHtml(
+      valor
+    ) {
+
+      return String(
+        valor === null ||
+        valor === undefined
+
+          ? ''
+
+          : valor
+      )
+      .replace(
+        /&/g,
+        '&amp;'
+      )
+      .replace(
+        /</g,
+        '&lt;'
+      )
+      .replace(
+        />/g,
+        '&gt;'
+      )
+      .replace(
+        /"/g,
+        '&quot;'
+      )
+      .replace(
+        /'/g,
+        '&#039;'
+      );
+
+    }
+
+
+
+    function jsString(
+      valor
+    ) {
+
+      return String(
+        valor === null ||
+        valor === undefined
+
+          ? ''
+
+          : valor
+      )
+      .replace(
+        /\\/g,
+        '\\\\'
+      )
+      .replace(
+        /'/g,
+        "\\'"
+      )
+      .replace(
+        /\r/g,
+        ''
+      )
+      .replace(
+        /\n/g,
+        '\\n'
+      );
+
+    }
+
+
+
+    function normalizar(
+      valor
+    ) {
+
+      return String(
+        valor ||
+        ''
+      )
+      .normalize(
+        'NFD'
+      )
+      .replace(
+        /[\u0300-\u036f]/g,
+        ''
+      )
+      .toUpperCase()
+      .trim();
+
+    }
+
+
+  </script>
+
+
 </body>
+
 </html>
