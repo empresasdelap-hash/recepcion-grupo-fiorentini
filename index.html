@@ -909,18 +909,59 @@ html, body {
 @media screen and (orientation:portrait) {
   :root { --gf-reserva-inferior: max(12px, env(safe-area-inset-bottom, 0px)); }
 }
+
+/* M04 · Movimientos, respetando la barra de navegacion de Android */
+.m04-mov-toolbar { flex-wrap:wrap; }
+.m04-mov-toolbar input, .m04-mov-toolbar select { min-width:110px; flex:1; max-width:300px; }
+.m04-mov-table { min-width:1180px; }
+.m04-mov-table th, .m04-mov-table td { font-size:10px; white-space:nowrap; padding:7px 6px; }
+@media (max-width:1000px) and (orientation:landscape) {
+  .m04-mov-toolbar { gap:3px; }
+  .m04-mov-toolbar input, .m04-mov-toolbar select { height:27px; font-size:9px; }
+  .m04-mov-table th, .m04-mov-table td { font-size:9px; }
+}
+
+/* GF · INICIO VISUAL · TARJETAS PASTEL Y TABLET */
+.gf-home-btn { display:none; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.15); color:white; font-weight:800; border-radius:7px; padding:8px 12px; font-size:11px; white-space:nowrap; }
+.gf-home .gf-home-btn { display:none; }
+body:not(.gf-home) .gf-home-btn { display:inline-flex; align-items:center; }
+.gf-home .m04-nav, body:not(.gf-home) .m04-nav { display:none; }
+.gf-home .acciones-recepcion-header, .gf-home .usuario-header { display:none !important; }
+.gf-home main.app, .gf-home .m04-area { display:none !important; }
+body:not(.gf-home) #gf-dashboard { display:none !important; }
+#gf-dashboard { height:calc(100dvh - var(--gf-alto-cabecera,54px) - env(safe-area-inset-bottom,0px) - var(--gf-reserva-inferior,12px)); overflow-y:auto; padding:clamp(8px,2vw,20px); background:#f3f6fa; }
+.gf-dash-inner { max-width:1050px; margin:0 auto; }
+.gf-dash-heading { font-size:clamp(15px,2vw,22px); color:#1b405e; font-weight:800; margin:3px 0 12px; }
+.gf-dash-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(9px,1.6vw,18px); }
+.gf-tile { min-width:0; border:2px solid transparent; border-radius:15px; padding:clamp(12px,2vw,26px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-height:clamp(115px,27vh,190px); text-align:center; box-shadow:0 3px 12px rgba(15,55,90,.07); transition:transform .12s,filter .12s; }
+.gf-tile:active { transform:scale(.985); }
+.gf-tile:focus-visible { outline:3px solid #086bc1; outline-offset:3px; }
+.gf-tile-emoji { font-size:clamp(30px,5vw,48px); line-height:1.05; }
+.gf-tile-title { font-weight:900; font-size:clamp(13px,2vw,19px); }
+.gf-tile-sub { font-size:clamp(10px,1.4vw,14px); }
+.gf-tile-recepcion { background:#dcecfb; color:#174a78; border-color:#c0dff5; }
+.gf-tile-inventario { background:#dff4e5; color:#246a3d; border-color:#c8e9d1; }
+.gf-tile-movimientos { background:#fff0d6; color:#8b5c1e; border-color:#f8e3b9; }
+.gf-tile-conteo { background:#eee4fa; color:#68468c; border-color:#dfd0f3; }
+.gf-pendientes { background:rgba(255,255,255,.85); border-radius:100px; padding:6px 14px; font-size:clamp(11px,1.5vw,15px); font-weight:900; }
+.gf-tile[disabled] { cursor:not-allowed; opacity:.75; }
+.gf-tile:not([disabled]) { cursor:pointer; }
+@media (max-height:650px) and (orientation:landscape) { .gf-tile { min-height:112px; padding:10px; gap:3px; } .gf-dash-heading { margin-bottom:8px; } .gf-dash-grid { gap:8px; } }
+@media (orientation:portrait) { .gf-dash-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .gf-tile { min-height:150px; } }
 </style>
 </head>
-<body>
+<body class="gf-home">
 <header class="topbar">
   <div class="topbar-left">
-    <div class="logo-box">📦</div>
-    <div class="titulo-principal">50 · RECEPCIÓN DE MERCADERÍA</div>
+    <button class="gf-home-btn" type="button" onclick="gfVolverInicio()">🏠 INICIO</button>
+    <div class="logo-box" id="gf-logo">🏠</div>
+    <div class="titulo-principal" id="gf-titulo">GRUPO FIORENTINI</div>
     <div class="empresa-header">Grupo Fiorentini</div>
   </div>
   <nav class="m04-nav" aria-label="Secciones de la aplicación">
     <button id="m04-tab-recepcion" class="m04-tab" type="button" aria-selected="true" onclick="m04CambiarVista('recepcion')">RECEPCIÓN</button>
     <button id="m04-tab-inventario" class="m04-tab" type="button" aria-selected="false" onclick="m04CambiarVista('inventario')">INVENTARIO</button>
+    <button id="m04-tab-movimientos" class="m04-tab" type="button" aria-selected="false" onclick="m04CambiarVista('movimientos')">MOVIMIENTOS</button>
   </nav>
   <div class="acciones-recepcion-header">
     <button class="btn-header-cancelar" type="button" onclick="limpiarSeleccion()">CANCELAR</button>
@@ -936,6 +977,26 @@ html, body {
 </header>
 
 <div id="mensaje"></div>
+<section id="gf-dashboard" aria-label="Inicio Grupo Fiorentini">
+  <div class="gf-dash-inner">
+    <div class="gf-dash-heading">🏠 Seleccionar módulo</div>
+    <div class="gf-dash-grid">
+      <button class="gf-tile gf-tile-recepcion" type="button" onclick="gfAbrirModulo('recepcion')">
+        <span class="gf-tile-emoji">📦</span><span class="gf-tile-title">RECEPCIÓN</span>
+        <span class="gf-pendientes" id="gf-contador-oc" aria-live="polite">OC pendientes: —</span>
+      </button>
+      <button class="gf-tile gf-tile-inventario" type="button" onclick="gfAbrirModulo('inventario')">
+        <span class="gf-tile-emoji">📊</span><span class="gf-tile-title">INVENTARIO</span><span class="gf-tile-sub">Productos y stock</span>
+      </button>
+      <button class="gf-tile gf-tile-movimientos" type="button" onclick="gfAbrirModulo('movimientos')">
+        <span class="gf-tile-emoji">🔄</span><span class="gf-tile-title">MOVIMIENTOS</span><span class="gf-tile-sub">Historial y ajustes</span>
+      </button>
+      <button class="gf-tile gf-tile-conteo" type="button" disabled title="Se habilitará cuando el módulo esté validado">
+        <span class="gf-tile-emoji">📋</span><span class="gf-tile-title">CONTEO FÍSICO</span><span class="gf-tile-sub">Próximamente</span>
+      </button>
+    </div>
+  </div>
+</section>
 
 <main class="app">
 <div class="col-izquierda">
@@ -1129,6 +1190,25 @@ html, body {
     <table class="m04-table">
       <thead><tr><th>Código</th><th>Producto</th><th>Unidad</th><th class="m04-num">Stock histórico</th></tr></thead>
       <tbody id="m04-filas"><tr><td colspan="4">Seleccione INVENTARIO para consultar.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- M04: vista de auditoria de movimientos, solo lectura -->
+<section id="m04-movimientos" class="m04-area" aria-label="Movimientos de inventario" hidden>
+  <div class="m04-toolbar m04-mov-toolbar">
+    <strong>MOVIMIENTOS · INVERSIONES</strong>
+    <input id="m04-mov-buscar" type="search" placeholder="Código, producto, ID o documento" oninput="m04MovRender()" aria-label="Buscar movimientos">
+    <select id="m04-mov-tipo" onchange="m04MovRender()" aria-label="Filtrar por tipo"><option value="">TODOS LOS TIPOS</option></select>
+    <input id="m04-mov-fecha" type="search" placeholder="Filtrar fecha (AAAA-MM-DD)" oninput="m04MovRender()" aria-label="Filtrar por fecha">
+    <button class="m04-refresh" type="button" onclick="m04MovCargar()">ACTUALIZAR</button>
+  </div>
+  <div class="m04-alert">Historial de MAESTRO PRUEBA · Apertura 23/09/2026 · Faltan movimientos posteriores por conciliar · SOLO LECTURA.</div>
+  <div class="m04-info" id="m04-mov-resumen">Consulta pendiente.</div>
+  <div class="m04-table-wrap">
+    <table class="m04-table m04-mov-table">
+      <thead><tr><th>Fila</th><th>Fecha</th><th>Movimiento</th><th>Tipo</th><th>Código</th><th>Producto</th><th>Unidad</th><th>Entrada</th><th>Salida</th><th>Ajuste</th><th>Apertura</th><th>Estado</th><th>Origen / documento</th></tr></thead>
+      <tbody id="m04-mov-filas"><tr><td colspan="13">Seleccione MOVIMIENTOS para consultar.</td></tr></tbody>
     </table>
   </div>
 </section>
@@ -1496,6 +1576,7 @@ async function cargarOC() {
     ocDisponibles =
     respuesta.data ||
     [];
+    gfActualizarContadorOC();
 
     cargarFiltros();
     renderLista();
@@ -1521,6 +1602,7 @@ async function cargarOC() {
   } catch(error) {
     tbody.innerHTML =
     '<tr><td colspan="5">No fue posible cargar las OC.</td></tr>';
+    gfContadorDesconocido();
 
     mostrarError(error);
 
@@ -3728,17 +3810,23 @@ let m04Cargado = false;
 let m04Cargando = false;
 function m04CambiarVista(vista) {
   const inventario = vista === 'inventario';
-  const recepcion = document.querySelector('main.app');
-  const panel = document.getElementById('m04-inventario');
-  recepcion.style.display = inventario ? 'none' : '';
-  panel.hidden = !inventario;
-  panel.classList.toggle('m04-active', inventario);
-  document.getElementById('m04-tab-recepcion').setAttribute('aria-selected', String(!inventario));
-  document.getElementById('m04-tab-inventario').setAttribute('aria-selected', String(inventario));
-  // Los controles de guardar recepción quedan fuera de la vista de inventario.
-  document.querySelector('.acciones-recepcion-header').style.display = inventario ? 'none' : '';
+  const movimientos = vista === 'movimientos';
+  const recepcion = !inventario && !movimientos;
+  document.querySelector('main.app').style.display = recepcion ? '' : 'none';
+  for (const nombre of ['inventario','movimientos']) {
+    const activo = vista === nombre;
+    const panel = document.getElementById('m04-' + nombre);
+    panel.hidden = !activo;
+    panel.classList.toggle('m04-active', activo);
+  }
+  for (const nombre of ['recepcion','inventario','movimientos']) {
+    document.getElementById('m04-tab-' + nombre).setAttribute('aria-selected', String(vista === nombre));
+  }
+  document.querySelector('.acciones-recepcion-header').style.display = recepcion ? '' : 'none';
   if (inventario && !m04Cargado) m04Cargar();
+  if (movimientos && !m04MovCargado) m04MovCargar();
 }
+
 async function m04Cargar() {
   if (m04Cargando) return;
   m04Cargando = true;
@@ -3776,6 +3864,102 @@ function m04Render() {
   const resumen = document.getElementById('m04-resumen');
   resumen.classList.remove('m04-error');
   resumen.textContent = 'INVERSIONES · ' + filas.length + ' productos mostrados de ' + m04Productos.length + ' · Stock histórico no conciliado';
+}
+
+// =========================================================
+// M04 · AUDITORIA MOVIMIENTOS · SIN ESCRITURAS
+// =========================================================
+let m04Movimientos = [];
+let m04MovCargado = false;
+let m04MovCargando = false;
+async function m04MovCargar() {
+  if (m04MovCargando) return;
+  m04MovCargando = true;
+  const resumen = document.getElementById('m04-mov-resumen');
+  resumen.textContent = 'Consultando movimientos de MAESTRO PRUEBA...';
+  try {
+    const respuesta = await apiGet('inventario_movimientos');
+    if (!Array.isArray(respuesta.data)) throw new Error('La API no devolvio una lista de movimientos.');
+    const filas = respuesta.data;
+    if (filas.some(p => String(p.empresaId) !== '76236873-0')) throw new Error('La consulta incluye otra empresa.');
+    const ids = new Set();
+    filas.forEach(p => {
+      if (!p.idMovimiento || ids.has(p.idMovimiento)) throw new Error('ID duplicado o ausente.');
+      ids.add(p.idMovimiento);
+    });
+    m04Movimientos = filas;
+    m04MovCargado = true;
+    const tipos = [...new Set(filas.map(x => String(x.tipo||'').trim()).filter(Boolean))].sort();
+    const select = document.getElementById('m04-mov-tipo');
+    const anterior = select.value;
+    select.innerHTML = '<option value="">TODOS LOS TIPOS</option>' + tipos.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('');
+    if (tipos.includes(anterior)) select.value = anterior;
+    m04MovRender();
+  } catch (error) {
+    resumen.classList.add('m04-error');
+    resumen.textContent = 'Error de consulta: ' + (error.message || String(error));
+    document.getElementById('m04-mov-filas').innerHTML = '<tr><td colspan="13">No se modificaron datos del MAESTRO.</td></tr>';
+  } finally {
+    m04MovCargando = false;
+  }
+}
+function m04MovRender() {
+  const texto = String(document.getElementById('m04-mov-buscar').value||'').trim().toLocaleLowerCase('es-CL');
+  const tipo = document.getElementById('m04-mov-tipo').value;
+  const fecha = String(document.getElementById('m04-mov-fecha').value||'').trim().toLowerCase();
+  const filas = m04Movimientos.filter(p => {
+    if (tipo && p.tipo !== tipo) return false;
+    if (fecha && !String(p.fecha||'').toLowerCase().includes(fecha)) return false;
+    return !texto || [p.idMovimiento,p.codigo,p.producto,p.documento,p.origen,p.estado].join(' ').toLocaleLowerCase('es-CL').includes(texto);
+  });
+  const celda = v => '<td>' + esc(v == null ? '' : v) + '</td>';
+  const n = v => celda(formatNumero(v));
+  document.getElementById('m04-mov-filas').innerHTML = filas.map(p => '<tr>' +
+    celda(p.filaMaestro) + celda(p.fecha) + celda(p.idMovimiento) + celda(p.tipo) +
+    celda(p.codigo) + celda(p.producto) + celda(p.unidad) + n(p.entrada) +
+    n(p.salida) + n(p.ajuste) + n(p.apertura) + celda(p.estado) +
+    celda([p.origen,p.documento].filter(Boolean).join(' · ')) + '</tr>').join('') ||
+    '<tr><td colspan="13">No hay coincidencias.</td></tr>';
+  const resumen = document.getElementById('m04-mov-resumen');
+  resumen.classList.remove('m04-error');
+  resumen.textContent = 'INVERSIONES · ' + filas.length + ' movimientos mostrados de ' + m04Movimientos.length + ' · Histórico pendiente de conciliación';
+}
+
+// GF · NAVEGACION DEL PANEL PRINCIPAL · NO CAMBIA EL MAESTRO
+function gfContadorDesconocido() {
+  const el = document.getElementById('gf-contador-oc');
+  if (el) el.textContent = 'OC pendientes: —';
+}
+function gfActualizarContadorOC() {
+  const el = document.getElementById('gf-contador-oc');
+  if (!el) return;
+  if (!Array.isArray(ocDisponibles)) { gfContadorDesconocido(); return; }
+  // API listar contiene las OC habilitadas para recepcionar.
+  // Agrupar por número de OC para no contar líneas de producto repetidas.
+  const ids = new Set(ocDisponibles.map(x => String(x.oc || '').trim()).filter(Boolean));
+  el.textContent = 'OC pendientes: ' + ids.size;
+}
+function gfAbrirModulo(vista) {
+  if (!['recepcion','inventario','movimientos'].includes(vista)) return;
+  document.body.classList.remove('gf-home');
+  const titulos = {recepcion:'RECEPCIÓN DE MERCADERÍA',inventario:'INVENTARIO',movimientos:'MOVIMIENTOS'};
+  const iconos = {recepcion:'📦',inventario:'📊',movimientos:'🔄'};
+  document.getElementById('gf-titulo').textContent = titulos[vista];
+  document.getElementById('gf-logo').textContent = iconos[vista];
+  m04CambiarVista(vista);
+}
+function gfVolverInicio() {
+  // No borrar ni reiniciar un formulario de recepción en curso.
+  document.body.classList.add('gf-home');
+  document.getElementById('gf-titulo').textContent = 'GRUPO FIORENTINI';
+  document.getElementById('gf-logo').textContent = '🏠';
+  document.querySelector('main.app').style.display = 'none';
+  for (const nombre of ['inventario','movimientos']) {
+    const panel = document.getElementById('m04-' + nombre);
+    if (panel) { panel.hidden = true; panel.classList.remove('m04-active'); }
+  }
+  document.querySelector('.acciones-recepcion-header').style.display = 'none';
+  gfActualizarContadorOC();
 }
 </script>
 </body>
