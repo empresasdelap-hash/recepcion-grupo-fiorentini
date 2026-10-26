@@ -819,6 +819,26 @@ textarea {
       minmax(0,1fr);
   }
 }
+
+/* M04 · Consulta histórica de inventario — SOLO LECTURA */
+.m04-nav { display:flex; gap:5px; margin-left:10px; }
+.m04-tab { color:#fff; font-size:10px; font-weight:800; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.2); padding:9px 11px; border-radius:6px; white-space:nowrap; }
+.m04-tab[aria-selected="true"] { background:#fff; color:#0b4d7d; }
+.m04-area { display:none; height:calc(100dvh - 54px); overflow:hidden; padding:10px; }
+.m04-area.m04-active { display:flex; flex-direction:column; gap:8px; }
+.m04-toolbar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.m04-toolbar input { flex:1; min-width:200px; height:36px; font-size:13px; padding:7px; }
+.m04-refresh { border:0; background:#086bc1; color:#fff; border-radius:6px; padding:10px 14px; font-weight:800; }
+.m04-alert { background:#fff3d7; border:1px solid #eed19c; color:#6a4b00; font-size:12px; padding:9px 12px; border-radius:7px; }
+.m04-info { font-size:12px; color:#526777; }
+.m04-table-wrap { flex:1; min-height:0; overflow:auto; background:#fff; border:1px solid #d9e4ec; border-radius:8px; }
+.m04-table { border-collapse:collapse; width:100%; font-size:12px; }
+.m04-table th { position:sticky; top:0; background:#e8f2fa; z-index:1; text-align:left; padding:10px; }
+.m04-table td { padding:9px 10px; border-bottom:1px solid #edf2f5; }
+.m04-table .m04-num { text-align:right; font-variant-numeric:tabular-nums; font-weight:800; }
+.m04-error { color:#a12828; font-weight:700; }
+@media (max-height:650px) { .m04-area { height:calc(100dvh - 48px); } }
+@media (max-width:750px) { .topbar { gap:3px; } .titulo-principal { font-size:11px; } .empresa-header { display:none; } .m04-nav { margin-left:2px; } .m04-tab { font-size:9px; padding:8px 6px; } .m04-area { padding:5px; } }
 </style>
 </head>
 <body>
@@ -828,6 +848,10 @@ textarea {
     <div class="titulo-principal">50 · RECEPCIÓN DE MERCADERÍA</div>
     <div class="empresa-header">Grupo Fiorentini</div>
   </div>
+  <nav class="m04-nav" aria-label="Secciones de la aplicación">
+    <button id="m04-tab-recepcion" class="m04-tab" type="button" aria-selected="true" onclick="m04CambiarVista('recepcion')">RECEPCIÓN</button>
+    <button id="m04-tab-inventario" class="m04-tab" type="button" aria-selected="false" onclick="m04CambiarVista('inventario')">INVENTARIO</button>
+  </nav>
   <div class="acciones-recepcion-header">
     <button class="btn-header-cancelar" type="button" onclick="limpiarSeleccion()">CANCELAR</button>
     <button id="btnConfirmar" class="btn-header-confirmar" type="button" onclick="confirmarRecepcion()" disabled>
@@ -1022,6 +1046,23 @@ textarea {
 </section>
 </div>
 </main>
+<!-- M04: consulta histórica en modo solo lectura; no confirma existencias actuales -->
+<section id="m04-inventario" class="m04-area" aria-label="Inventario histórico" hidden>
+  <div class="m04-toolbar">
+    <strong>INVENTARIO · INVERSIONES</strong>
+    <input id="m04-buscar" type="search" placeholder="Buscar por código o producto" oninput="m04Render()" aria-label="Buscar productos del inventario">
+    <button class="m04-refresh" type="button" onclick="m04Cargar()">ACTUALIZAR STOCK</button>
+  </div>
+  <div class="m04-alert">Stock histórico al 23/09/2026 · Pendiente de incorporar movimientos posteriores · NO confirmado como stock vigente. Solo lectura.</div>
+  <div class="m04-info" id="m04-resumen">Consulta pendiente.</div>
+  <div class="m04-table-wrap">
+    <table class="m04-table">
+      <thead><tr><th>Código</th><th>Producto</th><th>Unidad</th><th class="m04-num">Stock histórico</th></tr></thead>
+      <tbody id="m04-filas"><tr><td colspan="4">Seleccione INVENTARIO para consultar.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
 
 <div id="camaraFullscreen" class="camara-fullscreen">
   <div class="camara-barra">
@@ -3609,6 +3650,62 @@ valor ??
 /'/g,
 '&#039;'
 );
+}
+
+/* M04 · Solo lectura desde la acción autenticada inventario_stock */
+let m04Productos = [];
+let m04Cargado = false;
+let m04Cargando = false;
+function m04CambiarVista(vista) {
+  const inventario = vista === 'inventario';
+  const recepcion = document.querySelector('main.app');
+  const panel = document.getElementById('m04-inventario');
+  recepcion.style.display = inventario ? 'none' : '';
+  panel.hidden = !inventario;
+  panel.classList.toggle('m04-active', inventario);
+  document.getElementById('m04-tab-recepcion').setAttribute('aria-selected', String(!inventario));
+  document.getElementById('m04-tab-inventario').setAttribute('aria-selected', String(inventario));
+  // Los controles de guardar recepción quedan fuera de la vista de inventario.
+  document.querySelector('.acciones-recepcion-header').style.display = inventario ? 'none' : '';
+  if (inventario && !m04Cargado) m04Cargar();
+}
+async function m04Cargar() {
+  if (m04Cargando) return;
+  m04Cargando = true;
+  const resumen = document.getElementById('m04-resumen');
+  resumen.textContent = 'Consultando MAESTRO PRUEBA...';
+  try {
+    const respuesta = await apiGet('inventario_stock');
+    const datos = respuesta.data;
+    if (!Array.isArray(datos)) throw new Error('La API no entregó una lista de productos.');
+    const productos = datos.filter(p => String(p.empresaId || '').trim() === '76236873-0');
+    if (productos.length !== datos.length) throw new Error('La API devolvió registros de otras empresas; consulta detenida.');
+    const claves = new Set();
+    for (const p of productos) {
+      const clave = String(p.codigo) + '|' + String(p.unidad);
+      if (claves.has(clave)) throw new Error('Código y unidad repetidos en la respuesta: ' + clave);
+      claves.add(clave);
+      if (!Number.isFinite(Number(p.stock))) throw new Error('Stock inválido: ' + clave);
+    }
+    m04Productos = productos;
+    m04Cargado = true;
+    m04Render();
+  } catch (error) {
+    resumen.textContent = 'No fue posible consultar MAESTRO. ' + (error.message || String(error));
+    resumen.classList.add('m04-error');
+    document.getElementById('m04-filas').innerHTML = '<tr><td colspan="4">Error de consulta. El inventario no fue modificado.</td></tr>';
+  } finally {
+    m04Cargando = false;
+  }
+}
+function m04Render() {
+  const filtro = String(document.getElementById('m04-buscar').value || '').trim().toLocaleLowerCase('es-CL');
+  const filas = m04Productos.filter(p => (String(p.codigo) + ' ' + String(p.producto)).toLocaleLowerCase('es-CL').includes(filtro));
+  const tbody = document.getElementById('m04-filas');
+  tbody.innerHTML = filas.map(p => '<tr><td>' + esc(p.codigo) + '</td><td>' + esc(p.producto) + '</td><td>' + esc(p.unidad) + '</td><td class="m04-num">' + formatNumero(p.stock) + '</td></tr>').join('') || '<tr><td colspan="4">No hay coincidencias.</td></tr>';
+  const resumen = document.getElementById('m04-resumen');
+  resumen.classList.remove('m04-error');
+  resumen.textContent = 'INVERSIONES · ' + filas.length + ' productos mostrados de ' + m04Productos.length + ' · Stock histórico no conciliado';
 }
 </script>
 </body>
