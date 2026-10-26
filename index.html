@@ -839,6 +839,76 @@ textarea {
 .m04-error { color:#a12828; font-weight:700; }
 @media (max-height:650px) { .m04-area { height:calc(100dvh - 48px); } }
 @media (max-width:750px) { .topbar { gap:3px; } .titulo-principal { font-size:11px; } .empresa-header { display:none; } .m04-nav { margin-left:2px; } .m04-tab { font-size:9px; padding:8px 6px; } .m04-area { padding:5px; } }
+
+/* ============================================================
+   M04 · AJUSTE TABLET ANDROID / PANTALLA CON BARRA DEL SISTEMA
+   Respeta el espacio real del sistema sin ocultar sus controles.
+   Solo ajusta presentación; NO modifica la lógica de Recepción.
+============================================================ */
+:root {
+  --gf-alto-cabecera: 54px;
+  --gf-reserva-inferior: 12px;
+}
+html, body {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  height: 100dvh;
+  min-height: 0;
+  overscroll-behavior: none;
+}
+.topbar {
+  width: 100%;
+  max-width: 100%;
+  height: var(--gf-alto-cabecera);
+  min-height: var(--gf-alto-cabecera);
+  padding-left: max(8px, env(safe-area-inset-left, 0px));
+  padding-right: max(8px, env(safe-area-inset-right, 0px));
+  gap: clamp(3px, .6vw, 8px);
+  overflow: hidden;
+}
+.topbar-left { flex: 0 1 auto; min-width: 0; }
+.titulo-principal { font-size: clamp(10px, 1.15vw, 15px); overflow:hidden; text-overflow:ellipsis; }
+.empresa-header { font-size: clamp(9px, .85vw, 12px); }
+.m04-nav { margin-left: clamp(2px, .6vw, 10px); flex: 0 0 auto; }
+.m04-tab { padding: 8px clamp(6px, .7vw, 11px); }
+.acciones-recepcion-header { min-width:0; flex: 0 0 auto; gap:4px; }
+.header-derecha { flex:0 0 auto; gap:4px; }
+.btn-header-cancelar, .btn-header-confirmar { padding-left:7px; padding-right:7px; }
+.app, .m04-area {
+  height: calc(100dvh - var(--gf-alto-cabecera) - env(safe-area-inset-bottom, 0px) - var(--gf-reserva-inferior));
+  max-height: calc(100dvh - var(--gf-alto-cabecera) - env(safe-area-inset-bottom, 0px) - var(--gf-reserva-inferior));
+  min-height: 0;
+}
+.app {
+  grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+  padding: 4px 6px 4px;
+}
+.col-izquierda, .col-derecha, .panel, .lista-body,
+.tabla-scroll, .productos-scroll, .documentos-body, .docs-extra,
+.m04-table-wrap { min-height: 0; min-width: 0; }
+.m04-area { padding: 6px; }
+.m04-table-wrap { overflow:auto; overscroll-behavior:contain; }
+.tabla-scroll, .productos-scroll, #listaDocumentos { overscroll-behavior:contain; }
+@media screen and (max-height:650px) {
+  :root { --gf-alto-cabecera:48px; --gf-reserva-inferior:10px; }
+  .col-izquierda { grid-template-rows: minmax(0,1fr) 78px; }
+  .panel-header { height:29px; }
+  .lista-body { height:calc(100% - 29px); }
+  .documentos-body { height:calc(100% - 29px); }
+  .btn-header, .btn-header-cancelar, .btn-header-confirmar { min-height:28px; }
+}
+@media screen and (max-width:1000px) and (orientation:landscape) {
+  .empresa-header { display:none; }
+  .logo-box { width:26px; height:26px; font-size:15px; }
+  .topbar-left { gap:5px; }
+  .usuario-header { display:none; }
+  .m04-tab { font-size:9px; padding:7px 6px; }
+  .btn-header { padding:0 5px; }
+}
+@media screen and (orientation:portrait) {
+  :root { --gf-reserva-inferior: max(12px, env(safe-area-inset-bottom, 0px)); }
+}
 </style>
 </head>
 <body>
