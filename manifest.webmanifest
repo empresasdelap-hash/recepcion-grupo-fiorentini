@@ -1,11 +1,11 @@
 {
   "name": "Recepción de Mercadería · Grupo Fiorentini",
   "short_name": "Recepción",
-  "description": "Módulo 50 · Recepción de Mercadería de Grupo Fiorentini",
+  "description": "Recepción de Mercadería de Grupo Fiorentini",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "landscape",
+  "orientation": "any",
   "background_color": "#0b4d7d",
   "theme_color": "#0b4d7d",
   "icons": [
