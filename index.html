@@ -1341,10 +1341,10 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 
 
 
-<!-- GF · SALIDAS Y SOLICITUDES, PROTOTIPOS LOCALES SIN ESCRITURA -->
+<!-- GF · SALIDAS Y SOLICITUDES: REGISTROS DE OPERACION EN MAESTRO, SIN EGRESOS DE STOCK -->
 <section id="gf-salidas" class="m04-area gf-workflow" hidden>
   <h2>📤 SALIDAS · CATÁLOGO Y CARRITO</h2>
-  <div class="m04-alert">🧪 SIMULACIÓN LOCAL · Stock de referencia histórico al 23/09/2026, NO confirmado. No se generan egresos ni registros en MAESTRO.</div>
+  <div class="m04-alert">Stock histórico al 23/09/2026, NO confirmado. Se permite guardar una salida pendiente de verificación en MAESTRO; NO se descuenta inventario ni se marca despachada.</div>
   <div class="gf-history-controls">
     <label>DESTINO <select id="gf-salida-destino"><option value="">SELECCIONAR</option><option>COCINA</option><option>BARRA</option><option>SALÓN</option></select></label>
     <label>MOTIVO <select id="gf-salida-motivo"><option>ENTREGA A ÁREA</option><option>MERMA</option><option>BAJA JUSTIFICADA</option><option>OTRO</option></select></label>
@@ -1354,19 +1354,24 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
   <div class="gf-salida-counter" id="gf-salida-contador">Cargando catálogo...</div>
   <div class="gf-salida-catalogo" id="gf-salida-catalogo"></div>
   <div class="gf-salida-sticky"><span id="gf-salida-carrito-total">🛒 0 productos seleccionados</span><button type="button" onclick="gfSalidaRevisar()">🛒 REVISAR SALIDA</button></div>
-  <div class="gf-note">🏢 INTEREMPRESA · PRÓXIMAMENTE. La recepción presencial y la autorización desde Cocina/Barra se incorporarán tras validar el circuito MAESTRO.</div>
+  <div class="gf-note">🏢 INTEREMPRESA · PRÓXIMAMENTE. Las salidas quedarán REGISTRADAS PENDIENTES DE STOCK, no despachadas.</div>
+  <label>SOLICITUD VINCULADA (opcional) <select id="gf-salida-solicitud-id"><option value="">SALIDA DIRECTA · SIN SOLICITUD</option></select></label>
+  <button type="button" class="m04-refresh" onclick="gfBodegaListar()">📋 VER SOLICITUDES Y SALIDAS REGISTRADAS</button>
+  <div id="gf-bodega-operaciones-salida" class="gf-bodega-operaciones"></div>
 </section>
 <section id="gf-solicitudes" class="m04-area gf-workflow" hidden>
   <h2>📝 SOLICITUDES · PEDIDO INTERNO</h2>
-  <div class="m04-alert">PRUEBA LOCAL. Una solicitud NO descuenta stock ni escribe en MAESTRO.</div>
+  <div class="m04-alert">Las solicitudes se registran en MAESTRO con fecha y hora del servidor. Una solicitud NO descuenta stock.</div>
   <div class="gf-history-controls"><label>ÁREA SOLICITANTE <select id="gf-solicitud-destino"><option value="">SELECCIONAR</option><option>COCINA</option><option>BARRA</option><option>SALÓN</option></select></label><label>SOLICITADO POR <input id="gf-solicitud-responsable" placeholder="Nombre del solicitante"></label></div>
   <div class="gf-workflow-row"><input id="gf-solicitud-buscar" placeholder="🔎 Buscar por código o nombre" oninput="gfLlenarProductos('solicitud')"><select id="gf-solicitud-producto"></select><input id="gf-solicitud-cantidad" type="number" min="0" step="0.001" placeholder="Cantidad"><button type="button" onclick="gfAgregarProducto('solicitud')">➕ AGREGAR</button></div>
   <div class="gf-note" id="gf-solicitud-info">Agregue los productos de la solicitud.</div>
   <div class="m04-table-wrap"><table class="m04-table"><thead><tr><th>Código</th><th>Producto</th><th>UND</th><th>Cantidad solicitada</th><th></th></tr></thead><tbody id="gf-solicitud-lista"></tbody></table></div>
   <button type="button" class="m04-refresh" onclick="gfRevisarOperacion('solicitud')">PASO 2 · REVISAR SOLICITUD</button>
+  <button type="button" class="m04-refresh" onclick="gfBodegaListar()">📋 VER SOLICITUDES Y SALIDAS REGISTRADAS</button>
+  <div id="gf-bodega-operaciones-solicitud" class="gf-bodega-operaciones"></div>
   <div class="gf-note">🏢 INTEREMPRESA · PRÓXIMAMENTE</div>
 </section>
-<div id="gf-revisar-dialogo" class="gf-modal" hidden><div class="gf-modal-card"><h3 id="gf-revisar-titulo">REVISIÓN</h3><div id="gf-revisar-contenido"></div><p>🔒 Prototipo: la confirmación definitiva quedará deshabilitada hasta validar escrituras en MAESTRO.</p><button type="button" onclick="document.getElementById('gf-revisar-dialogo').hidden=true">VOLVER A EDITAR</button></div></div>
+<div id="gf-revisar-dialogo" class="gf-modal" hidden><div class="gf-modal-card"><h3 id="gf-revisar-titulo">REVISIÓN</h3><div id="gf-revisar-contenido"></div><p>Las solicitudes y salidas pueden GUARDARSE como registro de operación. No se confirma despacho, recepción ni egreso de stock hasta validar el inventario vigente.</p><button type="button" onclick="document.getElementById('gf-revisar-dialogo').hidden=true">VOLVER A EDITAR</button></div></div>
 
 <!-- M04 · CONTEO FISICO: captura temporal en memoria; ninguna escritura -->
 <section id="gf-conteo" class="gf-conteo-area" aria-label="Conteo físico de prueba" hidden>
@@ -4446,7 +4451,7 @@ function gfSalidaRevisar(){
  }
  const actions=document.createElement('div');actions.className='gf-salida-revision-pie';
  const agregar=document.createElement('button');agregar.type='button';agregar.textContent='➕ AGREGAR MÁS PRODUCTOS';agregar.addEventListener('click',()=>document.getElementById('gf-revisar-dialogo').hidden=true);
- const confirmar=document.createElement('button');confirmar.type='button';confirmar.textContent='🔒 CONFIRMACIÓN REAL PENDIENTE';confirmar.disabled=true;confirmar.title='MAESTRO debe validar stock vigente y guardar bajo bloqueo transaccional';
+ const confirmar=document.createElement('button');confirmar.type='button';confirmar.textContent='💾 GENERAR SALIDA PENDIENTE';confirmar.title='Guarda en MAESTRO, sin descontar stock';confirmar.addEventListener('click',()=>gfBodegaGuardar('salida',confirmar));
  actions.append(agregar,confirmar);body.appendChild(actions);
  document.getElementById('gf-revisar-titulo').textContent='📤 PASO 2 · REVISAR Y EDITAR SALIDA';document.getElementById('gf-revisar-dialogo').hidden=false;
 }
@@ -4492,6 +4497,10 @@ function gfRevisarOperacion(tipo){
   if(!destino||!responsable||!productos.length){mostrarMensaje('Complete área, responsable y agregue productos.','error');return;}
   document.getElementById('gf-revisar-titulo').textContent=tipo==='salida'?'📤 REVISAR SALIDA':'📝 REVISAR SOLICITUD';
   document.getElementById('gf-revisar-contenido').innerHTML='<p><strong>Área:</strong> '+esc(destino)+' · <strong>Responsable:</strong> '+esc(responsable)+'</p>'+productos.map(p=>'<p>'+esc(p.producto)+' — '+formatNumero(p.cantidad)+' '+esc(p.unidad)+'</p>').join('');
+  const acciones=document.createElement('div');acciones.className='gf-salida-revision-pie';
+  const confirmar=document.createElement('button');confirmar.type='button';confirmar.textContent='💾 GENERAR SOLICITUD';
+  confirmar.addEventListener('click',()=>gfBodegaGuardar('solicitud',confirmar));
+  document.getElementById('gf-revisar-contenido').appendChild(acciones);acciones.appendChild(confirmar);
   document.getElementById('gf-revisar-dialogo').hidden=false;
 }
 function gfMovHistRender(){
@@ -4545,6 +4554,75 @@ function gfExportInventarioPDF(){
   setTimeout(()=>{try{frame.contentWindow.focus();frame.contentWindow.print();}catch(e){mostrarMensaje('No se pudo abrir la impresión PDF en este dispositivo.','error');}setTimeout(()=>frame.remove(),60000);},350);
 }
 function gfExportEsc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+
+/* GF BO · Registro confirmado por servidor de solicitudes y salidas pendientes, sin descuento de stock. */
+let gfBodegaPeticionActual = null;
+function gfBodegaIdPeticion(){
+  if (globalThis.crypto && crypto.randomUUID) return 'gf_'+crypto.randomUUID().replace(/-/g,'');
+  return 'gf_'+Date.now()+'_'+Math.random().toString(36).slice(2,12);
+}
+async function gfBodegaGuardar(tipo,boton){
+  const esSalida=tipo==='salida';
+  const items=gfBorradores[tipo]||[];
+  const destino=document.getElementById('gf-'+tipo+'-destino').value;
+  const responsable=document.getElementById('gf-'+tipo+'-responsable').value.trim();
+  if(!items.length||!destino||responsable.length<3){mostrarMensaje('Complete responsable, destino y productos.','error');return;}
+  if(items.some(p=>!Number.isFinite(Number(p.cantidad))||Number(p.cantidad)<=0)){
+    mostrarMensaje('Revise las cantidades del carrito.','error');return;
+  }
+  if(esSalida&&items.some(p=>Number(p.cantidad)>Number(p.stock))){
+    mostrarMensaje('La cantidad supera el saldo historico de referencia. No se guardo.','error');return;
+  }
+  const productos=items.map(p=>({codigo:String(p.codigo),producto:String(p.producto),unidad:String(p.unidad),cantidad:Number(p.cantidad)}));
+  const payload={destino,responsable,empresaId:'76236873-0',productos:JSON.stringify(productos),
+    solicitudId:esSalida?document.getElementById('gf-salida-solicitud-id').value:'',
+    observacion:esSalida?'SALIDA PENDIENTE DE VALIDACION DE STOCK':''};
+  const fingerprint=JSON.stringify({tipo,payload});
+  if(!gfBodegaPeticionActual||gfBodegaPeticionActual.fingerprint!==fingerprint){
+    gfBodegaPeticionActual={fingerprint,id:gfBodegaIdPeticion()};
+  }
+  payload.idPeticion=gfBodegaPeticionActual.id;
+  if(boton){boton.disabled=true;boton.textContent='⏳ GUARDANDO EN MAESTRO...';}
+  try {
+    const r=await apiGet(esSalida?'bodega_salida_crear':'bodega_solicitud_crear',payload);
+    if(!r.data||!r.data.id)throw new Error('El servidor no devolvio un ID de registro');
+    document.getElementById('gf-revisar-dialogo').hidden=true;
+    gfBorradores[tipo]=[];
+    if(esSalida){gfSalidaCatalogo();}else{gfDibujarBorrador('solicitud');}
+    gfBodegaPeticionActual=null;
+    mostrarMensaje('Registrado en MAESTRO: '+r.data.id+' · '+r.data.estado+' · SIN DESCUENTO DE STOCK','ok');
+    await gfBodegaListar();
+  }catch(e){mostrarMensaje('No se confirmo el guardado: '+e.message+'. No repita sin verificar el registro.','error');}
+  finally{if(boton){boton.disabled=false;boton.textContent=esSalida?'💾 GENERAR SALIDA PENDIENTE':'💾 GENERAR SOLICITUD';}}
+}
+async function gfBodegaListar(){
+  const paneles=['gf-bodega-operaciones-salida','gf-bodega-operaciones-solicitud'].map(id=>document.getElementById(id)).filter(Boolean);
+  paneles.forEach(x=>x.textContent='Consultando registros MAESTRO...');
+  try{
+    const r=await apiGet('bodega_listar');const datos=Array.isArray(r.data)?r.data:[];
+    const sel=document.getElementById('gf-salida-solicitud-id');
+    if(sel){
+      const previo=sel.value;sel.replaceChildren(new Option('SALIDA DIRECTA · SIN SOLICITUD',''));
+      datos.filter(x=>x.tipo==='SOLICITUD').forEach(x=>sel.add(new Option(x.id+' · '+x.destino+' · '+x.responsable,x.id)));
+      if([...sel.options].some(o=>o.value===previo))sel.value=previo;
+    }
+    paneles.forEach(el=>{
+      const tipo=el.id.endsWith('solicitud')?'SOLICITUD':'SALIDA';
+      const registros=datos.filter(x=>x.tipo===tipo).slice(0,25);
+      el.replaceChildren();
+      const titulo=document.createElement('h3');titulo.textContent='REGISTROS EN MAESTRO · '+tipo;el.appendChild(titulo);
+      if(!registros.length){const t=document.createElement('p');t.textContent='Todavia no hay registros.';el.appendChild(t);return;}
+      for(const x of registros){
+        const d=document.createElement('details');const s=document.createElement('summary');
+        s.textContent=x.id+' · '+x.estado+' · '+x.destino+' · '+x.fechaHora;d.appendChild(s);
+        const p=document.createElement('p');p.textContent='Responsable: '+x.responsable+(x.solicitudId?' · Solicitud: '+x.solicitudId:'');d.appendChild(p);
+        for(const item of (x.productos||[])){const l=document.createElement('p');l.textContent=item.producto+' · '+item.cantidad+' '+item.unidad;d.appendChild(l);}
+        el.appendChild(d);
+      }
+    });
+  }catch(e){paneles.forEach(x=>x.textContent='No se pudo consultar operaciones: '+e.message);}
+}
 
 </script>
 </body>
