@@ -961,16 +961,25 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 .gf-conteo-table td { padding:8px 7px; border-bottom:1px solid #edf0f4; }
 .gf-conteo-table .gf-conteo-cantidad { width:98px; height:35px; font-size:14px; padding:5px; text-align:right; }
 .gf-conteo-table .gf-conteo-num { text-align:right; font-variant-numeric:tabular-nums; }
-/* Conteo fisico: centrar encabezados y valores UND. y STOCK HISTORICO */
-.gf-conteo-table th:nth-child(3),
-.gf-conteo-table td:nth-child(3),
-.gf-conteo-table th:nth-child(4),
-.gf-conteo-table td:nth-child(4) { text-align:center; }
+/* UND y STOCK HISTORICO centrados tras agregar CATEGORIA */
+.gf-conteo-table th:nth-child(4), .gf-conteo-table td:nth-child(4),
+.gf-conteo-table th:nth-child(5), .gf-conteo-table td:nth-child(5) { text-align:center; }
 .gf-conteo-negativo { color:#a12727; font-weight:800; }
 .gf-conteo-positivo { color:#087944; font-weight:800; }
 .gf-conteo-acciones { display:flex; gap:7px; flex-wrap:wrap; }
 .gf-conteo-acciones button { border:1px solid #d5c4ec; border-radius:7px; padding:9px 12px; background:#eee4fa; color:#68468c; font-weight:800; }
 @media (orientation:portrait) { .gf-conteo-area { padding:7px; gap:6px; } .gf-conteo-table { font-size:11px; } .gf-conteo-table th,.gf-conteo-table td { padding:7px 4px; } .gf-conteo-table .gf-conteo-cantidad { width:75px; } }
+
+/* Filtros y sesion local de conteo: sin persistencia ni escrituras */
+.gf-conteo-filtros { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
+.gf-conteo-filtros label { display:block; font-size:11px; font-weight:700; color:#68468c; }
+.gf-conteo-filtros select { width:100%; height:36px; font-size:12px; background:white; }
+.gf-conteo-sesion { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; padding:7px 10px; background:#f6f0fc; border:1px solid #ddcdeb; border-radius:8px; }
+.gf-conteo-sesion button { padding:9px 12px; border:0; border-radius:7px; background:#68468c; color:white; font-weight:800; }
+.gf-conteo-sesion button:disabled { opacity:.55; }
+.gf-conteo-cantidad:disabled { background:#f0f0f0; opacity:.7; }
+
+@media (max-width:720px) { .gf-conteo-filtros { grid-template-columns:repeat(2,minmax(0,1fr)); } .gf-conteo-filtros select { height:32px; } }
 </style>
 </head>
 <body class="gf-home">
@@ -1245,15 +1254,20 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
     <input id="gf-conteo-buscar" type="search" placeholder="🔎 Buscar código o producto" aria-label="Buscar producto" oninput="gfConteoRender()">
     <button class="m04-refresh" type="button" onclick="gfConteoCargar()">🔄 ACTUALIZAR STOCK</button>
   </div>
-  <div class="m04-alert">🧪 MODO PRUEBA · Las cantidades ingresadas solo existen mientras esta pantalla permanece abierta. NO se guardan en MAESTRO ni corrigen stock. Referencia histórica al 23/09/2026, pendiente de conciliación.</div>
-  <div id="gf-conteo-resumen" class="gf-conteo-info">Seleccione el módulo para cargar productos.</div>
-  <div class="gf-conteo-acciones">
-    <button type="button" onclick="gfConteoLimpiar()">🗑️ BORRAR CONTEO DE PRUEBA</button>
+  <div class="m04-alert">🧪 PRUEBA LOCAL · Referencia: stock histórico 23/09/2026. Las cantidades NO se guardan en MAESTRO. Las categorías y áreas solo se mostrarán si la API las entrega; no se infieren por nombre.</div>
+  <div class="gf-conteo-filtros">
+    <label>Área<select id="gf-conteo-area-filtro" onchange="gfConteoRender()"><option value="">TODAS LAS ÁREAS</option></select></label>
+    <label>Categoría<select id="gf-conteo-categoria-filtro" onchange="gfConteoRender()"><option value="">TODAS LAS CATEGORÍAS</option></select></label>
+    <label>Estado<select id="gf-conteo-estado-filtro" onchange="gfConteoRender()"><option value="">TODOS</option><option value="pendiente">PENDIENTES</option><option value="contado">CONTADOS</option><option value="diferencia">CON DIFERENCIA</option></select></label>
+    <label>Ordenar<select id="gf-conteo-orden" onchange="gfConteoRender()"><option value="producto">PRODUCTO A-Z</option><option value="codigo">CÓDIGO</option><option value="categoria">CATEGORÍA</option><option value="pendientes">PENDIENTES PRIMERO</option></select></label>
   </div>
+  <div class="gf-conteo-sesion"><span id="gf-conteo-sesion-estado">⚪ Conteo NO INICIADO · Sesión local</span><button id="gf-conteo-iniciar" type="button" onclick="gfConteoIniciar()">▶ INICIAR CONTEO</button></div>
+  <div id="gf-conteo-resumen" class="gf-conteo-info">Seleccione el módulo para cargar productos.</div>
+  <div class="gf-conteo-acciones"><button type="button" onclick="gfConteoLimpiar()">🗑️ BORRAR CONTEO DE PRUEBA</button></div>
   <div class="gf-conteo-table-wrap">
     <table class="gf-conteo-table">
-      <thead><tr><th>Código</th><th>Producto</th><th>Und.</th><th>Stock histórico</th><th>Cantidad contada</th><th>Diferencia</th></tr></thead>
-      <tbody id="gf-conteo-filas"><tr><td colspan="6">Sin consultar.</td></tr></tbody>
+      <thead><tr><th>Código</th><th>Producto</th><th>Categoría</th><th>Und.</th><th>Stock histórico</th><th>Cantidad contada</th><th>Diferencia</th></tr></thead>
+      <tbody id="gf-conteo-filas"><tr><td colspan="7">Sin consultar.</td></tr></tbody>
     </table>
   </div>
 </section>
@@ -4014,12 +4028,29 @@ function gfVolverInicio() {
   gfActualizarContadorOC();
 }
 
-// M04 · CONTEO FISICO · 100% LOCAL · SIN ESCRITURAS
+// M04 · CONTEO FISICO · PRUEBA EN MEMORIA · SIN ESCRITURAS
 let gfConteoProductos = [];
 let gfConteoCargado = false;
 let gfConteoCargando = false;
+let gfConteoIniciado = false;
+let gfConteoInicio = null;
 const gfConteoCantidades = new Map();
 function gfConteoClave(p) { return String(p.codigo) + '|' + String(p.unidad); }
+function gfConteoDato(p, claves) {
+  for (const k of claves) {
+    if (p[k] !== undefined && p[k] !== null && String(p[k]).trim()) return String(p[k]).trim();
+  }
+  return '';
+}
+function gfConteoArea(p) { return gfConteoDato(p, ['area','área','areaProducto']); }
+function gfConteoCategoria(p) { return gfConteoDato(p, ['categoria','categoría','itemCategoria','item','familia']); }
+function gfConteoLlenarFiltro(id, valores, titulo) {
+  const el = document.getElementById(id);
+  const antes = el.value;
+  const opciones = [...new Set(valores.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+  el.innerHTML = '<option value="">'+titulo+'</option>' + opciones.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('');
+  if (opciones.includes(antes)) el.value = antes;
+}
 async function gfConteoCargar() {
   if (gfConteoCargando) return;
   gfConteoCargando = true;
@@ -4038,38 +4069,75 @@ async function gfConteoCargar() {
     });
     gfConteoProductos = productos;
     gfConteoCargado = true;
+    gfConteoLlenarFiltro('gf-conteo-area-filtro', productos.map(gfConteoArea), 'TODAS LAS ÁREAS');
+    gfConteoLlenarFiltro('gf-conteo-categoria-filtro', productos.map(gfConteoCategoria), 'TODAS LAS CATEGORÍAS');
     gfConteoRender();
   } catch (err) {
     resumen.textContent = 'Error de consulta: ' + (err.message || String(err));
     resumen.classList.add('m04-error');
-    document.getElementById('gf-conteo-filas').innerHTML = '<tr><td colspan="6">No se modificó ningún registro.</td></tr>';
+    document.getElementById('gf-conteo-filas').innerHTML = '<tr><td colspan="7">No se modificó ningún registro.</td></tr>';
   } finally { gfConteoCargando = false; }
 }
+function gfConteoIniciar() {
+  if (gfConteoIniciado) return;
+  if (!gfConteoCargado || !gfConteoProductos.length) {
+    mostrarMensaje('Primero cargue los productos del MAESTRO.', 'error');
+    return;
+  }
+  gfConteoIniciado = true;
+  gfConteoInicio = new Date();
+  document.getElementById('gf-conteo-iniciar').disabled = true;
+  document.getElementById('gf-conteo-iniciar').textContent = '✓ CONTEO INICIADO';
+  document.getElementById('gf-conteo-sesion-estado').textContent = '🟢 EN PROCESO · Inicio local: '+gfConteoInicio.toLocaleString('es-CL')+' · NO GUARDADO';
+  gfConteoRender();
+}
 function gfConteoRegistrar(indice, valor) {
+  if (!gfConteoIniciado) { mostrarMensaje('Primero presione INICIAR CONTEO.', 'error'); return; }
   const p = gfConteoProductos[indice];
   if (!p) return;
   const k = gfConteoClave(p);
   const limpio = String(valor).trim().replace(',', '.');
   if (limpio === '') gfConteoCantidades.delete(k);
   else if (/^\d+(?:\.\d{0,3})?$/.test(limpio) && Number.isFinite(Number(limpio))) gfConteoCantidades.set(k, limpio);
-  else { mostrarMensaje('Ingrese una cantidad positiva con hasta 3 decimales.', 'error'); return; }
+  else { mostrarMensaje('Ingrese una cantidad no negativa con hasta 3 decimales.', 'error'); return; }
   gfConteoRender();
 }
 function gfConteoRender() {
   const texto = String(document.getElementById('gf-conteo-buscar').value||'').trim().toLocaleLowerCase('es-CL');
-  const encontrados = gfConteoProductos.map((p,i)=>({p,i})).filter(({p})=>(String(p.codigo)+' '+String(p.producto)).toLocaleLowerCase('es-CL').includes(texto));
+  const area = document.getElementById('gf-conteo-area-filtro').value;
+  const categoria = document.getElementById('gf-conteo-categoria-filtro').value;
+  const estado = document.getElementById('gf-conteo-estado-filtro').value;
+  const orden = document.getElementById('gf-conteo-orden').value;
+  const encontrados = gfConteoProductos.map((p,i)=>({p,i})).filter(({p})=>{
+    if (texto && !(String(p.codigo)+' '+String(p.producto)).toLocaleLowerCase('es-CL').includes(texto)) return false;
+    if (area && gfConteoArea(p)!==area) return false;
+    if (categoria && gfConteoCategoria(p)!==categoria) return false;
+    const registrado = gfConteoCantidades.has(gfConteoClave(p));
+    if (estado==='pendiente' && registrado) return false;
+    if (estado==='contado' && !registrado) return false;
+    if (estado==='diferencia' && (!registrado || Number(gfConteoCantidades.get(gfConteoClave(p)))===Number(p.stock))) return false;
+    return true;
+  });
+  const cmp = (a,b)=>String(a||'').localeCompare(String(b||''),'es',{numeric:true});
+  encontrados.sort((a,b)=>{
+    if (orden==='codigo') return cmp(a.p.codigo,b.p.codigo);
+    if (orden==='categoria') return cmp(gfConteoCategoria(a.p),gfConteoCategoria(b.p))||cmp(a.p.producto,b.p.producto);
+    if (orden==='pendientes') return Number(gfConteoCantidades.has(gfConteoClave(a.p)))-Number(gfConteoCantidades.has(gfConteoClave(b.p)))||cmp(a.p.producto,b.p.producto);
+    return cmp(a.p.producto,b.p.producto);
+  });
   const filas = encontrados.map(({p,i})=>{
     const valor = gfConteoCantidades.get(gfConteoClave(p));
     const diferencia = valor === undefined ? '—' : formatNumero(Number(valor)-Number(p.stock));
     const clase = valor === undefined ? '' : Number(valor)-Number(p.stock)<0 ? 'gf-conteo-negativo' : Number(valor)-Number(p.stock)>0 ? 'gf-conteo-positivo' : '';
-    return '<tr><td>'+esc(p.codigo)+'</td><td>'+esc(p.producto)+'</td><td>'+esc(p.unidad)+'</td><td class="gf-conteo-num">'+formatNumero(p.stock)+'</td>'+ 
-      '<td><input class="gf-conteo-cantidad" type="text" inputmode="decimal" aria-label="Cantidad contada de '+esc(p.producto)+'" value="'+esc(valor===undefined?'':valor)+'" onchange="gfConteoRegistrar('+i+',this.value)"></td>'+ 
+    return '<tr><td>'+esc(p.codigo)+'</td><td>'+esc(p.producto)+'</td><td>'+esc(gfConteoCategoria(p)||'Sin clasificar')+'</td><td>'+esc(p.unidad)+'</td><td class="gf-conteo-num">'+formatNumero(p.stock)+'</td>'+
+      '<td><input class="gf-conteo-cantidad" type="text" inputmode="decimal" '+(gfConteoIniciado?'':'disabled ')+'aria-label="Cantidad contada de '+esc(p.producto)+'" value="'+esc(valor===undefined?'':valor)+'" onchange="gfConteoRegistrar('+i+',this.value)"></td>'+
       '<td class="gf-conteo-num '+clase+'">'+diferencia+'</td></tr>';
   });
-  document.getElementById('gf-conteo-filas').innerHTML = filas.join('') || '<tr><td colspan="6">No hay coincidencias.</td></tr>';
+  document.getElementById('gf-conteo-filas').innerHTML = filas.join('') || '<tr><td colspan="7">No hay coincidencias.</td></tr>';
   const resumen = document.getElementById('gf-conteo-resumen');
   resumen.classList.remove('m04-error');
-  resumen.textContent = 'INVERSIONES · '+encontrados.length+' de '+gfConteoProductos.length+' productos · '+gfConteoCantidades.size+' cantidades ingresadas · SOLO EN MEMORIA / SIN GUARDAR';
+  const sinCategoria = gfConteoProductos.filter(p=>!gfConteoCategoria(p)).length;
+  resumen.textContent = 'INVERSIONES · '+encontrados.length+' de '+gfConteoProductos.length+' productos · '+gfConteoCantidades.size+' contados · '+(gfConteoIniciado?'CONTEO EN PROCESO':'SIN INICIAR')+' · '+(sinCategoria?'Categoría no disponible en API para '+sinCategoria+' productos · ':'')+'SOLO EN MEMORIA / SIN GUARDAR';
 }
 function gfConteoLimpiar() {
   if (!gfConteoCantidades.size) return;
