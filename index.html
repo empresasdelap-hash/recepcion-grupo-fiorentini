@@ -1039,6 +1039,28 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 .gf-inv-export{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
 .gf-inv-export button{background:#e7f2fb;color:#124d77;border:1px solid #b7d3e8;border-radius:7px;padding:10px 13px;font-weight:800;font-size:12px}
 .gf-inv-export button:active{background:#d2e8f8}
+
+/* GF SALIDAS catalogo completo y carrito - solo interfaz */
+.gf-salida-toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px}
+.gf-salida-toolbar input,.gf-salida-toolbar select{min-width:0;padding:10px;border:1px solid #c7d5df;border-radius:8px;background:#fff;font-size:13px}
+.gf-salida-counter{font-size:12px;color:#546b7b;font-weight:700}
+.gf-salida-catalogo{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:9px;overflow:auto;min-height:90px;max-height:48dvh;padding:4px}
+.gf-salida-producto{display:flex;align-items:center;gap:12px;border:1px solid #d3e0e6;background:#fff;border-radius:10px;padding:12px}
+.gf-salida-elegido{background:#eff9f1;border-color:#79ba89}
+.gf-salida-product-info{flex:1;min-width:0;overflow-wrap:anywhere}
+.gf-salida-nombre{font-weight:800;font-size:13px}.gf-salida-extra,.gf-salida-stock{font-size:11px;margin-top:4px;color:#506676}
+.gf-salida-stock{color:#19693f;font-weight:800}.gf-salida-agotado{color:#b24141}
+.gf-salida-product-accion{display:flex;align-items:center;gap:8px;flex-shrink:0}.gf-salida-product-accion input[type=checkbox]{width:23px;height:23px;accent-color:#147f51}
+.gf-salida-product-accion input[type=number]{width:72px;height:38px;border:1px solid #b6d3bf;border-radius:7px;padding:4px;text-align:center}
+.gf-salida-sticky{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#e9f3f9;padding:10px;border-radius:10px;font-weight:800}
+.gf-salida-sticky button,.gf-salida-revision-pie button{background:#0b6bc0;border:0;border-radius:8px;color:#fff;font-weight:800;padding:11px;min-height:42px}
+.gf-salida-aviso{background:#fff4db;padding:9px;border-radius:8px;font-size:12px;color:#81520c}
+.gf-salida-revision-lista{display:grid;gap:9px}.gf-salida-revision-item{padding:10px;border:1px solid #d2e0e8;border-radius:8px;display:grid;gap:6px}
+.gf-salida-revision-item small{color:#566d7d}.gf-salida-revision-acciones{display:flex;align-items:center;gap:8px}
+.gf-salida-revision-acciones input{width:110px;padding:9px;border:1px solid #becdd7;border-radius:7px}
+.gf-salida-revision-acciones button{background:#ae3d3d;color:#fff;padding:8px;height:auto}
+.gf-salida-revision-pie{display:grid;gap:8px;margin-top:12px}.gf-salida-revision-pie button:disabled{background:#9eaab3;cursor:not-allowed}
+@media(max-width:650px){.gf-salida-toolbar{grid-template-columns:1fr 1fr}.gf-salida-toolbar input{grid-column:1/-1}.gf-salida-catalogo{grid-template-columns:1fr}.gf-salida-sticky{flex-wrap:wrap}}
 </style>
 </head>
 <body class="gf-home">
@@ -1321,17 +1343,18 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 
 <!-- GF · SALIDAS Y SOLICITUDES, PROTOTIPOS LOCALES SIN ESCRITURA -->
 <section id="gf-salidas" class="m04-area gf-workflow" hidden>
-  <h2>📤 SALIDAS · PREPARAR ENTREGA</h2>
-  <div class="m04-alert">PRUEBA LOCAL. No descuenta stock ni escribe en MAESTRO.</div>
+  <h2>📤 SALIDAS · CATÁLOGO Y CARRITO</h2>
+  <div class="m04-alert">🧪 SIMULACIÓN LOCAL · Stock de referencia histórico al 23/09/2026, NO confirmado. No se generan egresos ni registros en MAESTRO.</div>
   <div class="gf-history-controls">
     <label>DESTINO <select id="gf-salida-destino"><option value="">SELECCIONAR</option><option>COCINA</option><option>BARRA</option><option>SALÓN</option></select></label>
     <label>MOTIVO <select id="gf-salida-motivo"><option>ENTREGA A ÁREA</option><option>MERMA</option><option>BAJA JUSTIFICADA</option><option>OTRO</option></select></label>
     <label>RESPONSABLE <input id="gf-salida-responsable" placeholder="Nombre de quien entrega"></label>
   </div>
-  <div class="gf-workflow-row"><input id="gf-salida-buscar" placeholder="🔎 Buscar por código o nombre" oninput="gfLlenarProductos('salida')"><select id="gf-salida-producto"></select><input id="gf-salida-cantidad" type="number" min="0" step="0.001" placeholder="Cantidad"><button type="button" onclick="gfAgregarProducto('salida')">➕ AGREGAR</button></div>
-  <div class="gf-note" id="gf-salida-info">Agregue varios productos a una sola salida.</div>
-  <div class="m04-table-wrap"><table class="m04-table"><thead><tr><th>Código</th><th>Producto</th><th>UND</th><th>Stock histórico</th><th>Cantidad</th><th></th></tr></thead><tbody id="gf-salida-lista"></tbody></table></div>
-  <button type="button" class="m04-refresh" onclick="gfRevisarOperacion('salida')">PASO 2 · REVISAR SALIDA</button>
+  <div class="gf-salida-toolbar"><input id="gf-salida-buscar" type="search" placeholder="🔎 Buscar por producto o código" oninput="gfSalidaCatalogo()"><select id="gf-salida-categoria" onchange="gfSalidaCatalogo()"><option value="">TODAS LAS CATEGORÍAS</option></select><select id="gf-salida-estado" onchange="gfSalidaCatalogo()"><option value="">TODOS LOS PRODUCTOS</option><option value="CON STOCK">CON STOCK</option><option value="SIN STOCK">SIN STOCK</option><option value="EN CARRITO">EN CARRITO</option></select></div>
+  <div class="gf-salida-counter" id="gf-salida-contador">Cargando catálogo...</div>
+  <div class="gf-salida-catalogo" id="gf-salida-catalogo"></div>
+  <div class="gf-salida-sticky"><span id="gf-salida-carrito-total">🛒 0 productos seleccionados</span><button type="button" onclick="gfSalidaRevisar()">🛒 REVISAR SALIDA</button></div>
+  <div class="gf-note">🏢 INTEREMPRESA · PRÓXIMAMENTE. La recepción presencial y la autorización desde Cocina/Barra se incorporarán tras validar el circuito MAESTRO.</div>
 </section>
 <section id="gf-solicitudes" class="m04-area gf-workflow" hidden>
   <h2>📝 SOLICITUDES · PEDIDO INTERNO</h2>
@@ -3988,7 +4011,8 @@ function m04CambiarVista(vista) {
   if (movimientos && !m04MovCargado) m04MovCargar();
   if (conteo && !gfConteoCargado) gfConteoCargar();
   if ((vista === 'salidas' || vista === 'solicitudes') && !m04Cargado) m04Cargar();
-  if (vista === 'salidas' || vista === 'solicitudes') gfLlenarProductos(vista === 'salidas' ? 'salida' : 'solicitud');
+  if (vista === 'salidas') {gfSalidaCategorias();gfSalidaCatalogo();}
+  if (vista === 'solicitudes') gfLlenarProductos('solicitud');
 }
 
 async function m04Cargar() {
@@ -4012,7 +4036,8 @@ async function m04Cargar() {
     m04Productos = productos;
     m04Cargado = true;
     m04Render();
-    gfLlenarProductos('salida');
+    gfSalidaCategorias();
+    gfSalidaCatalogo();
     gfLlenarProductos('solicitud');
     if (!m04MovCargado && !m04MovCargando) m04MovCargar();
   } catch (error) {
@@ -4338,6 +4363,93 @@ function gfHistRender(){
   info.textContent=valido?'Productos: '+productos.length+' · Ingresos: '+fmt(total('ingresos'))+' · Egresos: '+fmt(total('egresos'))+' · Saldo NO conciliado':'Para reconstruir cantidades por fecha, cargue MOVIMIENTOS. Datos históricos incompletos o sin fecha: no usar como saldo confirmado.';
 }
 const gfBorradores={salida:[],solicitud:[]};
+// GF · SALIDAS, CATALOGO Y CARRITO LOCAL (sin escrituras)
+function gfSalidaClave(p){return String(p.codigo)+'|'+String(p.unidad);}
+function gfSalidaStock(p){return Number(p.stock);}
+function gfSalidaCategorias(){
+ const sel=document.getElementById('gf-salida-categoria');if(!sel)return;
+ const actual=sel.value;
+ const cats=[...new Set(m04Productos.map(p=>String(p.item||p.categoria||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+ sel.innerHTML='<option value="">TODAS LAS CATEGORÍAS</option>'+cats.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');sel.value=cats.includes(actual)?actual:'';
+}
+function gfSalidaCatalogo(){
+ const cont=document.getElementById('gf-salida-catalogo');if(!cont)return;
+ const txt=String(document.getElementById('gf-salida-buscar').value||'').toLocaleLowerCase('es').trim();
+ const cat=document.getElementById('gf-salida-categoria').value;
+ const estado=document.getElementById('gf-salida-estado').value;
+ const seleccion=gfBorradores.salida;
+ const productos=m04Productos.filter(p=>{
+  const clave=gfSalidaClave(p),stock=gfSalidaStock(p),categoria=String(p.item||p.categoria||'').trim();
+  if(txt&&![p.codigo,p.producto,categoria].join(' ').toLocaleLowerCase('es').includes(txt))return false;
+  if(cat&&cat!==categoria)return false;
+  if(estado==='CON STOCK'&&!(stock>0))return false;
+  if(estado==='SIN STOCK'&&stock>0)return false;
+  if(estado==='EN CARRITO'&&!seleccion.some(x=>x.clave===clave))return false;
+  return true;
+ });
+ document.getElementById('gf-salida-contador').textContent='Mostrando '+productos.length+' de '+m04Productos.length+' productos · Saldo histórico no confirmado';
+ const fragment=document.createDocumentFragment();
+ for(const p of productos){
+  const clave=gfSalidaClave(p),stock=gfSalidaStock(p),registro=seleccion.find(x=>x.clave===clave),sinStock=!(stock>0);
+  const card=document.createElement('div');card.className='gf-salida-producto'+(registro?' gf-salida-elegido':'');
+  const chk=document.createElement('input');chk.type='checkbox';chk.checked=!!registro;chk.disabled=sinStock&&!registro;chk.setAttribute('aria-label','Seleccionar '+p.producto);
+  chk.addEventListener('change',()=>gfSalidaSeleccionar(clave,chk.checked));
+  const nombre=document.createElement('div');nombre.className='gf-salida-nombre';nombre.textContent=p.producto+' · '+p.codigo;
+  const extra=document.createElement('div');extra.className='gf-salida-extra';extra.textContent=(p.item||p.categoria||'SIN CLASIFICAR')+' · '+p.unidad;
+  const cantidad=document.createElement('div');cantidad.className='gf-salida-stock';cantidad.textContent='Stock histórico: '+(Number.isFinite(stock)?formatNumero(stock):'NO DISPONIBLE')+' '+p.unidad;
+  if(sinStock)cantidad.classList.add('gf-salida-agotado');
+  const info=document.createElement('div');info.className='gf-salida-product-info';info.append(nombre,extra,cantidad);
+  const accion=document.createElement('div');accion.className='gf-salida-product-accion';accion.appendChild(chk);
+  if(registro){const q=document.createElement('input');q.type='number';q.min='0.001';q.step='any';q.value=String(registro.cantidad);q.setAttribute('aria-label','Cantidad '+p.producto);q.addEventListener('change',()=>gfSalidaCantidad(clave,q.value));accion.appendChild(q);}
+  card.append(accion,info);fragment.appendChild(card);
+ }
+ cont.replaceChildren(fragment);
+ if(!productos.length)cont.textContent='No hay productos para los filtros seleccionados.';
+ gfSalidaResumenCarrito();
+}
+function gfSalidaSeleccionar(clave,marcado){
+ const lista=gfBorradores.salida,p=m04Productos.find(x=>gfSalidaClave(x)===clave);if(!p)return;
+ const i=lista.findIndex(x=>x.clave===clave);
+ if(!marcado){if(i>=0)lista.splice(i,1);}else if(i<0){
+  const stock=gfSalidaStock(p);if(!(stock>0)){mostrarMensaje('Este producto no tiene stock de referencia positivo.','error');return;}
+  lista.push({clave,codigo:p.codigo,producto:p.producto,unidad:p.unidad,stock,cantidad:Math.min(1,stock)});
+ }
+ gfSalidaCatalogo();
+}
+function gfSalidaCantidad(clave,valor){
+ const p=gfBorradores.salida.find(x=>x.clave===clave);if(!p)return;
+ const n=Number(valor);
+ if(!valor||!Number.isFinite(n)||n<=0||n>Number(p.stock)){
+  mostrarMensaje('Cantidad inválida. Debe ser mayor que cero y no superar el stock histórico mostrado ('+formatNumero(p.stock)+' '+p.unidad+').','error');gfSalidaCatalogo();return;
+ }
+ p.cantidad=n;gfSalidaResumenCarrito();
+}
+function gfSalidaResumenCarrito(){
+ const el=document.getElementById('gf-salida-carrito-total');if(el)el.textContent='🛒 '+gfBorradores.salida.length+' productos seleccionados';
+}
+function gfSalidaRevisar(){
+ const items=gfBorradores.salida,destino=document.getElementById('gf-salida-destino').value,responsable=document.getElementById('gf-salida-responsable').value.trim();
+ if(!destino||!responsable||!items.length){mostrarMensaje('Seleccione destino, responsable y al menos un producto.','error');return;}
+ if(items.some(x=>!Number.isFinite(Number(x.cantidad))||x.cantidad<=0||x.cantidad>Number(x.stock))){mostrarMensaje('Revise cantidades: no pueden superar el stock de referencia.','error');return;}
+ const body=document.getElementById('gf-revisar-contenido');body.replaceChildren();
+ const encabezado=document.createElement('p');encabezado.textContent='Destino: '+destino+' · Responsable: '+responsable+' · Motivo: '+document.getElementById('gf-salida-motivo').value;body.appendChild(encabezado);
+ const aviso=document.createElement('p');aviso.className='gf-salida-aviso';aviso.textContent='STOCK HISTÓRICO SIN CONCILIAR · Operación de PRUEBA, sin confirmación real.';body.appendChild(aviso);
+ const lista=document.createElement('div');lista.className='gf-salida-revision-lista';body.appendChild(lista);
+ for(const p of items){const row=document.createElement('div');row.className='gf-salida-revision-item';
+  const tit=document.createElement('strong');tit.textContent=p.producto+' ('+p.codigo+')';
+  const stock=document.createElement('small');stock.textContent='Stock de referencia: '+formatNumero(p.stock)+' '+p.unidad;
+  const acciones=document.createElement('div');acciones.className='gf-salida-revision-acciones';
+  const inp=document.createElement('input');inp.type='number';inp.min='0.001';inp.step='any';inp.value=String(p.cantidad);inp.setAttribute('aria-label','Editar cantidad de '+p.producto);
+  inp.addEventListener('change',()=>{const valor=Number(inp.value);if(!inp.value||!Number.isFinite(valor)||valor<=0||valor>Number(p.stock)){mostrarMensaje('No puede superar el stock de referencia: '+formatNumero(p.stock)+' '+p.unidad,'error');inp.value=String(p.cantidad);return;}p.cantidad=valor;gfSalidaCatalogo();});
+  const quitar=document.createElement('button');quitar.type='button';quitar.textContent='🗑️ ELIMINAR';quitar.addEventListener('click',()=>{gfSalidaSeleccionar(p.clave,false);if(!gfBorradores.salida.length){document.getElementById('gf-revisar-dialogo').hidden=true;}else gfSalidaRevisar();});
+  acciones.append(inp,quitar);row.append(tit,stock,acciones);lista.appendChild(row);
+ }
+ const actions=document.createElement('div');actions.className='gf-salida-revision-pie';
+ const agregar=document.createElement('button');agregar.type='button';agregar.textContent='➕ AGREGAR MÁS PRODUCTOS';agregar.addEventListener('click',()=>document.getElementById('gf-revisar-dialogo').hidden=true);
+ const confirmar=document.createElement('button');confirmar.type='button';confirmar.textContent='🔒 CONFIRMACIÓN REAL PENDIENTE';confirmar.disabled=true;confirmar.title='MAESTRO debe validar stock vigente y guardar bajo bloqueo transaccional';
+ actions.append(agregar,confirmar);body.appendChild(actions);
+ document.getElementById('gf-revisar-titulo').textContent='📤 PASO 2 · REVISAR Y EDITAR SALIDA';document.getElementById('gf-revisar-dialogo').hidden=false;
+}
 function gfLlenarProductos(tipo){
   const buscar=document.getElementById('gf-'+tipo+'-buscar');
   const select=document.getElementById('gf-'+tipo+'-producto');
