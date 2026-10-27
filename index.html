@@ -948,6 +948,24 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 .gf-tile:not([disabled]) { cursor:pointer; }
 @media (max-height:650px) and (orientation:landscape) { .gf-tile { min-height:112px; padding:10px; gap:3px; } .gf-dash-heading { margin-bottom:8px; } .gf-dash-grid { gap:8px; } }
 @media (orientation:portrait) { .gf-dash-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .gf-tile { min-height:150px; } }
+
+/* M04 CONTEO FISICO · PROTOTIPO LOCAL · NO ESCRIBE EN MAESTRO */
+.gf-conteo-area { display:none; height:calc(100dvh - var(--gf-alto-cabecera,54px) - env(safe-area-inset-bottom,0px) - var(--gf-reserva-inferior,12px)); min-height:0; padding:9px; flex-direction:column; gap:9px; }
+.gf-conteo-area.gf-conteo-active { display:flex; }
+.gf-conteo-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.gf-conteo-toolbar input { flex:1; min-width:140px; height:38px; font-size:14px; padding:7px; }
+.gf-conteo-info { font-size:12px; color:#435a6a; }
+.gf-conteo-table-wrap { flex:1; min-height:0; overflow:auto; background:#fff; border:1px solid #d9e4ec; border-radius:8px; }
+.gf-conteo-table { width:100%; border-collapse:collapse; font-size:12px; }
+.gf-conteo-table th { position:sticky; top:0; background:#eee4fa; z-index:2; padding:10px 7px; text-align:left; }
+.gf-conteo-table td { padding:8px 7px; border-bottom:1px solid #edf0f4; }
+.gf-conteo-table .gf-conteo-cantidad { width:98px; height:35px; font-size:14px; padding:5px; text-align:right; }
+.gf-conteo-table .gf-conteo-num { text-align:right; font-variant-numeric:tabular-nums; }
+.gf-conteo-negativo { color:#a12727; font-weight:800; }
+.gf-conteo-positivo { color:#087944; font-weight:800; }
+.gf-conteo-acciones { display:flex; gap:7px; flex-wrap:wrap; }
+.gf-conteo-acciones button { border:1px solid #d5c4ec; border-radius:7px; padding:9px 12px; background:#eee4fa; color:#68468c; font-weight:800; }
+@media (orientation:portrait) { .gf-conteo-area { padding:7px; gap:6px; } .gf-conteo-table { font-size:11px; } .gf-conteo-table th,.gf-conteo-table td { padding:7px 4px; } .gf-conteo-table .gf-conteo-cantidad { width:75px; } }
 </style>
 </head>
 <body class="gf-home">
@@ -991,8 +1009,8 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
       <button class="gf-tile gf-tile-movimientos" type="button" onclick="gfAbrirModulo('movimientos')">
         <span class="gf-tile-emoji">🔄</span><span class="gf-tile-title">MOVIMIENTOS</span><span class="gf-tile-sub">Historial y ajustes</span>
       </button>
-      <button class="gf-tile gf-tile-conteo" type="button" disabled title="Se habilitará cuando el módulo esté validado">
-        <span class="gf-tile-emoji">📋</span><span class="gf-tile-title">CONTEO FÍSICO</span><span class="gf-tile-sub">Próximamente</span>
+      <button class="gf-tile gf-tile-conteo" type="button" onclick="gfAbrirModulo('conteo')">
+        <span class="gf-tile-emoji">📋</span><span class="gf-tile-title">CONTEO FÍSICO</span><span class="gf-tile-sub">Prueba local · Sin guardar</span>
       </button>
     </div>
   </div>
@@ -1213,6 +1231,27 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
   </div>
 </section>
 
+
+
+<!-- M04 · CONTEO FISICO: captura temporal en memoria; ninguna escritura -->
+<section id="gf-conteo" class="gf-conteo-area" aria-label="Conteo físico de prueba" hidden>
+  <div class="gf-conteo-toolbar">
+    <strong>📋 CONTEO FÍSICO · INVERSIONES</strong>
+    <input id="gf-conteo-buscar" type="search" placeholder="🔎 Buscar código o producto" aria-label="Buscar producto" oninput="gfConteoRender()">
+    <button class="m04-refresh" type="button" onclick="gfConteoCargar()">🔄 ACTUALIZAR STOCK</button>
+  </div>
+  <div class="m04-alert">🧪 MODO PRUEBA · Las cantidades ingresadas solo existen mientras esta pantalla permanece abierta. NO se guardan en MAESTRO ni corrigen stock. Referencia histórica al 23/09/2026, pendiente de conciliación.</div>
+  <div id="gf-conteo-resumen" class="gf-conteo-info">Seleccione el módulo para cargar productos.</div>
+  <div class="gf-conteo-acciones">
+    <button type="button" onclick="gfConteoLimpiar()">🗑️ BORRAR CONTEO DE PRUEBA</button>
+  </div>
+  <div class="gf-conteo-table-wrap">
+    <table class="gf-conteo-table">
+      <thead><tr><th>Código</th><th>Producto</th><th>Und.</th><th>Stock histórico</th><th>Cantidad contada</th><th>Diferencia</th></tr></thead>
+      <tbody id="gf-conteo-filas"><tr><td colspan="6">Sin consultar.</td></tr></tbody>
+    </table>
+  </div>
+</section>
 
 <div id="camaraFullscreen" class="camara-fullscreen">
   <div class="camara-barra">
@@ -3811,8 +3850,12 @@ let m04Cargando = false;
 function m04CambiarVista(vista) {
   const inventario = vista === 'inventario';
   const movimientos = vista === 'movimientos';
-  const recepcion = !inventario && !movimientos;
+  const conteo = vista === 'conteo';
+  const recepcion = !inventario && !movimientos && !conteo;
   document.querySelector('main.app').style.display = recepcion ? '' : 'none';
+  const panelConteo = document.getElementById('gf-conteo');
+  panelConteo.hidden = !conteo;
+  panelConteo.classList.toggle('gf-conteo-active', conteo);
   for (const nombre of ['inventario','movimientos']) {
     const activo = vista === nombre;
     const panel = document.getElementById('m04-' + nombre);
@@ -3825,6 +3868,7 @@ function m04CambiarVista(vista) {
   document.querySelector('.acciones-recepcion-header').style.display = recepcion ? '' : 'none';
   if (inventario && !m04Cargado) m04Cargar();
   if (movimientos && !m04MovCargado) m04MovCargar();
+  if (conteo && !gfConteoCargado) gfConteoCargar();
 }
 
 async function m04Cargar() {
@@ -3940,10 +3984,10 @@ function gfActualizarContadorOC() {
   el.textContent = 'OC pendientes: ' + ids.size;
 }
 function gfAbrirModulo(vista) {
-  if (!['recepcion','inventario','movimientos'].includes(vista)) return;
+  if (!['recepcion','inventario','movimientos','conteo'].includes(vista)) return;
   document.body.classList.remove('gf-home');
-  const titulos = {recepcion:'RECEPCIÓN DE MERCADERÍA',inventario:'INVENTARIO',movimientos:'MOVIMIENTOS'};
-  const iconos = {recepcion:'📦',inventario:'📊',movimientos:'🔄'};
+  const titulos = {recepcion:'RECEPCIÓN DE MERCADERÍA',inventario:'INVENTARIO',movimientos:'MOVIMIENTOS',conteo:'CONTEO FÍSICO · PRUEBA'};
+  const iconos = {recepcion:'📦',inventario:'📊',movimientos:'🔄',conteo:'📋'};
   document.getElementById('gf-titulo').textContent = titulos[vista];
   document.getElementById('gf-logo').textContent = iconos[vista];
   m04CambiarVista(vista);
@@ -3959,7 +4003,74 @@ function gfVolverInicio() {
     if (panel) { panel.hidden = true; panel.classList.remove('m04-active'); }
   }
   document.querySelector('.acciones-recepcion-header').style.display = 'none';
+  const conteo = document.getElementById('gf-conteo');
+  conteo.hidden = true;
+  conteo.classList.remove('gf-conteo-active');
   gfActualizarContadorOC();
+}
+
+// M04 · CONTEO FISICO · 100% LOCAL · SIN ESCRITURAS
+let gfConteoProductos = [];
+let gfConteoCargado = false;
+let gfConteoCargando = false;
+const gfConteoCantidades = new Map();
+function gfConteoClave(p) { return String(p.codigo) + '|' + String(p.unidad); }
+async function gfConteoCargar() {
+  if (gfConteoCargando) return;
+  gfConteoCargando = true;
+  const resumen = document.getElementById('gf-conteo-resumen');
+  resumen.textContent = 'Consultando productos desde MAESTRO PRUEBA...';
+  try {
+    const respuesta = await apiGet('inventario_stock');
+    if (!Array.isArray(respuesta.data)) throw new Error('No se recibió una lista de productos.');
+    const productos = respuesta.data;
+    if (productos.some(p => String(p.empresaId || '').trim() !== '76236873-0')) throw new Error('La consulta contiene datos de otra empresa.');
+    const claves = new Set();
+    productos.forEach(p => {
+      const k = gfConteoClave(p);
+      if (!String(p.codigo||'').trim() || claves.has(k) || !Number.isFinite(Number(p.stock))) throw new Error('Producto duplicado o stock inválido: ' + k);
+      claves.add(k);
+    });
+    gfConteoProductos = productos;
+    gfConteoCargado = true;
+    gfConteoRender();
+  } catch (err) {
+    resumen.textContent = 'Error de consulta: ' + (err.message || String(err));
+    resumen.classList.add('m04-error');
+    document.getElementById('gf-conteo-filas').innerHTML = '<tr><td colspan="6">No se modificó ningún registro.</td></tr>';
+  } finally { gfConteoCargando = false; }
+}
+function gfConteoRegistrar(indice, valor) {
+  const p = gfConteoProductos[indice];
+  if (!p) return;
+  const k = gfConteoClave(p);
+  const limpio = String(valor).trim().replace(',', '.');
+  if (limpio === '') gfConteoCantidades.delete(k);
+  else if (/^\d+(?:\.\d{0,3})?$/.test(limpio) && Number.isFinite(Number(limpio))) gfConteoCantidades.set(k, limpio);
+  else { mostrarMensaje('Ingrese una cantidad positiva con hasta 3 decimales.', 'error'); return; }
+  gfConteoRender();
+}
+function gfConteoRender() {
+  const texto = String(document.getElementById('gf-conteo-buscar').value||'').trim().toLocaleLowerCase('es-CL');
+  const encontrados = gfConteoProductos.map((p,i)=>({p,i})).filter(({p})=>(String(p.codigo)+' '+String(p.producto)).toLocaleLowerCase('es-CL').includes(texto));
+  const filas = encontrados.map(({p,i})=>{
+    const valor = gfConteoCantidades.get(gfConteoClave(p));
+    const diferencia = valor === undefined ? '—' : formatNumero(Number(valor)-Number(p.stock));
+    const clase = valor === undefined ? '' : Number(valor)-Number(p.stock)<0 ? 'gf-conteo-negativo' : Number(valor)-Number(p.stock)>0 ? 'gf-conteo-positivo' : '';
+    return '<tr><td>'+esc(p.codigo)+'</td><td>'+esc(p.producto)+'</td><td>'+esc(p.unidad)+'</td><td class="gf-conteo-num">'+formatNumero(p.stock)+'</td>'+ 
+      '<td><input class="gf-conteo-cantidad" type="text" inputmode="decimal" aria-label="Cantidad contada de '+esc(p.producto)+'" value="'+esc(valor===undefined?'':valor)+'" onchange="gfConteoRegistrar('+i+',this.value)"></td>'+ 
+      '<td class="gf-conteo-num '+clase+'">'+diferencia+'</td></tr>';
+  });
+  document.getElementById('gf-conteo-filas').innerHTML = filas.join('') || '<tr><td colspan="6">No hay coincidencias.</td></tr>';
+  const resumen = document.getElementById('gf-conteo-resumen');
+  resumen.classList.remove('m04-error');
+  resumen.textContent = 'INVERSIONES · '+encontrados.length+' de '+gfConteoProductos.length+' productos · '+gfConteoCantidades.size+' cantidades ingresadas · SOLO EN MEMORIA / SIN GUARDAR';
+}
+function gfConteoLimpiar() {
+  if (!gfConteoCantidades.size) return;
+  if (!window.confirm('¿Borrar todas las cantidades ingresadas en esta prueba?')) return;
+  gfConteoCantidades.clear();
+  gfConteoRender();
 }
 </script>
 </body>
