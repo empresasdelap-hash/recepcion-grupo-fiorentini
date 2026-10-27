@@ -983,6 +983,34 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 /* Orientacion de tablet: Android puede denegar el bloqueo automatico. */
 .gf-orientacion-aviso { padding:7px 10px; border:1px solid #d1bfec; border-radius:8px; background:#f6efff; color:#624384; font-size:12px; font-weight:700; }
 .gf-orientacion-aviso[hidden] { display:none !important; }
+
+/* GF · Modulos operativos pendientes · sin escrituras */
+.gf-tile-salidas{background:#ffe7df;color:#914b33;border-color:#f8d2c4}
+.gf-tile-solicitudes{background:#fff2cf;color:#896017;border-color:#f2e1b0}
+.gf-history-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:7px;flex-shrink:0}
+.gf-history-controls label{font-size:11px;font-weight:800;color:#486071}
+.gf-history-controls input,.gf-history-controls select{display:block;width:100%;height:37px;padding:5px;font-size:12px;border:1px solid #cad8df;border-radius:6px;background:white}
+.gf-history-summary{display:grid;grid-template-columns:repeat(5,minmax(125px,1fr));gap:6px;overflow-x:auto;flex-shrink:0}
+.gf-metric{padding:9px;border-radius:8px;background:#eaf4fb;border:1px solid #d7e6ef;font-size:11px}
+.gf-metric strong{display:block;font-size:14px;margin-top:4px}
+.gf-history-table{min-width:1050px}
+.gf-history-table th,.gf-history-table td{white-space:nowrap;font-size:11px}
+.gf-workflow h2{margin:0;color:#0b4d7d;font-size:18px}
+.gf-workflow-row{display:grid;grid-template-columns:1.1fr 1.5fr 110px 120px;gap:7px;align-items:center}
+.gf-workflow-row input,.gf-workflow-row select{height:39px;font-size:12px;padding:5px}
+.gf-workflow-row button,.gf-modal-card button{height:39px;background:#0b6bc0;color:white;font-weight:800;border:0;border-radius:7px}
+.gf-note{padding:9px;background:#f1f6fa;color:#526777;font-size:12px;border-radius:6px}
+.gf-date-block{border:1px solid #dce5ec;border-radius:9px;margin:8px;background:white}
+.gf-date-block summary{padding:13px;font-weight:800;cursor:pointer;background:#eaf4fb;color:#23506e}
+.gf-date-ops{padding:10px}
+.gf-op-block{margin:7px 0;border:1px solid #e0e6ed;border-radius:7px;padding:9px}
+.gf-op-block summary{background:#f5f8fa;color:#2d4e63}
+.gf-op-table{width:100%;border-collapse:collapse;font-size:11px}
+.gf-op-table td,.gf-op-table th{padding:7px;border-bottom:1px solid #edf1f5;text-align:left}
+.gf-modal[hidden]{display:none}
+.gf-modal{position:fixed;inset:0;background:rgba(10,30,50,.65);z-index:50000;display:grid;place-items:center;padding:15px}
+.gf-modal-card{background:white;color:#243d50;border-radius:12px;padding:18px;max-width:650px;width:100%;max-height:85dvh;overflow:auto}
+@media(max-width:650px){.gf-history-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.gf-workflow-row{grid-template-columns:1fr 1fr}.gf-workflow-row input:first-child{grid-column:1/-1}.gf-workflow-row select{grid-column:1/-1}}
 </style>
 </head>
 <body class="gf-home">
@@ -1023,8 +1051,14 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
       <button class="gf-tile gf-tile-inventario" type="button" onclick="gfAbrirModulo('inventario')">
         <span class="gf-tile-emoji">📊</span><span class="gf-tile-title">INVENTARIO</span><span class="gf-tile-sub">Productos y stock</span>
       </button>
+      <button class="gf-tile gf-tile-salidas" type="button" onclick="gfAbrirModulo('salidas')">
+        <span class="gf-tile-emoji">📤</span><span class="gf-tile-title">SALIDAS</span><span class="gf-tile-sub">Preparar varios productos · PRUEBA</span>
+      </button>
+      <button class="gf-tile gf-tile-solicitudes" type="button" onclick="gfAbrirModulo('solicitudes')">
+        <span class="gf-tile-emoji">📝</span><span class="gf-tile-title">SOLICITUDES</span><span class="gf-tile-sub">Cocina / Barra / Salón · PRUEBA</span>
+      </button>
       <button class="gf-tile gf-tile-movimientos" type="button" onclick="gfAbrirModulo('movimientos')">
-        <span class="gf-tile-emoji">🔄</span><span class="gf-tile-title">MOVIMIENTOS</span><span class="gf-tile-sub">Historial y ajustes</span>
+        <span class="gf-tile-emoji">🔄</span><span class="gf-tile-title">MOVIMIENTOS</span><span class="gf-tile-sub">Ingresos y egresos por fecha</span>
       </button>
       <button class="gf-tile gf-tile-conteo" type="button" onclick="gfAbrirModulo('conteo')">
         <span class="gf-tile-emoji">📋</span><span class="gf-tile-title">CONTEO FÍSICO</span><span class="gf-tile-sub">Prueba local · Sin guardar</span>
@@ -1220,11 +1254,20 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
     <button class="m04-refresh" type="button" onclick="m04Cargar()">ACTUALIZAR STOCK</button>
   </div>
   <div class="m04-alert">Stock histórico al 23/09/2026 · Pendiente de incorporar movimientos posteriores · NO confirmado como stock vigente. Solo lectura.</div>
-  <div class="m04-info" id="m04-resumen">Consulta pendiente.</div>
+  <div class="gf-history-controls">
+  <label>DESDE <input type="date" id="gf-inv-desde" value="2026-09-23" onchange="gfHistRender()"></label>
+  <label>HASTA <input type="date" id="gf-inv-hasta" value="2026-10-26" onchange="gfHistRender()"></label>
+  <label>MOVIMIENTOS <select id="gf-inv-tipo" onchange="gfHistRender()"><option>TODOS</option><option>INGRESOS</option><option>EGRESOS</option><option>SIN MOVIMIENTOS</option><option>STOCK NEGATIVO</option></select></label>
+  <label>ÁREA <select id="gf-inv-area" onchange="gfHistRender()"><option>TODOS</option></select></label>
+  <label>ITEM <select id="gf-inv-item" onchange="gfHistRender()"><option>TODOS</option></select></label>
+</div>
+<div class="gf-history-summary" id="gf-inv-indicadores"></div>
+<div class="m04-alert">Consulta histórica disponible a partir de 23/09/2026. Las aperturas son saldo inicial, NO ingresos. Valores $$ pendientes de precios y conciliación. ÁREA e ITEM requieren clasificación oficial del MAESTRO.</div>
+<div class="m04-info" id="m04-resumen">Consulta pendiente.</div>
   <div class="m04-table-wrap">
-    <table class="m04-table">
-      <thead><tr><th>Código</th><th>Producto</th><th>Unidad</th><th class="m04-num">Stock histórico</th></tr></thead>
-      <tbody id="m04-filas"><tr><td colspan="4">Seleccione INVENTARIO para consultar.</td></tr></tbody>
+    <table class="m04-table gf-history-table">
+      <thead><tr><th>Código</th><th>Producto</th><th>Item</th><th>Unidad</th><th>Inv. inicial</th><th>Ingresos</th><th>Egresos</th><th>Sin movimientos</th><th>Stock final</th><th>Valor $$</th></tr></thead>
+      <tbody id="m04-filas"><tr><td colspan="10">Seleccione INVENTARIO para consultar.</td></tr></tbody>
     </table>
   </div>
 </section>
@@ -1240,15 +1283,38 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
   </div>
   <div class="m04-alert">Historial de MAESTRO PRUEBA · Apertura 23/09/2026 · Faltan movimientos posteriores por conciliar · SOLO LECTURA.</div>
   <div class="m04-info" id="m04-mov-resumen">Consulta pendiente.</div>
-  <div class="m04-table-wrap">
-    <table class="m04-table m04-mov-table">
-      <thead><tr><th>Fila</th><th>Fecha</th><th>Movimiento</th><th>Tipo</th><th>Código</th><th>Producto</th><th>Unidad</th><th>Entrada</th><th>Salida</th><th>Ajuste</th><th>Apertura</th><th>Estado</th><th>Origen / documento</th></tr></thead>
-      <tbody id="m04-mov-filas"><tr><td colspan="13">Seleccione MOVIMIENTOS para consultar.</td></tr></tbody>
-    </table>
-  </div>
+  <div class="gf-history-controls"><label>TIPO <select id="gf-mov-clase" onchange="gfMovHistRender()"><option value="TODOS">TODOS</option><option value="INGRESO">📥 INGRESOS</option><option value="EGRESO">📤 EGRESOS</option><option value="APERTURA">📌 APERTURAS</option></select></label></div>
+  <div class="m04-table-wrap gf-mov-fechas" id="gf-mov-fechas"><div class="gf-note">Seleccione MOVIMIENTOS para consultar.</div></div>
+  <div style="display:none"><table><tbody id="m04-mov-filas"></tbody></table></div>
 </section>
 
 
+
+<!-- GF · SALIDAS Y SOLICITUDES, PROTOTIPOS LOCALES SIN ESCRITURA -->
+<section id="gf-salidas" class="m04-area gf-workflow" hidden>
+  <h2>📤 SALIDAS · PREPARAR ENTREGA</h2>
+  <div class="m04-alert">PRUEBA LOCAL. No descuenta stock ni escribe en MAESTRO.</div>
+  <div class="gf-history-controls">
+    <label>DESTINO <select id="gf-salida-destino"><option value="">SELECCIONAR</option><option>COCINA</option><option>BARRA</option><option>SALÓN</option></select></label>
+    <label>MOTIVO <select id="gf-salida-motivo"><option>ENTREGA A ÁREA</option><option>MERMA</option><option>BAJA JUSTIFICADA</option><option>OTRO</option></select></label>
+    <label>RESPONSABLE <input id="gf-salida-responsable" placeholder="Nombre de quien entrega"></label>
+  </div>
+  <div class="gf-workflow-row"><input id="gf-salida-buscar" placeholder="🔎 Buscar por código o nombre" oninput="gfLlenarProductos('salida')"><select id="gf-salida-producto"></select><input id="gf-salida-cantidad" type="number" min="0" step="0.001" placeholder="Cantidad"><button type="button" onclick="gfAgregarProducto('salida')">➕ AGREGAR</button></div>
+  <div class="gf-note" id="gf-salida-info">Agregue varios productos a una sola salida.</div>
+  <div class="m04-table-wrap"><table class="m04-table"><thead><tr><th>Código</th><th>Producto</th><th>UND</th><th>Stock histórico</th><th>Cantidad</th><th></th></tr></thead><tbody id="gf-salida-lista"></tbody></table></div>
+  <button type="button" class="m04-refresh" onclick="gfRevisarOperacion('salida')">PASO 2 · REVISAR SALIDA</button>
+</section>
+<section id="gf-solicitudes" class="m04-area gf-workflow" hidden>
+  <h2>📝 SOLICITUDES · PEDIDO INTERNO</h2>
+  <div class="m04-alert">PRUEBA LOCAL. Una solicitud NO descuenta stock ni escribe en MAESTRO.</div>
+  <div class="gf-history-controls"><label>ÁREA SOLICITANTE <select id="gf-solicitud-destino"><option value="">SELECCIONAR</option><option>COCINA</option><option>BARRA</option><option>SALÓN</option></select></label><label>SOLICITADO POR <input id="gf-solicitud-responsable" placeholder="Nombre del solicitante"></label></div>
+  <div class="gf-workflow-row"><input id="gf-solicitud-buscar" placeholder="🔎 Buscar por código o nombre" oninput="gfLlenarProductos('solicitud')"><select id="gf-solicitud-producto"></select><input id="gf-solicitud-cantidad" type="number" min="0" step="0.001" placeholder="Cantidad"><button type="button" onclick="gfAgregarProducto('solicitud')">➕ AGREGAR</button></div>
+  <div class="gf-note" id="gf-solicitud-info">Agregue los productos de la solicitud.</div>
+  <div class="m04-table-wrap"><table class="m04-table"><thead><tr><th>Código</th><th>Producto</th><th>UND</th><th>Cantidad solicitada</th><th></th></tr></thead><tbody id="gf-solicitud-lista"></tbody></table></div>
+  <button type="button" class="m04-refresh" onclick="gfRevisarOperacion('solicitud')">PASO 2 · REVISAR SOLICITUD</button>
+  <div class="gf-note">🏢 INTEREMPRESA · PRÓXIMAMENTE</div>
+</section>
+<div id="gf-revisar-dialogo" class="gf-modal" hidden><div class="gf-modal-card"><h3 id="gf-revisar-titulo">REVISIÓN</h3><div id="gf-revisar-contenido"></div><p>🔒 Prototipo: la confirmación definitiva quedará deshabilitada hasta validar escrituras en MAESTRO.</p><button type="button" onclick="document.getElementById('gf-revisar-dialogo').hidden=true">VOLVER A EDITAR</button></div></div>
 
 <!-- M04 · CONTEO FISICO: captura temporal en memoria; ninguna escritura -->
 <section id="gf-conteo" class="gf-conteo-area" aria-label="Conteo físico de prueba" hidden>
@@ -3874,14 +3940,14 @@ function m04CambiarVista(vista) {
   const inventario = vista === 'inventario';
   const movimientos = vista === 'movimientos';
   const conteo = vista === 'conteo';
-  const recepcion = !inventario && !movimientos && !conteo;
+  const recepcion = vista === 'recepcion';
   document.querySelector('main.app').style.display = recepcion ? '' : 'none';
   const panelConteo = document.getElementById('gf-conteo');
   panelConteo.hidden = !conteo;
   panelConteo.classList.toggle('gf-conteo-active', conteo);
-  for (const nombre of ['inventario','movimientos']) {
+  for (const nombre of ['inventario','movimientos','salidas','solicitudes']) {
     const activo = vista === nombre;
-    const panel = document.getElementById('m04-' + nombre);
+    const panel = document.getElementById((nombre === 'salidas' || nombre === 'solicitudes') ? 'gf-' + nombre : 'm04-' + nombre);
     panel.hidden = !activo;
     panel.classList.toggle('m04-active', activo);
   }
@@ -3892,6 +3958,8 @@ function m04CambiarVista(vista) {
   if (inventario && !m04Cargado) m04Cargar();
   if (movimientos && !m04MovCargado) m04MovCargar();
   if (conteo && !gfConteoCargado) gfConteoCargar();
+  if ((vista === 'salidas' || vista === 'solicitudes') && !m04Cargado) m04Cargar();
+  if (vista === 'salidas' || vista === 'solicitudes') gfLlenarProductos(vista === 'salidas' ? 'salida' : 'solicitud');
 }
 
 async function m04Cargar() {
@@ -3915,6 +3983,9 @@ async function m04Cargar() {
     m04Productos = productos;
     m04Cargado = true;
     m04Render();
+    gfLlenarProductos('salida');
+    gfLlenarProductos('solicitud');
+    if (!m04MovCargado && !m04MovCargando) m04MovCargar();
   } catch (error) {
     resumen.textContent = 'No fue posible consultar MAESTRO. ' + (error.message || String(error));
     resumen.classList.add('m04-error');
@@ -3923,15 +3994,7 @@ async function m04Cargar() {
     m04Cargando = false;
   }
 }
-function m04Render() {
-  const filtro = String(document.getElementById('m04-buscar').value || '').trim().toLocaleLowerCase('es-CL');
-  const filas = m04Productos.filter(p => (String(p.codigo) + ' ' + String(p.producto)).toLocaleLowerCase('es-CL').includes(filtro));
-  const tbody = document.getElementById('m04-filas');
-  tbody.innerHTML = filas.map(p => '<tr><td>' + esc(p.codigo) + '</td><td>' + esc(p.producto) + '</td><td>' + esc(p.unidad) + '</td><td class="m04-num">' + formatNumero(p.stock) + '</td></tr>').join('') || '<tr><td colspan="4">No hay coincidencias.</td></tr>';
-  const resumen = document.getElementById('m04-resumen');
-  resumen.classList.remove('m04-error');
-  resumen.textContent = 'INVERSIONES · ' + filas.length + ' productos mostrados de ' + m04Productos.length + ' · Stock histórico no conciliado';
-}
+function m04Render() { gfHistRender(); }
 
 // =========================================================
 // M04 · AUDITORIA MOVIMIENTOS · SIN ESCRITURAS
@@ -3970,27 +4033,7 @@ async function m04MovCargar() {
     m04MovCargando = false;
   }
 }
-function m04MovRender() {
-  const texto = String(document.getElementById('m04-mov-buscar').value||'').trim().toLocaleLowerCase('es-CL');
-  const tipo = document.getElementById('m04-mov-tipo').value;
-  const fecha = String(document.getElementById('m04-mov-fecha').value||'').trim().toLowerCase();
-  const filas = m04Movimientos.filter(p => {
-    if (tipo && p.tipo !== tipo) return false;
-    if (fecha && !String(p.fecha||'').toLowerCase().includes(fecha)) return false;
-    return !texto || [p.idMovimiento,p.codigo,p.producto,p.documento,p.origen,p.estado].join(' ').toLocaleLowerCase('es-CL').includes(texto);
-  });
-  const celda = v => '<td>' + esc(v == null ? '' : v) + '</td>';
-  const n = v => celda(formatNumero(v));
-  document.getElementById('m04-mov-filas').innerHTML = filas.map(p => '<tr>' +
-    celda(p.filaMaestro) + celda(p.fecha) + celda(p.idMovimiento) + celda(p.tipo) +
-    celda(p.codigo) + celda(p.producto) + celda(p.unidad) + n(p.entrada) +
-    n(p.salida) + n(p.ajuste) + n(p.apertura) + celda(p.estado) +
-    celda([p.origen,p.documento].filter(Boolean).join(' · ')) + '</tr>').join('') ||
-    '<tr><td colspan="13">No hay coincidencias.</td></tr>';
-  const resumen = document.getElementById('m04-mov-resumen');
-  resumen.classList.remove('m04-error');
-  resumen.textContent = 'INVERSIONES · ' + filas.length + ' movimientos mostrados de ' + m04Movimientos.length + ' · Histórico pendiente de conciliación';
-}
+function m04MovRender() { gfMovHistRender(); }
 
 // GF · ORIENTACION SOLICITADA (NO OBLIGATORIA) · SIN ESCRITURAS
 let gfVistaOrientacion = 'inicio';
@@ -4014,7 +4057,7 @@ async function gfSolicitarOrientacion(vista) {
     if (vista === 'inicio') {
       if (typeof orientacion.unlock === 'function') orientacion.unlock();
     } else {
-      await orientacion.lock(vista === 'conteo' ? 'portrait' : 'landscape');
+      await orientacion.lock(vista === 'recepcion' ? 'landscape' : 'portrait');
     }
   } catch (error) {
     // Si Android no permite cambiar la orientacion, el modulo sigue funcionando.
@@ -4041,10 +4084,10 @@ function gfActualizarContadorOC() {
   el.textContent = 'OC pendientes: ' + ids.size;
 }
 function gfAbrirModulo(vista) {
-  if (!['recepcion','inventario','movimientos','conteo'].includes(vista)) return;
+  if (!['recepcion','inventario','movimientos','conteo','salidas','solicitudes'].includes(vista)) return;
   document.body.classList.remove('gf-home');
-  const titulos = {recepcion:'RECEPCIÓN DE MERCADERÍA',inventario:'INVENTARIO',movimientos:'MOVIMIENTOS',conteo:'CONTEO FÍSICO · PRUEBA'};
-  const iconos = {recepcion:'📦',inventario:'📊',movimientos:'🔄',conteo:'📋'};
+  const titulos = {recepcion:'RECEPCIÓN DE MERCADERÍA',inventario:'INVENTARIO',movimientos:'MOVIMIENTOS',conteo:'CONTEO FÍSICO · PRUEBA',salidas:'SALIDAS · PRUEBA',solicitudes:'SOLICITUDES · PRUEBA'};
+  const iconos = {recepcion:'📦',inventario:'📊',movimientos:'🔄',conteo:'📋',salidas:'📤',solicitudes:'📝'};
   document.getElementById('gf-titulo').textContent = titulos[vista];
   document.getElementById('gf-logo').textContent = iconos[vista];
   m04CambiarVista(vista);
@@ -4057,8 +4100,8 @@ function gfVolverInicio() {
   document.getElementById('gf-titulo').textContent = 'GRUPO FIORENTINI';
   document.getElementById('gf-logo').textContent = '🏠';
   document.querySelector('main.app').style.display = 'none';
-  for (const nombre of ['inventario','movimientos']) {
-    const panel = document.getElementById('m04-' + nombre);
+  for (const nombre of ['inventario','movimientos','salidas','solicitudes']) {
+    const panel = document.getElementById((nombre === 'salidas' || nombre === 'solicitudes') ? 'gf-' + nombre : 'm04-' + nombre);
     if (panel) { panel.hidden = true; panel.classList.remove('m04-active'); }
   }
   document.querySelector('.acciones-recepcion-header').style.display = 'none';
@@ -4184,6 +4227,153 @@ function gfConteoLimpiar() {
   if (!window.confirm('¿Borrar todas las cantidades ingresadas en esta prueba?')) return;
   gfConteoCantidades.clear();
   gfConteoRender();
+}
+
+// ================================================================
+// GF · CONSULTA HISTORICA, SOLICITUDES Y SALIDAS · SOLO LECTURA
+// Las fechas anteriores a apertura 2026-09-23 no estan migradas.
+// ================================================================
+const GF_FECHA_APERTURA='2026-09-23';
+function gfDiaFecha(v){
+  const s=String(v||'').trim();
+  if(/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0,10);
+  const match=s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);
+  if(match) return match[3]+'-'+match[2].padStart(2,'0')+'-'+match[1].padStart(2,'0');
+  return '';
+}
+function gfClaseMovimiento(p){
+  const tipo=String(p.tipo||'').toUpperCase();
+  if(tipo.includes('APERTURA'))return 'APERTURA';
+  if(Number(p.entrada)>0)return 'INGRESO';
+  if(Number(p.salida)>0)return 'EGRESO';
+  if(Number(p.ajuste)!==0)return 'AJUSTE';
+  return tipo||'OTRO';
+}
+function gfHistRender(){
+  const table=document.getElementById('m04-filas');
+  if(!table)return;
+  const desde=document.getElementById('gf-inv-desde').value;
+  const hasta=document.getElementById('gf-inv-hasta').value;
+  const tipo=document.getElementById('gf-inv-tipo').value;
+  const buscar=document.getElementById('m04-buscar').value.toLocaleLowerCase('es');
+  const info=document.getElementById('m04-resumen');
+  const indicadores=document.getElementById('gf-inv-indicadores');
+  if(!m04Cargado){indicadores.textContent='Cargue el inventario desde MAESTRO.';return;}
+  if(!desde||!hasta||desde>hasta){info.textContent='Seleccione un rango de fechas válido.';return;}
+  if(desde<GF_FECHA_APERTURA){
+    info.classList.add('m04-error');info.textContent='No se puede reconstruir un período anterior al 23/09/2026 desde MAESTRO PRUEBA.';
+    table.innerHTML='<tr><td colspan="10">Período fuera del historial migrado.</td></tr>';indicadores.textContent='Sin datos históricos suficientes.';return;
+  }
+  const movs=m04MovCargado?m04Movimientos:[];
+  const sinFechas=movs.some(m=>!gfDiaFecha(m.fecha)&&gfClaseMovimiento(m)!=='APERTURA');
+  let productos=m04Productos.map(p=>{
+    const clave=String(p.codigo)+'|'+String(p.unidad);
+    const m=movs.filter(v=>String(v.codigo)+'|'+String(v.unidad)===clave);
+    const inicial=m.filter(v=>gfClaseMovimiento(v)==='APERTURA').reduce((a,v)=>a+Number(v.apertura||0),0);
+    const periodo=m.filter(v=>{const f=gfDiaFecha(v.fecha)|| (gfClaseMovimiento(v)==='APERTURA'?GF_FECHA_APERTURA:'');return f>=desde&&f<=hasta;});
+    const ingresos=periodo.reduce((a,v)=>a+Number(v.entrada||0),0);
+    const egresos=periodo.reduce((a,v)=>a+Number(v.salida||0),0);
+    const ajustes=periodo.reduce((a,v)=>a+Number(v.ajuste||0),0);
+    const aperturaEnPeriodo=periodo.reduce((a,v)=>a+Number(v.apertura||0),0);
+    // Antes de la fecha inicial, acumular todo excepto la apertura de base.
+    const antes=m.filter(v=>{const f=gfDiaFecha(v.fecha)|| (gfClaseMovimiento(v)==='APERTURA'?GF_FECHA_APERTURA:'');return f&&f<desde;});
+    const saldoAntes=antes.reduce((a,v)=>a+Number(v.entrada||0)-Number(v.salida||0)+Number(v.ajuste||0),0);
+    const invInicial=inicial+saldoAntes;
+    const saldo=invInicial+ingresos-egresos+ajustes;
+    const quieto=ingresos===0&&egresos===0&&ajustes===0;
+    return {...p,invInicial,ingresos,egresos,ajustes,aperturaEnPeriodo,saldo,quieto};
+  });
+  // Si falta el historial de eventos, no presentar saldos historicos reconstruidos.
+  const valido=m04MovCargado && !sinFechas;
+  if (!valido) {
+    table.innerHTML='<tr><td colspan="10">No es posible calcular el saldo por fecha hasta cargar los eventos con fecha. Consulte el stock histórico original en el módulo Conteo Físico.</td></tr>';
+    indicadores.innerHTML='<div class="gf-note">Indicadores y valorización pendientes de datos históricos completos.</div>';
+    info.classList.add('m04-error');
+    info.textContent='Historial pendiente de carga o conciliación. Sin cifras reconstruidas para evitar resultados incorrectos.';
+    return;
+  }
+  productos=productos.filter(p=>{
+    if(![p.codigo,p.producto,p.item||'',p.area||''].join(' ').toLocaleLowerCase('es').includes(buscar))return false;
+    if(tipo==='INGRESOS')return p.ingresos>0;
+    if(tipo==='EGRESOS')return p.egresos>0;
+    if(tipo==='SIN MOVIMIENTOS')return p.quieto&&p.saldo>0;
+    if(tipo==='STOCK NEGATIVO')return p.saldo<0;
+    return true;
+  });
+  const fmt=v=>formatNumero(v);
+  table.innerHTML=productos.map(p=>'<tr><td>'+esc(p.codigo)+'</td><td>'+esc(p.producto)+'</td><td>'+esc(p.item||'SIN CLASIFICAR')+'</td><td>'+esc(p.unidad)+'</td><td>'+fmt(p.invInicial)+'</td><td>'+fmt(p.ingresos)+'</td><td>'+fmt(-p.egresos)+'</td><td>'+(p.quieto?fmt(p.saldo):'')+'</td><td class="m04-num">'+fmt(p.saldo)+'</td><td>PENDIENTE</td></tr>').join('')||'<tr><td colspan="10">Sin productos para los filtros elegidos.</td></tr>';
+  const total=k=>productos.reduce((a,p)=>a+p[k],0);
+  const vals=[['INVENTARIO INICIAL $$','PENDIENTE'],['INGRESOS $$','PENDIENTE'],['EGRESOS $$','PENDIENTE'],['SIN MOVIMIENTOS $$','PENDIENTE'],['STOCK $$','PENDIENTE']];
+  indicadores.innerHTML=vals.map(x=>'<div class="gf-metric">'+x[0]+'<strong>'+x[1]+'</strong></div>').join('');
+  info.classList.toggle('m04-error',!valido);
+  info.textContent=valido?'Productos: '+productos.length+' · Ingresos: '+fmt(total('ingresos'))+' · Egresos: '+fmt(total('egresos'))+' · Saldo NO conciliado':'Para reconstruir cantidades por fecha, cargue MOVIMIENTOS. Datos históricos incompletos o sin fecha: no usar como saldo confirmado.';
+}
+const gfBorradores={salida:[],solicitud:[]};
+function gfLlenarProductos(tipo){
+  const buscar=document.getElementById('gf-'+tipo+'-buscar');
+  const select=document.getElementById('gf-'+tipo+'-producto');
+  if(!buscar||!select)return;
+  const texto=buscar.value.trim().toLocaleLowerCase('es');
+  const registros=m04Productos.filter(p=>[p.codigo,p.producto].join(' ').toLocaleLowerCase('es').includes(texto)).slice(0,100);
+  select.innerHTML='<option value="">SELECCIONE PRODUCTO</option>'+registros.map(p=>'<option value="'+esc(String(p.codigo)+'|'+String(p.unidad))+'">'+esc(p.producto+' · '+p.codigo+' · '+p.unidad)+'</option>').join('');
+  document.getElementById('gf-'+tipo+'-info').textContent=m04Cargado?'Productos disponibles: '+m04Productos.length+' · Saldo histórico NO confirmado':'Cargando productos del MAESTRO...';
+}
+function gfAgregarProducto(tipo){
+  const clave=document.getElementById('gf-'+tipo+'-producto').value;
+  const cantidad=Number(document.getElementById('gf-'+tipo+'-cantidad').value);
+  const p=m04Productos.find(x=>String(x.codigo)+'|'+String(x.unidad)===clave);
+  if(!p||!Number.isFinite(cantidad)||cantidad<=0){mostrarMensaje('Seleccione un producto y una cantidad mayor que cero.','error');return;}
+  const lista=gfBorradores[tipo];
+  const previo=lista.find(x=>x.clave===clave);
+  if(previo)previo.cantidad+=cantidad;
+  else lista.push({clave,codigo:p.codigo,producto:p.producto,unidad:p.unidad,stock:p.stock,cantidad});
+  document.getElementById('gf-'+tipo+'-cantidad').value='';
+  gfDibujarBorrador(tipo);
+}
+function gfQuitarProducto(tipo,i){gfBorradores[tipo].splice(i,1);gfDibujarBorrador(tipo);}
+function gfDibujarBorrador(tipo){
+  const filas=gfBorradores[tipo].map((p,i)=>{
+    const tr=document.createElement('tr');
+    const valores=[p.codigo,p.producto,p.unidad];
+    if(tipo==='salida') valores.push(formatNumero(p.stock));
+    valores.push(formatNumero(p.cantidad));
+    valores.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});
+    const td=document.createElement('td');const btn=document.createElement('button');
+    btn.type='button';btn.textContent='QUITAR';btn.addEventListener('click',()=>gfQuitarProducto(tipo,i));
+    td.appendChild(btn);tr.appendChild(td);return tr;
+  });
+  document.getElementById('gf-'+tipo+'-lista').replaceChildren(...filas);
+}
+function gfRevisarOperacion(tipo){
+  const productos=gfBorradores[tipo];
+  const destino=document.getElementById('gf-'+tipo+'-destino').value;
+  const responsable=document.getElementById('gf-'+tipo+'-responsable').value.trim();
+  if(!destino||!responsable||!productos.length){mostrarMensaje('Complete área, responsable y agregue productos.','error');return;}
+  document.getElementById('gf-revisar-titulo').textContent=tipo==='salida'?'📤 REVISAR SALIDA':'📝 REVISAR SOLICITUD';
+  document.getElementById('gf-revisar-contenido').innerHTML='<p><strong>Área:</strong> '+esc(destino)+' · <strong>Responsable:</strong> '+esc(responsable)+'</p>'+productos.map(p=>'<p>'+esc(p.producto)+' — '+formatNumero(p.cantidad)+' '+esc(p.unidad)+'</p>').join('');
+  document.getElementById('gf-revisar-dialogo').hidden=false;
+}
+function gfMovHistRender(){
+  const destino=document.getElementById('gf-mov-fechas');if(!destino)return;
+  const texto=String(document.getElementById('m04-mov-buscar').value||'').trim().toLocaleLowerCase('es');
+  const filtro=document.getElementById('gf-mov-clase').value;
+  const fecha=String(document.getElementById('m04-mov-fecha').value||'').trim();
+  const tipo=document.getElementById('m04-mov-tipo').value;
+  const grupos=new Map();
+  for(const v of m04Movimientos){
+    const clase=gfClaseMovimiento(v);const f=gfDiaFecha(v.fecha)||(clase==='APERTURA'?GF_FECHA_APERTURA:'SIN FECHA');
+    if(filtro!=='TODOS'&&clase!==filtro)continue;
+    if(tipo&&v.tipo!==tipo)continue;
+    if(fecha&&!f.includes(fecha))continue;
+    if(texto&&![v.producto,v.codigo,v.idMovimiento,v.documento,v.origen].join(' ').toLocaleLowerCase('es').includes(texto))continue;
+    if(!grupos.has(f))grupos.set(f,new Map());
+    const op=String(v.documento||v.origen||v.idMovimiento);
+    const g=grupos.get(f);if(!g.has(op))g.set(op,[]);g.get(op).push(v);
+  }
+  const fechas=[...grupos.keys()].sort().reverse();
+  destino.innerHTML=fechas.map(f=>'<details class="gf-date-block"><summary>📅 '+esc(f)+' · '+[...grupos.get(f).values()].reduce((a,g)=>a+g.length,0)+' líneas</summary><div class="gf-date-ops">'+[...grupos.get(f).entries()].map(([op,filas])=>'<details class="gf-op-block"><summary>'+esc(op)+' · '+filas.length+' productos</summary><table class="gf-op-table"><thead><tr><th>Tipo</th><th>Producto</th><th>UND</th><th>Ingreso</th><th>Egreso</th><th>Estado</th></tr></thead><tbody>'+filas.map(v=>'<tr><td>'+esc(gfClaseMovimiento(v))+'</td><td>'+esc(v.producto)+'</td><td>'+esc(v.unidad)+'</td><td>'+formatNumero(v.entrada||v.apertura)+'</td><td>'+formatNumero(v.salida)+'</td><td>'+esc(v.estado)+'</td></tr>').join('')+'</tbody></table></details>').join('')+'</div></details>').join('')||'<div class="gf-note">No hay movimientos para estos filtros.</div>';
+  document.getElementById('m04-mov-resumen').textContent=fechas.length+' fechas · '+m04Movimientos.length+' registros históricos disponibles · Solo lectura';
+  if(m04Cargado)gfHistRender();
 }
 </script>
 </body>
