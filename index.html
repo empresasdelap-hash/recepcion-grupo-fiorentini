@@ -980,6 +980,9 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 .gf-conteo-cantidad:disabled { background:#f0f0f0; opacity:.7; }
 
 @media (max-width:720px) { .gf-conteo-filtros { grid-template-columns:repeat(2,minmax(0,1fr)); } .gf-conteo-filtros select { height:32px; } }
+/* Orientacion de tablet: Android puede denegar el bloqueo automatico. */
+.gf-orientacion-aviso { padding:7px 10px; border:1px solid #d1bfec; border-radius:8px; background:#f6efff; color:#624384; font-size:12px; font-weight:700; }
+.gf-orientacion-aviso[hidden] { display:none !important; }
 </style>
 </head>
 <body class="gf-home">
@@ -1254,6 +1257,7 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
     <input id="gf-conteo-buscar" type="search" placeholder="🔎 Buscar código o producto" aria-label="Buscar producto" oninput="gfConteoRender()">
     <button class="m04-refresh" type="button" onclick="gfConteoCargar()">🔄 ACTUALIZAR STOCK</button>
   </div>
+  <div id="gf-orientacion-aviso" class="gf-orientacion-aviso" role="status" hidden>📱 Para trabajar cómodamente en Conteo Físico, active el giro automático de Android y coloque la tablet en vertical. Si el sistema lo permite, la aplicación girará sola.</div>
   <div class="m04-alert">🧪 PRUEBA LOCAL · Referencia: stock histórico 23/09/2026. Las cantidades NO se guardan en MAESTRO. Las categorías y áreas solo se mostrarán si la API las entrega; no se infieren por nombre.</div>
   <div class="gf-conteo-filtros">
     <label>Área<select id="gf-conteo-area-filtro" onchange="gfConteoRender()"><option value="">TODAS LAS ÁREAS</option></select></label>
@@ -3988,6 +3992,40 @@ function m04MovRender() {
   resumen.textContent = 'INVERSIONES · ' + filas.length + ' movimientos mostrados de ' + m04Movimientos.length + ' · Histórico pendiente de conciliación';
 }
 
+// GF · ORIENTACION SOLICITADA (NO OBLIGATORIA) · SIN ESCRITURAS
+let gfVistaOrientacion = 'inicio';
+let gfSolicitudOrientacion = 0;
+function gfOrientacionEsVertical() {
+  return window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
+}
+function gfActualizarAvisoOrientacion() {
+  const aviso = document.getElementById('gf-orientacion-aviso');
+  if (!aviso) return;
+  aviso.hidden = gfVistaOrientacion !== 'conteo' || gfOrientacionEsVertical();
+}
+async function gfSolicitarOrientacion(vista) {
+  gfVistaOrientacion = vista;
+  const solicitud = ++gfSolicitudOrientacion;
+  gfActualizarAvisoOrientacion();
+  const orientacion = screen.orientation;
+  if (!orientacion || typeof orientacion.lock !== 'function') return;
+  try {
+    // Solo es posible en algunos navegadores o en modo pantalla completa.
+    if (vista === 'inicio') {
+      if (typeof orientacion.unlock === 'function') orientacion.unlock();
+    } else {
+      await orientacion.lock(vista === 'conteo' ? 'portrait' : 'landscape');
+    }
+  } catch (error) {
+    // Si Android no permite cambiar la orientacion, el modulo sigue funcionando.
+    console.info('Orientacion controlada por Android:', error && error.message ? error.message : error);
+  } finally {
+    if (solicitud === gfSolicitudOrientacion) gfActualizarAvisoOrientacion();
+  }
+}
+window.addEventListener('orientationchange', gfActualizarAvisoOrientacion);
+window.addEventListener('resize', gfActualizarAvisoOrientacion);
+
 // GF · NAVEGACION DEL PANEL PRINCIPAL · NO CAMBIA EL MAESTRO
 function gfContadorDesconocido() {
   const el = document.getElementById('gf-contador-oc');
@@ -4010,8 +4048,10 @@ function gfAbrirModulo(vista) {
   document.getElementById('gf-titulo').textContent = titulos[vista];
   document.getElementById('gf-logo').textContent = iconos[vista];
   m04CambiarVista(vista);
+  gfSolicitarOrientacion(vista);
 }
 function gfVolverInicio() {
+  gfSolicitarOrientacion('inicio');
   // No borrar ni reiniciar un formulario de recepción en curso.
   document.body.classList.add('gf-home');
   document.getElementById('gf-titulo').textContent = 'GRUPO FIORENTINI';
