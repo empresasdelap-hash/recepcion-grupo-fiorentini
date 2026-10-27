@@ -1011,6 +1011,34 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
 .gf-modal{position:fixed;inset:0;background:rgba(10,30,50,.65);z-index:50000;display:grid;place-items:center;padding:15px}
 .gf-modal-card{background:white;color:#243d50;border-radius:12px;padding:18px;max-width:650px;width:100%;max-height:85dvh;overflow:auto}
 @media(max-width:650px){.gf-history-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.gf-workflow-row{grid-template-columns:1fr 1fr}.gf-workflow-row input:first-child{grid-column:1/-1}.gf-workflow-row select{grid-column:1/-1}}
+
+/* GF INVENTARIO · Colores de CONSULTA MOVIMIENTO original y cifras centradas.
+   Ajuste exclusivamente visual: no altera calculos ni consultas. */
+.gf-history-table th:nth-child(n+5):nth-child(-n+10),
+.gf-history-table td:nth-child(n+5):nth-child(-n+10) {
+  text-align: center !important;
+  font-variant-numeric: tabular-nums;
+}
+.gf-history-table th:nth-child(5), .gf-history-table td:nth-child(5) { background-color: #fff0bd; }
+.gf-history-table th:nth-child(6), .gf-history-table td:nth-child(6) { background-color: #e6f4ea; }
+.gf-history-table th:nth-child(7), .gf-history-table td:nth-child(7) { background-color: #f8dddd; }
+.gf-history-table th:nth-child(8), .gf-history-table td:nth-child(8) { background-color: #dbeafa; color:#245d8b; }
+.gf-history-table th:nth-child(9), .gf-history-table td:nth-child(9) { background-color: #fff0bd; font-weight: 800; }
+.gf-history-table th:nth-child(10), .gf-history-table td:nth-child(10) { background-color: #e5f1f7; }
+.gf-history-table td:nth-child(7) { color:#9c2f32; }
+.gf-history-summary .gf-metric { text-align:center; font-weight:700; color:#233b4a; }
+.gf-history-summary .gf-metric strong { text-align:center; font-weight:900; font-variant-numeric:tabular-nums; }
+.gf-history-summary .gf-metric:nth-child(1) { background:#fff0bd; border-color:#efda96; }
+.gf-history-summary .gf-metric:nth-child(2) { background:#e2f3e9; border-color:#baddc9; }
+.gf-history-summary .gf-metric:nth-child(3) { background:#f8dddd; border-color:#ecc4c4; }
+.gf-history-summary .gf-metric:nth-child(4) { background:#dbeafa; border-color:#bad4ee; }
+.gf-history-summary .gf-metric:nth-child(5) { background:#fff0bd; border-color:#efda96; }
+
+
+/* GF · EXPORTACIONES DE CONSULTA INVENTARIO */
+.gf-inv-export{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.gf-inv-export button{background:#e7f2fb;color:#124d77;border:1px solid #b7d3e8;border-radius:7px;padding:10px 13px;font-weight:800;font-size:12px}
+.gf-inv-export button:active{background:#d2e8f8}
 </style>
 </head>
 <body class="gf-home">
@@ -1253,6 +1281,7 @@ body:not(.gf-home) #gf-dashboard { display:none !important; }
     <input id="m04-buscar" type="search" placeholder="Buscar por código o producto" oninput="m04Render()" aria-label="Buscar productos del inventario">
     <button class="m04-refresh" type="button" onclick="m04Cargar()">ACTUALIZAR STOCK</button>
   </div>
+  <div class="gf-inv-export"><button type="button" onclick="gfExportInventarioExcel()">📊 DESCARGAR EXCEL</button><button type="button" onclick="gfExportInventarioPDF()">📄 DESCARGAR PDF</button></div>
   <div class="m04-alert">Stock histórico al 23/09/2026 · Pendiente de incorporar movimientos posteriores · NO confirmado como stock vigente. Solo lectura.</div>
   <div class="gf-history-controls">
   <label>DESDE <input type="date" id="gf-inv-desde" value="2026-09-23" onchange="gfHistRender()"></label>
@@ -4375,6 +4404,36 @@ function gfMovHistRender(){
   document.getElementById('m04-mov-resumen').textContent=fechas.length+' fechas · '+m04Movimientos.length+' registros históricos disponibles · Solo lectura';
   if(m04Cargado)gfHistRender();
 }
+
+/* GF · Exportar solo la consulta actualmente visible, sin escribir en MAESTRO. */
+function gfExportDatosInventario(){
+  const tabla=document.querySelector('.gf-history-table');
+  const filas=tabla?[...tabla.querySelectorAll('tbody tr')]:[];
+  if(!filas.length||filas.every(tr=>tr.cells.length===1)){
+    mostrarMensaje('No hay una consulta válida para exportar. Cargue primero el inventario y sus movimientos.','error');return null;
+  }
+  const headers=[...tabla.querySelectorAll('thead th')].map(th=>th.textContent.trim());
+  const registros=filas.map(tr=>[...tr.cells].map(td=>td.textContent.trim()));
+  return {headers,registros,desde:document.getElementById('gf-inv-desde').value,hasta:document.getElementById('gf-inv-hasta').value,tipo:document.getElementById('gf-inv-tipo').value,area:document.getElementById('gf-inv-area').value,item:document.getElementById('gf-inv-item').value};
+}
+function gfExportInventarioExcel(){
+  const d=gfExportDatosInventario();if(!d)return;
+  const filas=[['CONSULTA HISTORICA DE STOCK · GRUPO FIORENTINI'],['Desde',d.desde,'Hasta',d.hasta],['Movimientos',d.tipo,'Area',d.area,'Item',d.item],[],d.headers,...d.registros];
+  // Neutralizar fórmulas en las celdas de texto antes de abrir en Excel.
+  const csv='\ufeffsep=;\r\n'+filas.map(f=>f.map(v=>{const t=String(v??'');return '"'+(/^[=+@\-\t\r]/.test(t)?"'"+t:t).replace(/"/g,'""')+'"';}).join(';')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='GF_CONSULTA_INVENTARIO_'+d.desde+'_'+d.hasta+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000);
+}
+function gfExportInventarioPDF(){
+  const d=gfExportDatosInventario();if(!d)return;
+  const titulo='CONSULTA HISTORICA DE STOCK - GRUPO FIORENTINI';
+  const html='<!doctype html><html lang="es"><head><meta charset="utf-8"><title>'+titulo+'</title><style>@page{size:A4 landscape;margin:9mm}body{font:10px Arial,sans-serif;color:#20364a}h1{font-size:15px}table{border-collapse:collapse;width:100%;font-size:8px}th,td{border:1px solid #a8b4bf;padding:4px;text-align:center}th{background:#c7dfc0}td:nth-child(2){text-align:left}th:nth-child(5),td:nth-child(5),th:nth-child(9),td:nth-child(9){background:#fff0bd}th:nth-child(6),td:nth-child(6){background:#e2f3e9}th:nth-child(7),td:nth-child(7){background:#f8dddd}th:nth-child(8),td:nth-child(8){background:#dbeafa}tr{break-inside:avoid}</style></head><body><h1>'+titulo+'</h1><p>Desde '+gfExportEsc(d.desde)+' hasta '+gfExportEsc(d.hasta)+' · Movimientos: '+gfExportEsc(d.tipo)+' · Area: '+gfExportEsc(d.area)+' · Item: '+gfExportEsc(d.item)+'</p><p>Datos sujetos a disponibilidad y conciliación histórica del MAESTRO.</p><table><thead><tr>'+d.headers.map(v=>'<th>'+gfExportEsc(v)+'</th>').join('')+'</tr></thead><tbody>'+d.registros.map(f=>'<tr>'+f.map(v=>'<td>'+gfExportEsc(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table></body></html>';
+  const frame=document.createElement('iframe');frame.style.cssText='position:fixed;width:0;height:0;border:0;opacity:0;pointer-events:none';document.body.appendChild(frame);
+  const doc=frame.contentDocument;doc.open();doc.write(html);doc.close();
+  setTimeout(()=>{try{frame.contentWindow.focus();frame.contentWindow.print();}catch(e){mostrarMensaje('No se pudo abrir la impresión PDF en este dispositivo.','error');}setTimeout(()=>frame.remove(),60000);},350);
+}
+function gfExportEsc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
 </script>
 </body>
 </html>
