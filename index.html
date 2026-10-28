@@ -4037,6 +4037,7 @@ async function m04Cargar() {
       if (!Number.isFinite(Number(p.stock))) throw new Error('Stock inválido: ' + clave);
     }
     m04Productos = productos;
+    for(const item of gfBorradores.salida){const actual=productos.find(p=>gfSalidaClave(p)===item.clave);item.stock=actual?Number(actual.stock):NaN;}
     m04Cargado = true;
     m04Render();
     gfSalidaCategorias();
@@ -4554,7 +4555,18 @@ function gfExportEsc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,
 
 
 /* GF BO · Registro confirmado por servidor de solicitudes y salidas pendientes, sin descuento de stock. */
+const GF_BO_PENDIENTE='GF_BO_PRUEBA_PETICION_V1';
 let gfBodegaPeticionActual = null;
+try{const p=JSON.parse(localStorage.getItem(GF_BO_PENDIENTE)||'null');if(p&&p.api===API_URL&&p.empresaId==='76236873-0')gfBodegaPeticionActual=p;}catch(e){}
+function gfBodegaGuardarIntento_(intento){localStorage.setItem(GF_BO_PENDIENTE,JSON.stringify(intento));gfBodegaPeticionActual=intento;}
+function gfBodegaLimpiarIntento_(){localStorage.removeItem(GF_BO_PENDIENTE);gfBodegaPeticionActual=null;}
+document.addEventListener('DOMContentLoaded',()=>{
+ const p=gfBodegaPeticionActual;if(!p||!p.payload||p.tipo!=='salida')return;
+ try{gfBorradores.salida=JSON.parse(p.payload.productos).map(x=>({...x,clave:x.codigo+'|'+x.unidad,stock:NaN}));
+ document.getElementById('gf-salida-destino').value=p.payload.destino;
+ document.getElementById('gf-salida-responsable').value=p.payload.responsable;
+ mostrarMensaje('Se recuperó un guardado pendiente. Cargue Salidas para verificarlo antes de volver a guardar.','error');}catch(e){mostrarMensaje('No se pudo recuperar el guardado pendiente. No genere una salida nueva.','error');}
+});
 function gfBodegaIdPeticion(){
   if (globalThis.crypto && crypto.randomUUID) return 'gf_'+crypto.randomUUID().replace(/-/g,'');
   return 'gf_'+Date.now()+'_'+Math.random().toString(36).slice(2,12);
@@ -4576,8 +4588,9 @@ async function gfBodegaGuardar(tipo,boton){
     solicitudId:esSalida?document.getElementById('gf-salida-solicitud-id').value:'',
     observacion:esSalida?'SALIDA PENDIENTE DE VALIDACION DE STOCK':''};
   const fingerprint=JSON.stringify({tipo,payload});
-  if(!gfBodegaPeticionActual||gfBodegaPeticionActual.fingerprint!==fingerprint){
-    gfBodegaPeticionActual={fingerprint,id:gfBodegaIdPeticion()};
+  if(gfBodegaPeticionActual&&gfBodegaPeticionActual.fingerprint!==fingerprint){mostrarMensaje('Hay un guardado anterior sin confirmar. Recupere los datos originales y verifique MAESTRO antes de generar otra petición.','error');return;}
+  if(!gfBodegaPeticionActual){
+    try{gfBodegaGuardarIntento_({fingerprint,id:gfBodegaIdPeticion(),payload,tipo,api:API_URL,empresaId:'76236873-0'});}catch(e){mostrarMensaje('No se pudo conservar la petición en este dispositivo. No se envió la salida.','error');return;}
   }
   payload.idPeticion=gfBodegaPeticionActual.id;
   if(boton){boton.disabled=true;boton.textContent='⏳ GUARDANDO EN MAESTRO...';}
@@ -4587,7 +4600,7 @@ async function gfBodegaGuardar(tipo,boton){
     document.getElementById('gf-revisar-dialogo').hidden=true;
     gfBorradores[tipo]=[];
     if(esSalida){gfSalidaCatalogo();}else{gfDibujarBorrador('solicitud');}
-    gfBodegaPeticionActual=null;
+    gfBodegaLimpiarIntento_();
     mostrarMensaje('Registrado en MAESTRO: '+r.data.id+' · '+r.data.estado+' · SIN DESCUENTO DE STOCK','ok');
     await gfBodegaListar();
   }catch(e){mostrarMensaje('No se confirmo el guardado: '+e.message+'. No repita sin verificar el registro.','error');}
@@ -4613,24 +4626,30 @@ function gfSolicitudesDibujar(){
  el.replaceChildren();
  if(!visibles.length){const t=document.createElement('div');t.className='gf-sol-nodata';t.textContent='No hay solicitudes que coincidan con los filtros. Las solicitudes se crean desde los módulos de Cocina y Barra/Salón.';el.appendChild(t);return;}
  for(const x of visibles){
-  const vinculada=salidas.some(y=>y.solicitudId===x.id);
+  const vinculada=salidas.some(y=>y.solicitudId===x.id),cerrada=String(x.estado).startsWith('CERRADA');
   const d=document.createElement('details');d.className='gf-sol-card';
   const sum=document.createElement('summary');
   const linea=document.createElement('div');linea.className='gf-sol-linea';
   const id=document.createElement('span');id.className='gf-sol-id';id.textContent='📝 '+x.id;
-  const tag=document.createElement('span');tag.className='gf-sol-tag';tag.textContent=vinculada?'CON SALIDA':'PENDIENTE';linea.append(id,tag);sum.appendChild(linea);
+  const tag=document.createElement('span');tag.className='gf-sol-tag';tag.textContent=cerrada?(String(x.estado).includes('INCIDENCIA')?'CERRADA CON INCIDENCIA · PRUEBA':'CERRADA · PRUEBA'):(vinculada?'CON SALIDA':'PENDIENTE');linea.append(id,tag);sum.appendChild(linea);
   for(const texto of [x.destino+' · Solicitado por: '+x.responsable,'📅 '+gfBodegaFecha_(x.fechaHora)]){const p=document.createElement('div');p.className='gf-sol-meta';p.textContent=texto;sum.appendChild(p);}
   const n=document.createElement('div');n.className='gf-sol-count';n.textContent='📦 '+(x.productos||[]).length+' productos · Toca para ver el detalle';sum.appendChild(n);d.appendChild(sum);
   const detalle=document.createElement('div');detalle.className='gf-sol-detalle';
   for(const item of x.productos||[]){const fila=document.createElement('div');fila.className='gf-sol-item';const nombre=document.createElement('span');nombre.textContent=item.producto+' · '+item.codigo;const q=document.createElement('strong');q.textContent=item.cantidad+' '+item.unidad;fila.append(nombre,q);detalle.appendChild(fila);}
-  if(!vinculada){const btn=document.createElement('button');btn.type='button';btn.className='gf-sol-accion';btn.textContent='📤 PREPARAR SALIDA VINCULADA';btn.addEventListener('click',()=>gfSolicitudPreparar_(x.id));detalle.appendChild(btn);}
-  else {const p=document.createElement('p');p.textContent='Salida vinculada registrada. La recepción definitiva todavía no está habilitada.';detalle.appendChild(p);}
+  for(const ev of x.eventos||[]){const tr=document.createElement('p');tr.textContent=ev.evento+' · '+gfBodegaFecha_(ev.fechaHora)+' · '+ev.responsable;detalle.appendChild(tr);}
+  if(!vinculada&&!cerrada){const btn=document.createElement('button');btn.type='button';btn.className='gf-sol-accion';btn.textContent='📤 PREPARAR SALIDA VINCULADA';btn.addEventListener('click',()=>gfSolicitudPreparar_(x.id));detalle.appendChild(btn);}
+  else {const p=document.createElement('p');p.textContent='Seguimiento de PRUEBA. El descuento de stock permanece bloqueado.';detalle.appendChild(p);}
   d.appendChild(detalle);el.appendChild(d);
  }
 }
-function gfBodegaFecha_(valor){const d=new Date(valor);return Number.isNaN(d.getTime())?String(valor):d.toLocaleString('es-CL',{dateStyle:'short',timeStyle:'short'});}
+function gfBodegaFecha_(valor){const d=new Date(valor);return Number.isNaN(d.getTime())?String(valor):d.toLocaleString('es-CL',{dateStyle:'short',timeStyle:'short',timeZone:'America/Santiago'});}
 function gfSolicitudPreparar_(id){
  const x=gfUltimasOperaciones.find(v=>v.id===id&&v.tipo==='SOLICITUD');if(!x)return;
+ if(String(x.estado).startsWith('CERRADA')){mostrarMensaje('La solicitud ya está cerrada.','error');return;}
+ if(!m04Cargado){mostrarMensaje('Espere a que termine la carga del catálogo y reintente.','error');return;}
+ if(gfBorradores.salida.length){mostrarMensaje('El carrito ya tiene productos. Revíselo antes de cambiar de solicitud.','error');return;}
+ const faltantes=(x.productos||[]).filter(item=>!m04Productos.some(q=>String(q.codigo)===String(item.codigo)&&String(q.unidad)===String(item.unidad)&&Number(q.stock)>=Number(item.cantidad)));
+ if(faltantes.length){mostrarMensaje('No se cargó el carrito: producto ausente o referencia histórica insuficiente: '+faltantes.map(p=>p.producto).join(', ')+'. No se reducen cantidades automáticamente.','error');return;}
  const select=document.getElementById('gf-salida-solicitud-id');
  gfAbrirModulo('salidas');
  if(select)select.value=id;
@@ -4640,7 +4659,7 @@ function gfSolicitudPreparar_(id){
  for(const item of x.productos||[]){const p=m04Productos.find(q=>String(q.codigo)===String(item.codigo)&&String(q.unidad)===String(item.unidad));
   if(!p){noEncontrados.push(item.producto);continue;}
   const stock=gfSalidaStock(p);if(!(stock>0)){noEncontrados.push(item.producto);continue;}
-  gfBorradores.salida.push({clave:gfSalidaClave(p),codigo:p.codigo,producto:p.producto,unidad:p.unidad,stock,cantidad:Math.min(Number(item.cantidad),stock)});
+  gfBorradores.salida.push({clave:gfSalidaClave(p),codigo:p.codigo,producto:p.producto,unidad:p.unidad,stock,cantidad:Number(item.cantidad)});
  }
  gfSalidaCatalogo();
  mostrarMensaje('Salida vinculada a '+id+'. Revise cantidades y stock histórico antes de guardar. '+(noEncontrados.length?'Sin stock de referencia o no encontrados: '+noEncontrados.join(', '):'No hay descuento de inventario.'),noEncontrados.length?'error':'ok');
@@ -4650,19 +4669,23 @@ async function gfBodegaListar(){
  paneles.forEach(x=>x.textContent='Consultando registros MAESTRO...');
  try{
   const r=await apiGet('bodega_listar');const datos=Array.isArray(r.data)?r.data:[];gfUltimasOperaciones=datos;
+  if(gfBodegaPeticionActual&&datos.some(x=>x.idPeticion===gfBodegaPeticionActual.id)){gfBorradores.salida=[];gfBodegaLimpiarIntento_();gfSalidaCatalogo();mostrarMensaje('Guardado anterior encontrado en MAESTRO. No se generó otra salida.','ok');}
   const sel=document.getElementById('gf-salida-solicitud-id');
   if(sel){const previo=sel.value;sel.replaceChildren(new Option('SALIDA DIRECTA · SIN SOLICITUD',''));
-   datos.filter(x=>x.tipo==='SOLICITUD').forEach(x=>sel.add(new Option(x.id+' · '+x.destino+' · '+x.responsable,x.id)));
-   if([...sel.options].some(o=>o.value===previo))sel.value=previo;}
+   datos.filter(x=>x.tipo==='SOLICITUD'&&!String(x.estado).startsWith('CERRADA')&&!datos.some(y=>y.tipo==='SALIDA'&&y.solicitudId===x.id)).forEach(x=>sel.add(new Option(x.id+' · '+x.destino+' · '+x.responsable,x.id)));
+   const recuperada=gfBodegaPeticionActual?.payload?.solicitudId;
+   const seleccion=previo||recuperada||'';
+   if([...sel.options].some(o=>o.value===seleccion))sel.value=seleccion;}
   gfSolicitudesDibujar();
   const el=document.getElementById('gf-bodega-operaciones-salida');if(!el)return;
   el.replaceChildren();const titulo=document.createElement('h3');titulo.textContent='SALIDAS REGISTRADAS · PENDIENTES DE RECEPCIÓN';el.appendChild(titulo);
   const registros=datos.filter(x=>x.tipo==='SALIDA').slice(0,30);
   if(!registros.length){const t=document.createElement('p');t.textContent='Todavía no hay salidas registradas.';el.appendChild(t);}
-  for(const x of registros){const d=document.createElement('details');const s=document.createElement('summary');s.textContent=x.id+' · '+x.estado+' · '+x.destino+' · '+gfBodegaFecha_(x.fechaHora);d.appendChild(s);const p=document.createElement('p');p.textContent='Responsable: '+x.responsable+(x.solicitudId?' · Solicitud: '+x.solicitudId:'');d.appendChild(p);for(const item of x.productos||[]){const l=document.createElement('p');l.textContent=item.producto+' · '+item.cantidad+' '+item.unidad;d.appendChild(l);}el.appendChild(d);}
+  for(const x of registros){const d=document.createElement('details');const s=document.createElement('summary');s.textContent=x.id+' · '+x.estado+' · '+x.destino+' · '+gfBodegaFecha_(x.fechaHora);d.appendChild(s);const p=document.createElement('p');p.textContent='Responsable: '+x.responsable+(x.solicitudId?' · Solicitud: '+x.solicitudId:'');d.appendChild(p);for(const ev of x.eventos||[]){const tr=document.createElement('p');tr.textContent=ev.evento+' · '+gfBodegaFecha_(ev.fechaHora)+' · '+ev.responsable;d.appendChild(tr);}if(x.recepcion){const rec=document.createElement('p');rec.textContent='RECIBIDO: '+x.recepcion.productos.map(p=>p.producto+' · '+p.cantidad+' '+p.unidad).join('; ');d.appendChild(rec);}if(x.incidencia){const inc=document.createElement('p');inc.textContent='INCIDENCIA: '+x.incidencia.observacion;d.appendChild(inc);}for(const item of x.productos||[]){const l=document.createElement('p');l.textContent=item.producto+' · '+item.cantidad+' '+item.unidad;d.appendChild(l);}el.appendChild(d);}
  }catch(e){paneles.forEach(x=>x.textContent='No se pudo consultar operaciones: '+e.message);}
 }
 
 </script>
 </body>
 </html>
+
